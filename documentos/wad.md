@@ -73,7 +73,62 @@ Usuário 1:N Agendamentos: Um usuário pode agendar várias atividades ao longo 
 Atividade 1:N Agendamentos: Uma atividade pode ser agendada várias vezes, por um ou mais usuários.
 
 ### 3.1.1 BD e Models (Semana 5)
-*Descreva aqui os Models implementados no sistema web*
+## 3.1.1.1. Model `Usuario`
+
+**Responsabilidade:** Gerenciar dados da tabela `usuario`.
+
+### Métodos
+
+- `getAll()` – Retorna todos os usuários.  
+- `getById(id_usuario)` – Busca um usuário específico pelo ID.  
+- `create(data)` – Cria novo usuário.  
+- `update(id_usuario, data)` – Atualiza nome e email de um usuário.  
+- `delete(id_usuario)` – Remove usuário.
+
+### Métodos auxiliares
+
+- `getByEmail(email)` – Busca usuário pelo e-mail (útil para autenticação).  
+- `exists(id_usuario)` – Verifica se o usuário existe.
+
+---
+
+## 3.1.1.2. Model `Atividade`
+
+**Responsabilidade:** Gerenciar dados da tabela `atividade` e sua relação com `usuario`.
+
+### Métodos
+
+- `getAll(id_usuario = null)` – Lista todas as atividades, com opção de filtrar por usuário.  
+- `getById(id_atividade)` – Busca atividade específica.  
+- `create(data)` – Cria nova atividade.  
+- `update(id_atividade, data)` – Atualiza dados da atividade.  
+- `delete(id_atividade)` – Remove atividade.
+
+### Métodos auxiliares
+
+- `exists(id_atividade)` – Verifica se a atividade existe.  
+- `getByUsuario(id_usuario)` – Retorna todas as atividades de um usuário.
+
+---
+
+## 3.1.1.3. Model `Agendamento`
+
+**Responsabilidade:** Gerenciar dados da tabela `agendamento` e os relacionamentos com `usuario` e `atividade`.
+
+### Métodos
+
+- `getAll()` – Retorna todos os agendamentos.  
+- `getByUsuario(id_usuario)` – Retorna todos os agendamentos de um usuário.  
+- `getById(id_agendamento)` – Busca um agendamento específico.  
+- `create(data)` – Cria novo agendamento.  
+- `update(id_agendamento, data)` – Atualiza dados de um agendamento.  
+- `delete(id_agendamento)` – Remove um agendamento.
+
+### Métodos auxiliares
+
+- `exists(id_agendamento)` – Verifica se o agendamento existe.  
+- `getByAtividade(id_atividade)` – Retorna todos os agendamentos vinculados a uma atividade específica.
+
 
 ### 3.2. Arquitetura (Semana 5)
 
@@ -97,7 +152,25 @@ Atividade 1:N Agendamentos: Uma atividade pode ser agendada várias vezes, por u
 
 ### 3.6. WebAPI e endpoints (Semana 05)
 
-*Utilize um link para outra página de documentação contendo a descrição completa de cada endpoint. Ou descreva aqui cada endpoint criado para seu sistema.*  
+#### 3.6.1. Rotas de Usuários  
+- `POST /api/usuarios` – Cria um novo usuário no sistema  
+- `GET /api/usuarios/:id` – Busca e retorna o perfil de um usuário específico pelo ID  
+- `PUT /api/usuarios/:id` – Atualiza os dados de um usuário específico  
+- `DELETE /api/usuarios/:id` – Remove um usuário do sistema  
+
+#### 3.6.2. Rotas de Atividades  
+- `GET /api/atividades` – Lista todas as atividades cadastradas no sistema  
+- `POST /api/atividades` – Cria uma nova atividade de autocuidado  
+- `GET /api/atividades/:id` – Retorna os detalhes de uma atividade específica  
+- `PUT /api/atividades/:id` – Atualiza uma atividade existente  
+- `DELETE /api/atividades/:id` – Remove uma atividade do sistema  
+
+#### 3.6.3. Rotas de Agendamentos  
+- `POST /api/agendamentos` – Registra um novo agendamento de atividade para um usuário  
+- `GET /api/agendamentos/usuario/:usuarioId` – Retorna todos os agendamentos de um usuário específico  
+- `PUT /api/agendamentos/:id` – Atualiza um agendamento existente  
+- `DELETE /api/agendamentos/:id` – Remove um agendamento específico  
+ 
 
 ### 3.7 Interface e Navegação (Semana 07)
 

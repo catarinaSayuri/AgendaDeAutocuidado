@@ -8,25 +8,22 @@ const pool = new Pool({
   host: process.env.DB_HOST,
   database: process.env.DB_DATABASE,
   password: process.env.DB_PASSWORD,
-  port: parseInt(process.env.DB_PORT, 10),
-  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
+  port: process.env.DB_PORT,
+  ssl: {
+    rejectUnauthorized: false,
+  },
 });
 
+
 const runSQLScript = async () => {
-  const filePath = path.join(__dirname, '01-init-database.sql');
-
-  if (!fs.existsSync(filePath)) {
-    console.error('Arquivo SQL não encontrado:', filePath);
-    process.exit(1);
-  }
-
+  const filePath = path.join(__dirname, 'init.sql');
   const sql = fs.readFileSync(filePath, 'utf8');
 
   try {
     await pool.query(sql);
-    console.log(' Script SQL executado com sucesso!');
+    console.log('Script SQL executado com sucesso!');
   } catch (err) {
-    console.error(' Erro ao executar o script SQL:\n', err.message);
+    console.error('Erro ao executar o script SQL:', err);
   } finally {
     await pool.end();
   }

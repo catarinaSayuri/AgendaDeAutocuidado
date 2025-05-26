@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dashboard - Agenda de Autocuidado</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    h2 { border-bottom: 1px solid #ccc; padding-bottom: 5px; }
+    section { margin-bottom: 40px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+    th { background: #f4f4f4; }
+    form { margin-top: 15px; }
+    label { display: block; margin: 5px 0 2px; }
+    input, select, textarea { width: 100%; padding: 6px; margin-bottom: 10px; box-sizing: border-box; }
+    button { padding: 8px 12px; cursor: pointer; }
+    .small-btn { padding: 4px 8px; font-size: 0.9em; }
+  </style>
+</head>
+<body>
+  <h1>Dashboard - Agenda de Autocuidado</h1>
+
+  <!-- USUÁRIOS -->
+  <section id="usuarios">
+    <h2>Usuários</h2>
+    <table>
+      <thead>
+        <tr><th>ID</th><th>Nome</th><th>Email</th><th>Ações</th></tr>
+      </thead>
+      <tbody>
+        <% usuarios.forEach(u => { %>
+          <tr>
+            <td><%= u.id_usuario %></td>
+            <td><%= u.nome %></td>
+            <td><%= u.email %></td>
+            <td>
+              <!-- Botão Excluir (exemplo) -->
+              <form style="display:inline" action="/usuario/delete/<%= u.id_usuario %>" method="POST">
+                <button class="small-btn" type="submit" onclick="return confirm('Excluir usuário?')">Excluir</button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+
+    <h3>Criar novo usuário</h3>
+    <form action="/usuario/create" method="POST">
+      <label>Nome</label>
+      <input type="text" name="nome" required />
+      <label>Email</label>
+      <input type="email" name="email" required />
+      <label>Senha</label>
+      <input type="password" name="senha" required />
+      <button type="submit">Criar Usuário</button>
+    </form>
+  </section>
+
+  <!-- ATIVIDADES -->
+  <section id="atividades">
+    <h2>Atividades</h2>
+    <table>
+      <thead>
+        <tr><th>ID</th><th>Nome</th><th>Descrição</th><th>Cor</th><th>ID Usuário</th><th>Ações</th></tr>
+      </thead>
+      <tbody>
+        <% atividades.forEach(a => { %>
+          <tr>
+            <td><%= a.id_atividade %></td>
+            <td><%= a.nome %></td>
+            <td><%= a.descricao %></td>
+            <td><%= a.id_usuario %></td>
+            <td>
+              <form style="display:inline" action="/atividade/delete/<%= a.id_atividade %>" method="POST">
+                <button class="small-btn" type="submit" onclick="return confirm('Excluir atividade?')">Excluir</button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+
+    <h3>Criar nova atividade</h3>
+    <form action="/atividade/create" method="POST">
+      <label>Nome</label>
+      <input type="text" name="nome" required />
+      <label>Descrição</label>
+      <textarea name="descricao"></textarea>
+      <label>Cor Categoria (Hex)</label>
+      <input type="text" name="cor_categoria" placeholder="#ff0000" />
+      <label>ID Usuário</label>
+      <input type="number" name="id_usuario" required />
+      <button type="submit">Criar Atividade</button>
+    </form>
+  </section>
+
+  <!-- AGENDAMENTOS -->
+  <section id="agendamentos">
+    <h2>Agendamentos</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th><th>ID Usuário</th><th>ID Atividade</th><th>Data</th>
+          <th>Início</th><th>Fim</th><th>Status</th><th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% agendamentos.forEach(ag => { %>
+          <tr>
+            <td><%= ag.id_agendamento %></td>
+            <td><%= ag.id_usuario %></td>
+            <td><%= ag.id_atividade %></td>
+            <td><%= ag.data.toISOString().slice(0,10) %></td>
+            <td><%= ag.horario_inicio %></td>
+            <td><%= ag.horario_fim %></td>
+            <td><%= ag.status %></td>
+            <td>
+              <form style="display:inline" action="/agendamento/delete/<%= ag.id_agendamento %>" method="POST">
+                <button class="small-btn" type="submit" onclick="return confirm('Excluir agendamento?')">Excluir</button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+
+    <h3>Criar novo agendamento</h3>
+    <form action="/agendamento/create" method="POST">
+      <label>ID Usuário</label>
+      <input type="number" name="id_usuario" required />
+      <label>ID Atividade</label>
+      <input type="number" name="id_atividade" required />
+      <label>Data</label>
+      <input type="date" name="data" required />
+      <label>Horário Início</label>
+      <input type="time" name="horario_inicio" required />
+      <label>Horário Fim</label>
+      <input type="time" name="horario_fim" required />
+      <label>Status</label>
+      <select name="status">
+        <option value="pendente" selected>Pendente</option>
+        <option value="confirmado">Confirmado</option>
+        <option value="cancelado">Cancelado</option>
+      </select>
+      <button type="submit">Criar Agendamento</button>
+    </form>
+  </section>
+</body>
+</html>

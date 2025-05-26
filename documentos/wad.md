@@ -47,9 +47,9 @@ O modelo relacional do banco de dados da Agenda de Autocuidado foi projetado par
 
 O diagrama abaixo ilustra a estrutura completa do banco de dados com todas as tabelas e seus relacionamentos:
 
-#### Diagrama do banco no dbdiagram.io
+#### Diagrama do banco no draw.io
 <div align="center">
-  <sup>Figura 1 - Diagrama do Banco de Dados no dbdiagram.io</sup>
+  <sup>Figura 1 - Diagrama do Banco de Dados no Draw.io</sup>
   <img src="/documentos/assets/modelo-banco.png"/>
   <sup>Fonte: Autoria própria, 2025</sup>
 </div>

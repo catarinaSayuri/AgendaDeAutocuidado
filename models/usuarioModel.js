@@ -1,49 +1,73 @@
 const db = require('../config/db');
 
-class Usuario {
-  // Buscar todos os usuários
-  static async getAll() {
+// Buscar todos os usuários
+const buscarTodosUsuarios = async () => {
+  try {
     const result = await db.query('SELECT * FROM usuario');
     return result.rows;
+  } catch (error) {
+    throw new Error('Erro ao buscar usuários: ' + error.message);
   }
+};
 
-  // Buscar usuário por ID
-  static async getById(id_usuario) {
+// Buscar um usuário por ID
+const buscarUsuarioPorId = async (id_usuario) => {
+  try {
     const result = await db.query('SELECT * FROM usuario WHERE id_usuario = $1', [id_usuario]);
     return result.rows[0];
+  } catch (error) {
+    throw new Error('Erro ao buscar usuário: ' + error.message);
   }
+};
 
-  // Criar novo usuário
-  static async create(data) {
+// Criar novo usuário
+const criarUsuario = async (nome, email, senha_hash) => {
+  try {
     const result = await db.query(
       `INSERT INTO usuario (nome, email, senha_hash)
        VALUES ($1, $2, $3)
        RETURNING *`,
-      [data.nome, data.email, data.senha_hash]
+      [nome, email, senha_hash]
     );
     return result.rows[0];
+  } catch (error) {
+    throw new Error('Erro ao criar usuário: ' + error.message);
   }
+};
 
-  // Atualizar usuário
-  static async update(id_usuario, data) {
+// Atualizar dados do usuário
+const atualizarUsuario = async (id_usuario, nome, email) => {
+  try {
     const result = await db.query(
-      `UPDATE usuario
+      `UPDATE usuario 
        SET nome = $1, email = $2
        WHERE id_usuario = $3
        RETURNING *`,
-      [data.nome, data.email, id_usuario]
+      [nome, email, id_usuario]
     );
     return result.rows[0];
+  } catch (error) {
+    throw new Error('Erro ao atualizar usuário: ' + error.message);
   }
+};
 
-  // Deletar usuário
-  static async delete(id_usuario) {
+// Deletar usuário
+const deletarUsuario = async (id_usuario) => {
+  try {
     const result = await db.query(
       'DELETE FROM usuario WHERE id_usuario = $1 RETURNING *',
       [id_usuario]
     );
     return result.rows[0];
+  } catch (error) {
+    throw new Error('Erro ao deletar usuário: ' + error.message);
   }
-}
+};
 
-module.exports = Usuario;
+module.exports = {
+  buscarTodosUsuarios,
+  buscarUsuarioPorId,
+  criarUsuario,
+  atualizarUsuario,
+  deletarUsuario
+};

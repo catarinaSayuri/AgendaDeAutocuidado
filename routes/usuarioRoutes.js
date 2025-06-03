@@ -1,14 +1,14 @@
 const express = require('express');
 const router = express.Router();
-
 const usuarioController = require('../controllers/usuarioController');
 
-// Listar todos usuários (JSON)
+// Listar todos os usuários
+router.get('/list', usuarioController.listarUsuarios);
 
 // Criar usuário
 router.post('/create', usuarioController.criarUsuario);
 
-// Buscar usuário por id
+// Buscar usuário por ID
 router.get('/:id', usuarioController.buscarUsuarioPorId);
 
 // Atualizar usuário

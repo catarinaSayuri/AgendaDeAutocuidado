@@ -1,12 +1,12 @@
 // controllers/atividadeController.js
 
-const atividadeService = require('../services/atividadeService');
+const atividadeModel = require('../models/atividadeModel');
 
 // Buscar todas as atividades do usuário
 const buscarAtividadesPorUsuario = async (req, res) => {
   try {
     const { id_usuario } = req.params;
-    const atividades = await atividadeService.buscarAtividadesPorUsuario(id_usuario);
+    const atividades = await atividadeModel.buscarAtividadesPorUsuario(id_usuario);
     res.status(200).json(atividades);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -16,7 +16,7 @@ const buscarAtividadesPorUsuario = async (req, res) => {
 // Buscar uma atividade específica por ID
 const buscarAtividadePorId = async (req, res) => {
   try {
-    const atividade = await atividadeService.buscarAtividadePorId(req.params.id);
+    const atividade = await atividadeModel.buscarAtividadePorId(req.params.id);
     if (atividade) {
       res.status(200).json(atividade);
     } else {
@@ -32,7 +32,7 @@ const criarAtividade = async (req, res) => {
   try {
     const { nome, descricao, cor_categoria, id_usuario } = req.body;
 
-    const novaAtividade = await atividadeService.criarAtividade(
+    const novaAtividade = await atividadeModel.criarAtividade(
       nome,
       descricao,
       cor_categoria,
@@ -50,7 +50,7 @@ const atualizarAtividade = async (req, res) => {
   try {
     const { nome, descricao, cor_categoria } = req.body;
 
-    const atividadeAtualizada = await atividadeService.atualizarAtividade(
+    const atividadeAtualizada = await atividadeModel.atualizarAtividade(
       req.params.id,
       nome,
       descricao,
@@ -70,7 +70,7 @@ const atualizarAtividade = async (req, res) => {
 // Deletar uma atividade
 const deletarAtividade = async (req, res) => {
   try {
-    const atividadeDeletada = await atividadeService.deletarAtividade(req.params.id);
+    const atividadeDeletada = await atividadeModel.deletarAtividade(req.params.id);
     if (atividadeDeletada) {
       res.status(200).json({ message: 'Atividade deletada com sucesso' });
     } else {

@@ -1,10 +1,10 @@
-const agendamentoService = require('../services/agendamentoService');
+const agendamentoModel = require('../models/agendamentoModel');
 
 // Buscar todos os agendamentos de um usuário
 const buscarAgendamentosPorUsuario = async (req, res) => {
   try {
     const { id_usuario } = req.params;
-    const agendamentos = await agendamentoService.buscarAgendamentosPorUsuario(id_usuario);
+    const agendamentos = await agendamentoModel.buscarAgendamentosPorUsuario(id_usuario);
     res.status(200).json(agendamentos);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -14,7 +14,7 @@ const buscarAgendamentosPorUsuario = async (req, res) => {
 // Buscar um agendamento por ID
 const buscarAgendamentoPorId = async (req, res) => {
   try {
-    const agendamento = await agendamentoService.buscarAgendamentoPorId(req.params.id);
+    const agendamento = await agendamentoModel.buscarAgendamentoPorId(req.params.id);
     if (agendamento) {
       res.status(200).json(agendamento);
     } else {
@@ -29,7 +29,7 @@ const buscarAgendamentoPorId = async (req, res) => {
 const criarAgendamento = async (req, res) => {
   try {
     const { id_usuario, id_atividade, data, horario_inicio, horario_fim, status } = req.body;
-    const novoAgendamento = await agendamentoService.criarAgendamento(
+    const novoAgendamento = await agendamentoModel.criarAgendamento(
       id_usuario, id_atividade, data, horario_inicio, horario_fim, status
     );
     res.status(201).json(novoAgendamento);
@@ -42,7 +42,7 @@ const criarAgendamento = async (req, res) => {
 const atualizarAgendamento = async (req, res) => {
   try {
     const { data, horario_inicio, horario_fim, status } = req.body;
-    const agendamentoAtualizado = await agendamentoService.atualizarAgendamento(
+    const agendamentoAtualizado = await agendamentoModel.atualizarAgendamento(
       req.params.id, data, horario_inicio, horario_fim, status
     );
     if (agendamentoAtualizado) {
@@ -58,7 +58,7 @@ const atualizarAgendamento = async (req, res) => {
 // Deletar agendamento
 const deletarAgendamento = async (req, res) => {
   try {
-    const agendamentoDeletado = await agendamentoService.deletarAgendamento(req.params.id);
+    const agendamentoDeletado = await agendamentoModel.deletarAgendamento(req.params.id);
     if (agendamentoDeletado) {
       res.status(200).json({ message: 'Agendamento deletado com sucesso' });
     } else {

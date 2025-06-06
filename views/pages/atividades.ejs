@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Atividades</title>
+</head>
+<body>
+  <h1>Atividades</h1>
+  
+  <h2>Criar Nova Atividade</h2>
+  <form id="createActivityForm">
+    <label for="nome">Categoria:</label>
+    <select id="nome" name="nome" required>
+      <option value="">Selecione uma categoria</option>
+      <option value="Física">Física</option>
+      <option value="Criativa">Criativa</option>
+      <option value="Mental">Mental</option>
+    </select>
+    <label for="descricao">Descrição:</label>
+    <input type="text" id="descricao" name="descricao" required>
+    <label for="cor_categoria">Cor:</label>
+    <input type="color" id="cor_categoria" name="cor_categoria" value="#000000" required>
+    <button type="submit">Criar Atividade</button>
+  </form>
+  <div id="response"></div>
+
+  <h2>Atividades por Categoria</h2>
+  <form id="categoryActivitiesForm">
+    <label for="nome_categoria">Categoria:</label>
+    <select id="nome_categoria" name="nome_categoria" required>
+      <option value="">Selecione uma categoria</option>
+      <option value="Física">Física</option>
+      <option value="Criativa">Criativa</option>
+      <option value="Mental">Mental</option>
+    </select>
+    <button type="submit">Buscar</button>
+  </form>
+  <div id="categoryActivities"></div>
+  
+  <h2>Minhas Atividades</h2>
+  <div id="userActivities"></div>
+  
+  <nav>
+    <a href="/">Welcome</a> |
+    <a href="/myroutine">Minha Rotina</a> |
+    <a href="/agenda">Agenda</a> |
+    <a href="/atividades">Atividades</a> |
+    <a href="/calendario">Calendário</a> |
+    <a href="/register">Criar Conta</a>
+  </nav>
+
+  <script>
+    // Função para buscar e exibir atividades do usuário
+    async function fetchUserActivities() {
+      const userActivitiesDiv = document.getElementById('userActivities');
+      userActivitiesDiv.textContent = 'Carregando atividades...';
+      
+      try {
+        const sessionResponse = await fetch('/api/user/session', {
+          method: 'GET',
+          credentials: 'include'
+        });
+        
+        if (!sessionResponse.ok) {
+          throw new Error('Erro ao obter sessão');
+        }
+        
+        const sessionData = await sessionResponse.json();
+        const id_usuario = sessionData.id_usuario;
+        
+        const response = await fetch(`/api/atividade/usuario?id_usuario=${id_usuario}`, {
+          method: 'GET',
+          credentials: 'include'
+        });
+        
+        const result = await response.json();
+        
+        if (response.ok) {
+          userActivitiesDiv.innerHTML = '';
+          if (result.length === 0) {
+            userActivitiesDiv.textContent = 'Nenhuma atividade encontrada.';
+          } else {
+            const ul = document.createElement('ul');
+            result.forEach(atividade => {
+              const li = document.createElement('li');
+              li.textContent = `${atividade.nome}: ${atividade.descricao} (Cor: ${atividade.cor_categoria})`;
+              ul.appendChild(li);
+            });
+            userActivitiesDiv.appendChild(ul);
+          }
+        } else {
+          throw new Error(result.error || 'Erro ao carregar atividades');
+        }
+      } catch (error) {
+        userActivitiesDiv.textContent = error.message;
+      }
+    }
+
+    // Função para buscar e exibir atividades por categoria
+    async function fetchCategoryActivities(nome_categoria) {
+      const categoryActivitiesDiv = document.getElementById('categoryActivities');
+      categoryActivitiesDiv.textContent = 'Carregando atividades...';
+      
+      try {
+        const response = await fetch(`/api/atividade/categoria?nome_categoria=${encodeURIComponent(nome_categoria)}`, {
+          method: 'GET',
+          credentials: 'include'
+        });
+        
+        const result = await response.json();
+        
+        if (response.ok) {
+          categoryActivitiesDiv.innerHTML = '';
+          if (result.length === 0) {
+            categoryActivitiesDiv.textContent = 'Nenhuma atividade encontrada para esta categoria.';
+          } else {
+            const ul = document.createElement('ul');
+            result.forEach(atividade => {
+              const li = document.createElement('li');
+              li.textContent = `${atividade.nome}: ${atividade.descricao} (Cor: ${atividade.cor_categoria})`;
+              ul.appendChild(li);
+            });
+            categoryActivitiesDiv.appendChild(ul);
+          }
+        } else {
+          throw new Error(result.error || 'Erro ao carregar atividades');
+        }
+      } catch (error) {
+        categoryActivitiesDiv.textContent = error.message;
+      }
+    }
+
+    // Carregar atividades do usuário ao carregar a página
+    document.addEventListener('DOMContentLoaded', () => {
+      fetchUserActivities();
+    });
+
+    // Lidar com o envio do formulário de atividades por categoria
+    document.getElementById('categoryActivitiesForm').addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const nome_categoria = document.getElementById('nome_categoria').value;
+      if (nome_categoria) {
+        fetchCategoryActivities(nome_categoria);
+      }
+    });
+
+    // Lidar com o envio do formulário de criar atividade
+    document.getElementById('createActivityForm').addEventListener('submit', async (event) => {
+      event.preventDefault();
+      
+      const responseDiv = document.getElementById('response');
+      responseDiv.style.display = 'none';
+      
+      try {
+        const sessionResponse = await fetch('/api/user/session', {
+          method: 'GET',
+          credentials: 'include'
+        });
+        
+        if (!sessionResponse.ok) {
+          throw new Error('Erro ao obter sessão');
+        }
+        
+        const sessionData = await sessionResponse.json();
+        const id_usuario = sessionData.id_usuario;
+        
+        const nome = document.getElementById('nome').value;
+        const descricao = document.getElementById('descricao').value;
+        const cor_categoria = document.getElementById('cor_categoria').value;
+        
+        const response = await fetch('/api/atividade/create', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            nome,
+            descricao,
+            cor_categoria,
+            id_usuario
+          }),
+          credentials: 'include'
+        });
+        
+        const result = await response.json();
+        
+        if (response.ok) {
+          responseDiv.style.display = 'block';
+          responseDiv.textContent = 'Atividade criada com sucesso!';
+          document.getElementById('createActivityForm').reset();
+          fetchUserActivities();
+        } else {
+          throw new Error(result.error || 'Erro ao criar atividade');
+        }
+      } catch (error) {
+        responseDiv.style.display = 'block';
+        responseDiv.textContent = error.message;
+      }
+    });
+  </script>
+</body>
+</html>

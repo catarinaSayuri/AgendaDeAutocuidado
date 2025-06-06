@@ -1,6 +1,6 @@
 const db = require('../config/db');
+const bcrypt = require('bcrypt');
 
-// Buscar todos os usuários
 const buscarTodosUsuarios = async () => {
   try {
     const result = await db.query('SELECT * FROM usuario');
@@ -10,7 +10,6 @@ const buscarTodosUsuarios = async () => {
   }
 };
 
-// Buscar um usuário por ID
 const buscarUsuarioPorId = async (id_usuario) => {
   try {
     const result = await db.query('SELECT * FROM usuario WHERE id_usuario = $1', [id_usuario]);
@@ -20,9 +19,9 @@ const buscarUsuarioPorId = async (id_usuario) => {
   }
 };
 
-// Criar novo usuário
-const criarUsuario = async (nome, email, senha_hash) => {
+const criarUsuario = async (nome, email, senha) => {
   try {
+    const senha_hash = await bcrypt.hash(senha, 10);
     const result = await db.query(
       `INSERT INTO usuario (nome, email, senha_hash)
        VALUES ($1, $2, $3)
@@ -31,11 +30,24 @@ const criarUsuario = async (nome, email, senha_hash) => {
     );
     return result.rows[0];
   } catch (error) {
-    throw new Error('Erro ao criar usuário: ' + error.message);
+    throw error; 
   }
 };
 
-// Atualizar dados do usuário
+
+const loginUsuario = async (email, senha) => {
+  try {
+    const result = await db.query('SELECT * FROM usuario WHERE email = $1', [email]);
+    const usuario = result.rows[0];
+    if (usuario && await bcrypt.compare(senha, usuario.senha_hash)) {
+      return usuario;
+    }
+    return null;
+  } catch (error) {
+    throw new Error('Erro ao fazer login: ' + error.message);
+  }
+};
+
 const atualizarUsuario = async (id_usuario, nome, email) => {
   try {
     const result = await db.query(
@@ -51,7 +63,6 @@ const atualizarUsuario = async (id_usuario, nome, email) => {
   }
 };
 
-// Deletar usuário
 const deletarUsuario = async (id_usuario) => {
   try {
     const result = await db.query(
@@ -68,6 +79,7 @@ module.exports = {
   buscarTodosUsuarios,
   buscarUsuarioPorId,
   criarUsuario,
+  loginUsuario,
   atualizarUsuario,
   deletarUsuario
 };

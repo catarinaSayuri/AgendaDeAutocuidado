@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login</title>
+</head>
+<body>
+  <h1>Login</h1>
+  <form id="loginForm">
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required>
+    <label for="senha">Senha:</label>
+    <input type="password" id="senha" name="senha" required>
+    <button type="submit">Login</button>
+  </form>
+  <div id="response"></div>
+  <p>Não tem uma conta? <a href="/register">Crie aqui</a></p>
+  <nav>
+    <a href="/">Welcome</a> |
+    <a href="/myroutine">Minha Rotina</a> |
+    <a href="/agenda">Agenda</a> |
+    <a href="/atividades">Atividades</a> |
+    <a href="/calendario">Calendário</a>
+  </nav>
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', async function(event) {
+      event.preventDefault();
+      const responseDiv = document.getElementById('response');
+      responseDiv.textContent = '';
+      
+      const formData = new FormData(this);
+      const data = {
+        email: formData.get('email'),
+        senha: formData.get('senha')
+      };
+      
+      try {
+        const response = await fetch('/api/usuario/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+          credentials: 'include'
+        });
+        
+        const result = await response.json();
+        
+        if (response.ok && result.success) {
+          responseDiv.style.display = 'block';
+          responseDiv.textContent = 'Login realizado com sucesso!';
+          setTimeout(() => {
+            window.location.href = '/atividades';
+          }, 1000);
+        } else {
+          responseDiv.style.display = 'block';
+          responseDiv.textContent = result.error || 'Erro ao fazer login.';
+        }
+      } catch (error) {
+        responseDiv.style.display = 'block';
+        responseDiv.textContent = 'Erro ao conectar com o servidor.';
+      }
+    });
+  </script>
+</body>
+</html>

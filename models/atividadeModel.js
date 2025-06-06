@@ -1,38 +1,45 @@
 const db = require('../config/db');
 
-// Buscar todas as atividades de um usuário
-const buscarAtividadesPorUsuario = async (id_usuario) => {
+const listarAtividades = async () => {
   try {
-    const result = await db.query(
-      'SELECT * FROM atividade WHERE id_usuario = $1',
-      [id_usuario]
-    );
+    const result = await db.query('SELECT * FROM atividade');
     return result.rows;
   } catch (error) {
     throw new Error('Erro ao buscar atividades: ' + error.message);
   }
 };
 
-// Buscar atividade por ID
 const buscarAtividadePorId = async (id_atividade) => {
   try {
-    const result = await db.query(
-      'SELECT * FROM atividade WHERE id_atividade = $1',
-      [id_atividade]
-    );
+    const result = await db.query('SELECT * FROM atividade WHERE id_atividade = $1', [id_atividade]);
     return result.rows[0];
   } catch (error) {
     throw new Error('Erro ao buscar atividade: ' + error.message);
   }
 };
 
-// Criar nova atividade
+const buscarAtividadesPorCategoria = async (nome_categoria) => {
+  try {
+    const result = await db.query('SELECT * FROM atividade WHERE nome = $1', [nome_categoria]);
+    return result.rows;
+  } catch (error) {
+    throw new Error('Erro ao buscar atividades por categoria: ' + error.message);
+  }
+};
+
+const buscarAtividadesPorUsuario = async (id_usuario) => {
+  try {
+    const result = await db.query('SELECT * FROM atividade WHERE id_usuario = $1', [id_usuario]);
+    return result.rows;
+  } catch (error) {
+    throw new Error('Erro ao buscar atividades do usuário: ' + error.message);
+  }
+};
+
 const criarAtividade = async (nome, descricao, cor_categoria, id_usuario) => {
   try {
     const result = await db.query(
-      `INSERT INTO atividade (nome, descricao, cor_categoria, id_usuario)
-       VALUES ($1, $2, $3, $4)
-       RETURNING *`,
+      'INSERT INTO atividade (nome, descricao, cor_categoria, id_usuario) VALUES ($1, $2, $3, $4) RETURNING *',
       [nome, descricao, cor_categoria, id_usuario]
     );
     return result.rows[0];
@@ -41,14 +48,10 @@ const criarAtividade = async (nome, descricao, cor_categoria, id_usuario) => {
   }
 };
 
-// Atualizar atividade
 const atualizarAtividade = async (id_atividade, nome, descricao, cor_categoria) => {
   try {
     const result = await db.query(
-      `UPDATE atividade
-       SET nome = $1, descricao = $2, cor_categoria = $3
-       WHERE id_atividade = $4
-       RETURNING *`,
+      'UPDATE atividade SET nome = $1, descricao = $2, cor_categoria = $3 WHERE id_atividade = $4 RETURNING *',
       [nome, descricao, cor_categoria, id_atividade]
     );
     return result.rows[0];
@@ -57,13 +60,9 @@ const atualizarAtividade = async (id_atividade, nome, descricao, cor_categoria) 
   }
 };
 
-// Deletar atividade
 const deletarAtividade = async (id_atividade) => {
   try {
-    const result = await db.query(
-      'DELETE FROM atividade WHERE id_atividade = $1 RETURNING *',
-      [id_atividade]
-    );
+    const result = await db.query('DELETE FROM atividade WHERE id_atividade = $1 RETURNING *', [id_atividade]);
     return result.rows[0];
   } catch (error) {
     throw new Error('Erro ao deletar atividade: ' + error.message);
@@ -71,8 +70,10 @@ const deletarAtividade = async (id_atividade) => {
 };
 
 module.exports = {
-  buscarAtividadesPorUsuario,
+  listarAtividades,
   buscarAtividadePorId,
+  buscarAtividadesPorCategoria,
+  buscarAtividadesPorUsuario,
   criarAtividade,
   atualizarAtividade,
   deletarAtividade

@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Wellness Hub</title>
+  <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?display=swap&family=Noto+Sans:wght@400;500;700;900&family=Plus+Jakarta+Sans:wght@400;500;700;800" rel="stylesheet">
+  <link rel="stylesheet" href="/css/welcomeStyle.css">
+</head>
+<body>
+  <div class="layout-container">
+    <header>
+      <div class="header-logo">
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g clip-path="url(#clip0_6_330)">
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M24 0.757355L47.2426 24L24 47.2426L0.757355 24L24 0.757355ZM21 35.7574V12.2426L9.24264 24L21 35.7574Z"
+              fill="currentColor"
+            ></path>
+          </g>
+          <defs>
+            <clipPath id="clip0_6_330"><rect width="48" height="48" fill="white"></rect></clipPath>
+          </defs>
+        </svg>
+        <h2>Wellness Hub</h2>
+      </div>
+      <div class="nav-links">
+        <a href="/myroutine">Minha Rotina</a>
+        <a href="/agenda">Agenda</a>
+        <a href="/atividades">Atividades</a>
+        <a href="/calendario">Calendário</a>
+        <a href="/register">Criar Conta</a>
+        <div
+          class="profile-pic"
+          style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDAL_hxkNk12HqBZIq4bdUxMXBU5jBkHALYs3R2XsBMGixJC5bJKoyxYNnl5ihfpWZVmMPgu7hS1EN-NNwucF3sFEhyDZFshfT3gn-fS1i4DsC6U96zNLAT_Bq0i31S_h5MIPHGzaLOM4ryKKln5yLF3u3powcYuJJXHtgtaWOeN1Dpt8fow2zCRbHaPepIOqjBHo1du_LoevlvrS-ZEt8GWcGdoYnLGBEJgP37aftZHveLDfeu7MDy2z-meSa5exjSEj-0eJ0bu6o");'
+        ></div>
+      </div>
+    </header>
+    <div class="content">
+      <div class="calendar-container">
+        <div class="calendar-header">
+          <button id="prev-month">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor" viewBox="0 0 256 256">
+              <path d="M165.66,202.34a8,8,0,0,1-11.32,11.32l-80-80a8,8,0,0,1,0-11.32l80-80a8,8,0,0,1,11.32,11.32L91.31,128Z"></path>
+            </svg>
+          </button>
+          <p id="calendar-month">July 2024</p>
+          <button id="next-month">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor" viewBox="0 0 256 256">
+              <path d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"></path>
+            </svg>
+          </button>
+        </div>
+        <div class="calendar-grid" id="calendar-grid">
+          <p>S</p><p>M</p><p>T</p><p>W</p><p>T</p><p>F</p><p>S</p>
+          <button><div>1</div></button>
+          <button><div>2</div></button>
+          <button><div>3</div></button>
+          <button><div>4</div></button>
+          <button class="selected"><div>5</div></button>
+          <button><div>6</div></button>
+          <button><div>7</div></button>
+          <button><div>8</div></button>
+          <button><div>9</div></button>
+          <button><div>10</div></button>
+          <button><div>11</div></button>
+          <button><div>12</div></button>
+          <button><div>13</div></button>
+          <button><div>14</div></button>
+          <button><div>15</div></button>
+          <button><div>16</div></button>
+          <button><div>17</div></button>
+          <button><div>18</div></button>
+          <button><div>19</div></button>
+          <button><div>20</div></button>
+          <button><div>21</div></button>
+          <button><div>22</div></button>
+          <button><div>23</div></button>
+          <button><div>24</div></button>
+          <button><div>25</div></button>
+          <button><div>26</div></button>
+          <button><div>27</div></button>
+          <button><div>28</div></button>
+          <button><div>29</div></button>
+          <button><div>30</div></button>
+        </div>
+      </div>
+      <div class="main-content">
+        <h3>"Self-care is not selfish, it is essential."</h3>
+        <div class="welcome-section">
+          <div class="welcome-text">
+            <p>Welcome back, Evelyn!</p>
+            <p>Here's your self-care schedule for today.</p>
+          </div>
+        </div>
+        <h2 class="section-title">Quick Start</h2>
+        <a href="/atividades" class="quick-start-item">
+          <div>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+              <path
+                d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM72,48v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V80H48V48ZM208,208H48V96H208V208Zm-96-88v64a8,8,0,0,1-16,0V132.94l-4.42,2.22a8,8,0,0,1-7.16-14.32l16-8A8,8,0,0,1,112,120Zm59.16,30.45L152,176h16a8,8,0,0,1,0,16H136a8,8,0,0,1-6.4-12.8l28.78-38.37A8,8,0,1,0,145.07,132a8,8,0,1,1-13.85-8A24,24,0,0,1,176,136,23.76,23.76,0,0,1,171.16,150.45Z"
+              ></path>
+            </svg>
+          </div>
+          <button class="quick-start-button">Crie uma atividade</button>
+        </a>
+        <a href="/myroutine" class="quick-start-item">
+          <div>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+              <path
+                d="M80,64a8,8,0,0,1,8-8H216a8,8,0,0,1,0,16H88A8,8,0,0,1,80,64Zm136,56H88a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Zm0,64H88a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16ZM44,52A12,12,0,1,0,56,64,12,12,0,0,0,44,52Zm0,64a12,12,0,1,0,12,12A12,12,0,0,0,44,116Zm0,64a12,12,0,1,0,12,12A12,12,0,0,0,44,180Z"
+              ></path>
+            </svg>
+          </div>
+          <button class="quick-start-button">Minha Rotina</button>
+        </a>
+        <h2 class="section-title">Atividades de Hoje</h2>
+        <div id="activities-list">
+          <div class="activity-item">
+            <div>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                <path
+                  d="M235.32,180l-36.24-36.25L162.62,23.46A21.76,21.76,0,0,0,128,12.93,21.76,21.76,0,0,0,93.38,23.46L56.92,143.76,20.68,180a16,16,0,0,0,0,22.62l32.69,32.69a16,16,0,0,0,22.63,0L124.28,187a40.68,40.68,0,0,0,3.72-4.29,40.68,40.68,0,0,0,3.72,4.29L180,235.32a16,16,0,0,0,22.63,0l32.69-32.69A16,16,0,0,0,235.32,180ZM64.68,224,32,191.32l12.69-12.69,32.69,32.69ZM120,158.75a23.85,23.85,0,0,1-7,17L88.68,200,56,167.32l13.65-13.66a8,8,0,0,0,2-3.34l37-122.22A5.78,5.78,0,0,1,120,29.78Zm23,17a23.85,23.85,0,0,1-7-17v-129a5.78,5.78,0,0,1,11.31-1.68l37,122.22a8,8,0,0,0,2,3.34l14.49,14.49-33.4,32ZM191.32,224l-12.56-12.57,33.39-32L224,191.32Z"
+                ></path>
+              </svg>
+            </div>
+            <div class="activity-details">
+              <p>Morning Meditation</p>
+              <p>8:00 AM - 9:00 AM</p>
+            </div>
+          </div>
+          <div class="activity-item">
+            <div>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                <path
+                  d="M72,88V40a8,8,0,0,1,16,0V88a8,8,0,0,1-16,0ZM216,40V224a8,8,0,0,1-16,0V176H152a8,8,0,0,1-8-8,268.75,268.75,0,0,1,7.22-56.88c9.78-40.49,28.32-67.63,53.63-78.47A8,8,0,0,1,216,40ZM200,53.9c-32.17,24.57-38.47,84.42-39.7,106.1H200ZM119.89,38.69a8,8,0,1,0-15.78,2.63L112,88.63a32,32,0,0,1-64,0l7.88-47.31a8,8,0,1,0-15.78-2.63l-8,48A8.17,8.17,0,0,0,32,88a48.07,48.07,0,0,0,40,47.32V224a8,8,0,0,0,16,0V135.32A48.07,48.07,0,0,0,128,88a8.17,8.17,0,0,0-.11-1.31Z"
+                ></path>
+              </svg>
+            </div>
+            <div class="activity-details">
+              <p>Lunch Break</p>
+              <p>12:00 PM - 1:00 PM</p>
+            </div>
+          </div>
+          <div class="activity-item">
+            <div>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                <path
+                  d="M245.83,121.63a15.53,15.53,0,0,0-9.52-7.33,73.51,73.51,0,0,0-22.17-2.22c4-19.85,1-35.55-2.06-44.86a16.15,16.15,0,0,0-18.79-10.88,85.53,85.53,0,0,0-28.55,12.12,94.58,94.58,0,0,0-27.11-33.25,16.05,16.05,0,0,0-19.26,0A94.48,94.48,0,0,0,91.26,68.46,85.53,85.53,0,0,0,62.71,56.34,16.15,16.15,0,0,0,43.92,67.22c-3,9.31-6,25-2.06,44.86a73.51,73.51,0,0,0-22.17,2.22,15.53,15.53,0,0,0-9.52,7.33,16,16,0,0,0-1.6,12.27c3.39,12.57,13.8,36.48,45.33,55.32S113.13,208,128.05,208s42.67,0,74-18.78c31.53-18.84,41.94-42.75,45.33-55.32A16,16,0,0,0,245.83,121.63ZM59.14,72.14a.2.2,0,0,1,.23-.15A70.43,70.43,0,0,1,85.18,83.66,118.65,118.65,0,0,0,80,119.17c0,18.74,3.77,34,9.11,46.28A123.59,123.59,0,0,1,69.57,140C51.55,108.62,55.3,84,59.14,72.14Zm3,103.35C35.47,159.57,26.82,140.05,24,129.7a59.82,59.82,0,0,1,22.5-1.17,129.08,129.08,0,0,0,9.15,19.41,142.28,142.28,0,0,0,34,39.56A114.92,114.92,0,0,1,62.1,175.49ZM128,190.4c-9.33-6.94-32-28.23-32-71.23C96,76.7,118.38,55.24,128,48c9.62,7.26,32,28.72,32,71.19C160,162.17,137.33,183.46,128,190.4ZM170.82,83.66A70.43,70.43,0,0,1,196.63,72a.2.2,0,0,1,.23.15C200.7,84,204.45,108.62,186.43,140a123.32,123.32,0,0,1-19.54,25.48c5.34-12.26,9.11-27.54,9.11-46.28A118.65,118.65,0,0,0,170.82,83.66ZM232,129.72c-2.77,10.25-11.4,29.81-38.09,45.77a114.92,114.92,0,0,1-27.55,12,142.28,142.28,0,0,0,34-39.56,129.08,129.08,0,0,0,9.15-19.41A59.69,59.69,0,0,1,232,129.71Z"
+                ></path>
+              </svg>
+            </div>
+            <div class="activity-details">
+              <p>Evening Yoga</p>
+              <p>6:00 PM - 7:00 PM</p>
+            </div>
+          </div>
+        </div>
+        <div class="create-button-container">
+          <button class="create-button" id="open-modal">
+            <span>Create New Appointment</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="modal" id="create-modal">
+      <div class="modal-content">
+        <button class="close-button" id="close-modal">×</button>
+        <h2>Create New Appointment</h2>
+        <form id="create-form" action="/api/agendamento/create" method="POST">
+          <label for="id_usuario">Usuário:</label>
+          <input type="number" id="id_usuario" name="id_usuario" required>
+          <label for="id_atividade">Atividade:</label>
+          <input type="number" id="id_atividade" name="id_atividade" required>
+          <label for="data">Data:</label>
+          <input type="date" id="data" name="data" required>
+          <label for="horario_inicio">Horário Início:</label>
+          <input type="time" id="horario_inicio" name="horario_inicio" required>
+          <label for="horario_fim">Horário Fim:</label>
+          <input type="time" id="horario_fim" name="horario_fim" required>
+          <label for="status">Status:</label>
+          <select id="status" name="status">
+            <option value="pendente">Pendente</option>
+            <option value="confirmado">Confirmado</option>
+            <option value="cancelado">Cancelado</option>
+          </select>
+          <button type="submit">Criar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      let currentMonth = 6; // July (0-based index)
+      let currentYear = 2024;
+
+      // Sample activities data (replace with actual API data)
+      const activitiesData = [
+        { date: '2024-07-05', name: 'Morning Meditation', time: '8:00 AM - 9:00 AM', icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256"><path d="M235.32,180l-36.24-36.25L162.62,23.46A21.76,21.76,0,0,0,128,12.93,21.76,21.76,0,0,0,93.38,23.46L56.92,143.76,20.68,180a16,16,0,0,0,0,22.62l32.69,32.69a16,16,0,0,0,22.63,0L124.28,187a40.68,40.68,0,0,0,3.72-4.29,40.68,40.68,0,0,0,3.72,4.29L180,235.32a16,16,0,0,0,22.63,0l32.69-32.69A16,16,0,0,0,235.32,180ZM64.68,224,32,191.32l12.69-12.69,32.69,32.69ZM120,158.75a23.85,23.85,0,0,1-7,17L88.68,200,56,167.32l13.65-13.66a8,8,0,0,0,2-3.34l37-122.22A5.78,5.78,0,0,1,120,29.78Zm23,17a23.85,23.85,0,0,1-7-17v-129a5.78,5.78,0,0,1,11.31-1.68l37,122.22a8,8,0,0,0,2,3.34l14.49,14.49-33.4,32ZM191.32,224l-12.56-12.57,33.39-32L224,191.32Z"></path></svg>' },
+        { date: '2024-07-05', name: 'Lunch Break', time: '12:00 PM - 1:00 PM', icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256"><path d="M72,88V40a8,8,0,0,1,16,0V88a8,8,0,0,1-16,0ZM216,40V224a8,8,0,0,1-16,0V176H152a8,8,0,0,1-8-8,268.75,268.75,0,0,1,7.22-56.88c9.78-40.49,28.32-67.63,53.63-78.47A8,8,0,0,1,216,40ZM200,53.9c-32.17,24.57-38.47,84.42-39.7,106.1H200ZM119.89,38.69a8,8,0,1,0-15.78,2.63L112,88.63a32,32,0,0,1-64,0l7.88-47.31a8,8,0,1,0-15.78-2.63l-8,48A8.17,8.17,0,0,0,32,88a48.07,48.07,0,0,0,40,47.32V224a8,8,0,0,0,16,0V135.32A48.07,48.07,0,0,0,128,88a8.17,8.17,0,0,0-.11-1.31Z"></path></svg>' },
+        { date: '2024-07-05', name: 'Evening Yoga', time: '6:00 PM - 7:00 PM', icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256"><path d="M245.83,121.63a15.53,15.53,0,0,0-9.52-7.33,73.51,73.51,0,0,0-22.17-2.22c4-19.85,1-35.55-2.06-44.86a16.15,16.15,0,0,0-18.79-10.88,85.53,85.53,0,0,0-28.55,12.12,94.58,94.58,0,0,0-27.11-33.25,16.05,16.05,0,0,0-19.26,0A94.48,94.48,0,0,0,91.26,68.46,85.53,85.53,0,0,0,62.71,56.34,16.15,16.15,0,0,0,43.92,67.22c-3,9.31-6,25-2.06,44.86a73.51,73.51,0,0,0-22.17,2.22,15.53,15.53,0,0,0-9.52,7.33,16,16,0,0,0-1.6,12.27c3.39,12.57,13.8,36.48,45.33,55.32S113.13,208,128.05,208s42.67,0,74-18.78c31.53-18.84,41.94-42.75,45.33-55.32A16,16,0,0,0,245.83,121.63ZM59.14,72.14a.2.2,0,0,1,.23-.15A70.43,70.43,0,0,1,85.18,83.66,118.65,118.65,0,0,0,80,119.17c0,18.74,3.77,34,9.11,46.28A123.59,123.59,0,0,1,69.57,140C51.55,108.62,55.3,84,59.14,72.14Zm3,103.35C35.47,159.57,26.82,140.05,24,129.7a59.82,59.82,0,0,1,22.5-1.17,129.08,129.08,0,0,0,9.15,19.41,142.28,142.28,0,0,0,34,39.56A114.92,114.92,0,0,1,62.1,175.49ZM128,190.4c-9.33-6.94-32-28.23-32-71.23C96,76.7,118.38,55.24,128,48c9.62,7.26,32,28.72,32,71.19C160,162.17,137.33,183.46,128,190.4ZM170.82,83.66A70.43,70.43,0,0,1,196.63,72a.2.2,0,0,1,.23.15C200.7,84,204.45,108.62,186.43,140a123.32,123.32,0,0,1-19.54,25.48c5.34-12.26,9.11-27.54,9.11-46.28A118.65,118.65,0,0,0,170.82,83.66ZM232,129.72c-2.77,10.25-11.4,29.81-38.09,45.77a114.92,114.92,0,0,1-27.55,12,142.28,142.28,0,0,0,34-39.56,129.08,129.08,0,0,0,9.15-19.41A59.69,59.69,0,0,1,232,129.71Z"></path></svg>' }
+      ];
+
+      // Function to render activities
+      function renderActivities(date) {
+        const activitiesList = document.getElementById('activities-list');
+        activitiesList.innerHTML = '';
+        const filteredActivities = activitiesData.filter(activity => activity.date === date);
+        if (filteredActivities.length === 0) {
+          activitiesList.innerHTML = '<p>No activities scheduled for this date.</p>';
+        } else {
+          filteredActivities.forEach(activity => {
+            const activityItem = document.createElement('div');
+            activityItem.className = 'activity-item';
+            activityItem.innerHTML = `
+              <div>${activity.icon}</div>
+              <div class="activity-details">
+                <p>${activity.name}</p>
+                <p>${activity.time}</p>
+              </div>
+            `;
+            activitiesList.appendChild(activityItem);
+          });
+        }
+      }
+
+      // Function to update calendar
+      function updateCalendar() {
+        const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        document.getElementById('calendar-month').textContent = `${monthNames[currentMonth]} ${currentYear}`;
+        const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+        const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+        const calendarGrid = document.getElementById('calendar-grid');
+        calendarGrid.innerHTML = '<p>S</p><p>M</p><p>T</p><p>W</p><p>T</p><p>F</p><p>S</p>';
+        
+        // Add empty cells for days before the first day of the month
+        for (let i = 0; i < firstDay; i++) {
+          const emptyCell = document.createElement('button');
+          emptyCell.innerHTML = '<div></div>';
+          calendarGrid.appendChild(emptyCell);
+        }
+        
+        // Add days of the month
+        for (let day = 1; day <= daysInMonth; day++) {
+          const button = document.createElement('button');
+          button.innerHTML = `<div>${day}</div>`;
+          if (day === 5 && currentMonth === 6 && currentYear === 2024) {
+            button.classList.add('selected');
+          }
+          calendarGrid.appendChild(button);
+        }
+      }
+
+      // Calendar navigation
+      document.getElementById('prev-month').addEventListener('click', () => {
+        currentMonth--;
+        if (currentMonth < 0) {
+          currentMonth = 11;
+          currentYear--;
+        }
+        updateCalendar();
+        initializeCalendarButtons();
+      });
+
+      document.getElementById('next-month').addEventListener('click', () => {
+        currentMonth++;
+        if (currentMonth > 11) {
+          currentMonth = 0;
+          currentYear++;
+        }
+        updateCalendar();
+        initializeCalendarButtons();
+      });
+
+      // Calendar button click handler
+      function initializeCalendarButtons() {
+        const calendarButtons = document.querySelectorAll('.calendar-grid button');
+        calendarButtons.forEach(button => {
+          const dayDiv = button.querySelector('div');
+          if (dayDiv.textContent) {
+            button.addEventListener('click', () => {
+              calendarButtons.forEach(btn => btn.classList.remove('selected'));
+              button.classList.add('selected');
+              const day = dayDiv.textContent.padStart(2, '0');
+              const date = `${currentYear}-${(currentMonth + 1).toString().padStart(2, '0')}-${day}`;
+              console.log(`Selected date: ${date}`);
+              // Fetch activities for selected date
+              fetch(`/api/agendamento/dia?data=${date}`)
+                .then(response => response.json())
+                .then(data => {
+                  console.log('Appointments:', data);
+                  renderActivities(date); // Update with actual API data if available
+                })
+                .catch(error => {
+                  console.error('Error:', error);
+                  renderActivities(date); // Fallback to sample data
+                });
+            });
+          }
+        });
+      }
+
+      // Modal handling
+      const modal = document.getElementById('create-modal');
+      const openModalButton = document.getElementById('open-modal');
+      const closeModalButton = document.getElementById('close-modal');
+
+      openModalButton.addEventListener('click', () => {
+        modal.style.display = 'flex';
+      });
+
+      closeModalButton.addEventListener('click', () => {
+        modal.style.display = 'none';
+      });
+
+      window.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.style.display = 'none';
+        }
+      });
+
+      const createForm = document.getElementById('create-form');
+      createForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const formData = new FormData(createForm);
+        const appointment = {
+          id_usuario: formData.get('id_usuario'),
+          id_atividade: formData.get('id_atividade'),
+          data: formData.get('data'),
+          horario_inicio: formData.get('horario_inicio'),
+          horario_fim: formData.get('horario_fim'),
+          status: formData.get('status')
+        };
+        console.log('Creating appointment:', appointment);
+        fetch('/api/agendamento/create', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(appointment)
+        })
+          .then(response => response.json())
+          .then(data => {
+            console.log('Appointment created:', data);
+            modal.style.display = 'none';
+            createForm.reset();
+            const selectedButton = document.querySelector('.calendar-grid button.selected');
+            if (selectedButton) {
+              const day = selectedButton.querySelector('div').textContent.padStart(2, '0');
+              const date = `${currentYear}-${(currentMonth + 1).toString().padStart(2, '0')}-${day}`;
+              renderActivities(date);
+            }
+          })
+          .catch(error => console.error('Error:', error));
+      });
+
+      updateCalendar();
+      initializeCalendarButtons();
+      renderActivities('2024-07-05'); 
+    });
+  </script>
+</body>
+</html>

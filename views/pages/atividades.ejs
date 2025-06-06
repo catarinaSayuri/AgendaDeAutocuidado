@@ -2,57 +2,298 @@
 <html>
 <head>
   <title>Atividades</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?display=swap&family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&family=Plus+Jakarta+Sans%3Awght%40400%3B500%3B700%3B800" />
+  <link rel="stylesheet" href="/css/atividadesStyle.css" />
 </head>
-<body>
-  <h1>Atividades</h1>
-  
-  <h2>Criar Nova Atividade</h2>
-  <form id="createActivityForm">
-    <label for="nome">Categoria:</label>
-    <select id="nome" name="nome" required>
-      <option value="">Selecione uma categoria</option>
-      <option value="Física">Física</option>
-      <option value="Criativa">Criativa</option>
-      <option value="Mental">Mental</option>
-    </select>
-    <label for="descricao">Descrição:</label>
-    <input type="text" id="descricao" name="descricao" required>
-    <label for="cor_categoria">Cor:</label>
-    <input type="color" id="cor_categoria" name="cor_categoria" value="#000000" required>
-    <button type="submit">Criar Atividade</button>
-  </form>
-  <div id="response"></div>
-
-  <h2>Atividades por Categoria</h2>
-  <form id="categoryActivitiesForm">
-    <label for="nome_categoria">Categoria:</label>
-    <select id="nome_categoria" name="nome_categoria" required>
-      <option value="">Selecione uma categoria</option>
-      <option value="Física">Física</option>
-      <option value="Criativa">Criativa</option>
-      <option value="Mental">Mental</option>
-    </select>
-    <button type="submit">Buscar</button>
-  </form>
-  <div id="categoryActivities"></div>
-  
-  <h2>Minhas Atividades</h2>
-  <div id="userActivities"></div>
-  
-  <nav>
-    <a href="/">Welcome</a> |
-    <a href="/myroutine">Minha Rotina</a> |
-    <a href="/agenda">Agenda</a> |
-    <a href="/atividades">Atividades</a> |
-    <a href="/calendario">Calendário</a> |
-    <a href="/register">Criar Conta</a>
-  </nav>
-
+<body class="body">
+  <div class="layout-container">
+    <header class="header">
+      <div class="header-logo">
+        <div class="logo-icon">
+          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g clip-path="url(#clip0_6_330)">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M24 0.757355L47.2426 24L24 47.2426L0.757355 24L24 0.757355ZM21 35.7574V12.2426L9.24264 24L21 35.7574Z" fill="currentColor"></path>
+            </g>
+            <defs>
+              <clipPath id="clip0_6_330"><rect>width="48" height="48" fill="white"></rect></clipPath>
+            </defs>
+          </svg>
+        </div>
+        <h2 class="header-title">Wellness Hub</h2>
+      </div>
+      <div class="header-nav">
+        <div class="nav-links">
+          <a class="nav-link" href="/">Welcome</a>
+          <a class="nav-link" href="/myroutine">Minha Rotina</a>
+          <a class="nav-link" href="/agenda">Agenda</a>
+          <a class="nav-link" href="/atividades">Atividades</a>
+          <a class="nav-link" href="/calendario">Calendário</a>
+          <a class="nav-link" href="/register">Criar Conta</a>
+        </div>
+        <button class="bell-button">
+          <div class="bell-icon" data-icon="Bell" data-size="20px" data-weight="regular">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+              <path d="M221.8,175.94C216.25,166.38,208,139.33,208,104a80,80,0,1,0-160,0c0,35.34-8.26,62.38-13.81,71.94A16,16,0,0,0,48,200H88.81a40,40,0,0,0,78.38,0H208a16,16,0,0,0,13.8-24.06ZM128,216a24,24,0,0,1-22.62-16h45.24A24,24,0,0,1,128,216ZM48,184c7.7-13.24,16-43.92,16-80a64,64,0,1,1,128,0c0,36.05,8.28,66.73,16,80Z"></path>
+            </svg>
+          </div>
+        </button>
+        <div class="profile-pic" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDfeOcQgfcZiGrkRlWNykljNr33JbHnp5F_91pFbVFwH7xGEvaToMBabSt-MnW9JyATUO3uClDGRJv4r5Gh_0XvS2xeRn93MCXuYN4td4N0FSiTQD-jLIrN8zHcFCTuRz8vnX12R2_sG1ZKQ_TxPshVEVSNMYLLRsUNJ0BKeHtRzNIa-DLEeDx349GOp_01_EPKRuOFz4KxAx-y-Szu1kF2FzoDMq7ScfXJO72723t--Lg2_QStwoXSN7_uJJp2zWO7RM5Sp4He1e0");'></div>
+      </div>
+    </header>
+    <div class="main-content">
+      <div class="content-container">
+        <div class="section-header">
+          <p class="section-title">Atividades de Autocuidado</p>
+          <button id="showCreateModal" class="add-button">
+            <span class="truncate">Adicionar Nova</span>
+          </button>
+        </div>
+        <div class="tabs">
+          <div class="tab-container">
+            <a id="tab-todas" class="tab active" href="#">
+              <p class="tab-text active">Todas</p>
+            </a>
+            <a id="tab-categorias" class="tab" href="#">
+              <p class="tab-text">Categorias</p>
+            </a>
+            <a id="tab-favoritas" class="tab" href="#">
+              <p class="tab-text">Favoritas</p>
+            </a>
+          </div>
+        </div>
+        <div id="content-todas" class=""></div>
+        <div id="content-categorias" class="hidden">
+          <h3 class="category-title">Mental</h3>
+          <div id="mentalActivities" class="category-content"></div>
+          <h3 class="category-title">Física</h3>
+          <div id="fisicaActivities" class="category-content"></div>
+          <h3 class="category-title">Criativa</h3>
+          <div id="criativaActivities" class="category-content"></div>
+        </div>
+        <div id="content-favoritas" class="hidden"></div>
+        <div id="userActivities" class="user-activities"></div>
+        <!-- Modal para criar nova atividade -->
+        <div id="createActivityModal" class="modal hidden">
+          <div class="modal-content">
+            <h3 class="modal-title">Criar Nova Atividade</h3>
+            <form id="createActivityForm" class="form">
+              <div class="form-group">
+                <label for="nome" class="form-label">Categoria:</label>
+                <select id="nome" name="nome" required class="form-select">
+                  <option value="">Selecione uma categoria</option>
+                  <option value="Física">Física</option>
+                  <option value="Criativa">Criativa</option>
+                  <option value="Mental">Mental</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="descricao" class="form-label">Descrição:</label>
+                <input type="text" id="descricao" name="descricao" required placeholder="Digite a descrição" class="form-input">
+              </div>
+              <div class="form-group">
+                <label for="cor_categoria" class="form-label">Cor:</label>
+                <div class="color-input-group">
+                  <input type="text" id="cor_categoria" name="cor_categoria" required placeholder="#000000" class="form-input color-input">
+                  <input type="color" id="color_picker" class="color-picker">
+                </div>
+              </div>
+              <div class="form-buttons">
+                <button type="button" id="closeModal" class="cancel-button">Cancelar</button>
+                <button type="submit" class="submit-button">Criar Atividade</button>
+              </div>
+            </form>
+            <div id="response" class="response hidden"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   <script>
+    // Função para alternar abas
+    function toggleTabs(activeTab, activeContent) {
+      const tabs = ['tab-todas', 'tab-categorias', 'tab-favoritas'];
+      const contents = ['content-todas', 'content-categorias', 'content-favoritas'];
+      
+      tabs.forEach(tab => {
+        const element = document.getElementById(tab);
+        const p = element.querySelector('p');
+        element.classList.remove('active');
+        p.classList.remove('active');
+      });
+      
+      contents.forEach(content => {
+        document.getElementById(content).classList.add('hidden');
+      });
+      
+      const activeTabElement = document.getElementById(activeTab);
+      const activeP = activeTabElement.querySelector('p');
+      activeTabElement.classList.add('active');
+      activeP.classList.add('active');
+      document.getElementById(activeContent).classList.remove('hidden');
+    }
+
+    // Função para atualizar o status de favorito
+    async function toggleFavorite(id_atividade, is_favorite) {
+      try {
+        const response = await fetch('/api/atividade/favorite', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ id_atividade, is_favorite }),
+          credentials: 'include'
+        });
+        
+        const result = await response.json();
+        
+        if (!response.ok) {
+          throw new Error(result.error || 'Erro ao atualizar favorito');
+        }
+        
+        // Atualizar todas as abas
+        fetchAllActivities();
+        fetchCategoryActivities();
+        fetchFavoriteActivities();
+        fetchUserActivities();
+      } catch (error) {
+        console.error(error.message);
+      }
+    }
+
+    // Função para renderizar cards de atividades com coração
+    function renderActivityCard(atividade) {
+      const div = document.createElement('div');
+      div.className = 'activity-card-container';
+      div.innerHTML = `
+        <div class="activity-card">
+          <div class="activity-info">
+            <p class="activity-title">${atividade.nome}</p>
+            <p class="activity-description">${atividade.descricao}</p>
+            <p class="activity-color">Cor: ${atividade.cor_categoria}</p>
+          </div>
+          <div class="activity-actions">
+            <button class="favorite-btn" data-id="${atividade.id_atividade}" data-favorite="${atividade.is_favorite}">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="${atividade.is_favorite ? '#e60000' : 'none'}" stroke="${atividade.is_favorite ? '#e60000' : '#8b5b5c'}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="favorite-icon ${atividade.is_favorite ? 'favorite-active' : ''}">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3c3.08 0 5.5 2.42 5.5 5.5 0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+              </svg>
+            </button>
+            <div class="activity-image" style="background-color: ${atividade.cor_categoria};"></div>
+          </div>
+        </div>
+      `;
+      return div;
+    }
+
+    // Função para buscar e exibir todas as atividades
+    async function fetchAllActivities() {
+      const allActivitiesDiv = document.getElementById('content-todas');
+      allActivitiesDiv.innerHTML = '<p class="loading-text">Carregando atividades...</p>';
+      
+      try {
+        const response = await fetch('/api/atividade/todas', {
+          method: 'GET',
+          credentials: 'include'
+        });
+        
+        const result = await response.json();
+        
+        if (response.ok) {
+          allActivitiesDiv.innerHTML = '';
+          if (result.length === 0) {
+            allActivitiesDiv.innerHTML = '<p class="no-activities">Nenhuma atividade encontrada.</p>';
+          } else {
+            result.forEach(atividade => {
+              allActivitiesDiv.appendChild(renderActivityCard(atividade));
+            });
+          }
+        } else {
+          throw new Error(result.error || 'Erro ao carregar atividades');
+        }
+      } catch (error) {
+        allActivitiesDiv.innerHTML = `<p class="error-text">${error.message}</p>`;
+      }
+    }
+
+    // Função para buscar e exibir atividades por categoria
+    async function fetchCategoryActivities() {
+      const categories = ['Mental', 'Física', 'Criativa'];
+      for (const categoria of categories) {
+        const categoryActivitiesDiv = document.getElementById(`${categoria.toLowerCase()}Activities`);
+        categoryActivitiesDiv.innerHTML = '<p class="loading-text">Carregando atividades...</p>';
+        
+        try {
+          const response = await fetch(`/api/atividade/categoria?nome_categoria=${encodeURIComponent(categoria)}`, {
+            method: 'GET',
+            credentials: 'include'
+          });
+          
+          const result = await response.json();
+          
+          if (response.ok) {
+            categoryActivitiesDiv.innerHTML = '';
+            if (result.length === 0) {
+              categoryActivitiesDiv.innerHTML = '<p class="no-activities">Nenhuma atividade encontrada para esta categoria.</p>';
+            } else {
+              result.forEach(atividade => {
+                categoryActivitiesDiv.appendChild(renderActivityCard(atividade));
+              });
+            }
+          } else {
+            throw new Error(result.error || 'Erro ao carregar atividades');
+          }
+        } catch (error) {
+          categoryActivitiesDiv.innerHTML = `<p class="error-text">${error.message}</p>`;
+        }
+      }
+    }
+
+    // Função para buscar e exibir atividades favoritas
+    async function fetchFavoriteActivities() {
+      const favoriteActivitiesDiv = document.getElementById('content-favoritas');
+      favoriteActivitiesDiv.innerHTML = '<p class="loading-text">Carregando atividades...</p>';
+      
+      try {
+        const sessionResponse = await fetch('/api/user/session', {
+          method: 'GET',
+          credentials: 'include'
+        });
+        
+        if (!sessionResponse.ok) {
+          throw new Error('Erro ao obter sessão');
+        }
+        
+        const sessionData = await sessionResponse.json();
+        const id_usuario = sessionData.id_usuario;
+        
+        const response = await fetch(`/api/atividade/usuario?id_usuario=${id_usuario}&is_favorite=true`, {
+          method: 'GET',
+          credentials: 'include'
+        });
+        
+        const result = await response.json();
+        
+        if (response.ok) {
+          favoriteActivitiesDiv.innerHTML = '';
+          if (result.length === 0) {
+            favoriteActivitiesDiv.innerHTML = '<p class="no-activities">Nenhuma atividade favoritada.</p>';
+          } else {
+            result.forEach(atividade => {
+              favoriteActivitiesDiv.appendChild(renderActivityCard(atividade));
+            });
+          }
+        } else {
+          throw new Error(result.error || 'Erro ao carregar atividades');
+        }
+      } catch (error) {
+        favoriteActivitiesDiv.innerHTML = `<p class="error-text">${error.message}</p>`;
+      }
+    }
+
     // Função para buscar e exibir atividades do usuário
     async function fetchUserActivities() {
       const userActivitiesDiv = document.getElementById('userActivities');
-      userActivitiesDiv.textContent = 'Carregando atividades...';
+      userActivitiesDiv.innerHTML = '<p class="loading-text">Carregando atividades...</p>';
       
       try {
         const sessionResponse = await fetch('/api/user/session', {
@@ -75,72 +316,75 @@
         const result = await response.json();
         
         if (response.ok) {
-          userActivitiesDiv.innerHTML = '';
+          userActivitiesDiv.innerHTML = '<h3 class="user-activities-title">Minhas Atividades</h3>';
           if (result.length === 0) {
-            userActivitiesDiv.textContent = 'Nenhuma atividade encontrada.';
+            userActivitiesDiv.innerHTML += '<p class="no-activities">Nenhuma atividade encontrada.</p>';
           } else {
-            const ul = document.createElement('ul');
             result.forEach(atividade => {
-              const li = document.createElement('li');
-              li.textContent = `${atividade.nome}: ${atividade.descricao} (Cor: ${atividade.cor_categoria})`;
-              ul.appendChild(li);
+              userActivitiesDiv.appendChild(renderActivityCard(atividade));
             });
-            userActivitiesDiv.appendChild(ul);
           }
         } else {
           throw new Error(result.error || 'Erro ao carregar atividades');
         }
       } catch (error) {
-        userActivitiesDiv.textContent = error.message;
+        userActivitiesDiv.innerHTML = `<p class="error-text">${error.message}</p>`;
       }
     }
 
-    // Função para buscar e exibir atividades por categoria
-    async function fetchCategoryActivities(nome_categoria) {
-      const categoryActivitiesDiv = document.getElementById('categoryActivities');
-      categoryActivitiesDiv.textContent = 'Carregando atividades...';
-      
-      try {
-        const response = await fetch(`/api/atividade/categoria?nome_categoria=${encodeURIComponent(nome_categoria)}`, {
-          method: 'GET',
-          credentials: 'include'
-        });
-        
-        const result = await response.json();
-        
-        if (response.ok) {
-          categoryActivitiesDiv.innerHTML = '';
-          if (result.length === 0) {
-            categoryActivitiesDiv.textContent = 'Nenhuma atividade encontrada para esta categoria.';
-          } else {
-            const ul = document.createElement('ul');
-            result.forEach(atividade => {
-              const li = document.createElement('li');
-              li.textContent = `${atividade.nome}: ${atividade.descricao} (Cor: ${atividade.cor_categoria})`;
-              ul.appendChild(li);
-            });
-            categoryActivitiesDiv.appendChild(ul);
-          }
-        } else {
-          throw new Error(result.error || 'Erro ao carregar atividades');
-        }
-      } catch (error) {
-        categoryActivitiesDiv.textContent = error.message;
-      }
-    }
-
-    // Carregar atividades do usuário ao carregar a página
+    // Carregar atividades e configurar eventos
     document.addEventListener('DOMContentLoaded', () => {
-      fetchUserActivities();
-    });
-
-    // Lidar com o envio do formulário de atividades por categoria
-    document.getElementById('categoryActivitiesForm').addEventListener('submit', async (event) => {
-      event.preventDefault();
-      const nome_categoria = document.getElementById('nome_categoria').value;
-      if (nome_categoria) {
-        fetchCategoryActivities(nome_categoria);
-      }
+      fetchAllActivities();
+      
+      // Configurar eventos das abas
+      document.getElementById('tab-todas').addEventListener('click', (e) => {
+        e.preventDefault();
+        toggleTabs('tab-todas', 'content-todas');
+        fetchAllActivities();
+      });
+      document.getElementById('tab-categorias').addEventListener('click', (e) => {
+        e.preventDefault();
+        toggleTabs('tab-categorias', 'content-categorias');
+        fetchCategoryActivities();
+      });
+      document.getElementById('tab-favoritas').addEventListener('click', (e) => {
+        e.preventDefault();
+        toggleTabs('tab-favoritas', 'content-favoritas');
+        fetchFavoriteActivities();
+      });
+      
+      // Configurar evento do modal
+      document.getElementById('showCreateModal').addEventListener('click', () => {
+        document.getElementById('createActivityModal').classList.remove('hidden');
+      });
+      document.getElementById('closeModal').addEventListener('click', () => {
+        document.getElementById('createActivityModal').classList.add('hidden');
+        document.getElementById('createActivityForm').reset();
+        document.getElementById('response').classList.add('hidden');
+      });
+      
+      // Configurar eventos dos botões de favorito
+      document.addEventListener('click', (e) => {
+        if (e.target.closest('.favorite-btn')) {
+          const btn = e.target.closest('.favorite-btn');
+          const id_atividade = btn.dataset.id;
+          const is_favorite = btn.dataset.favorite === 'true';
+          toggleFavorite(id_atividade, !is_favorite);
+        }
+      });
+      
+      // Sincronizar input de cor com o picker
+      document.getElementById('cor_categoria').addEventListener('input', () => {
+        const color = document.getElementById('cor_categoria').value;
+        if (/^#[0-9A-F]{6}$/i.test(color)) {
+          document.getElementById('color_picker').value = color;
+        }
+      });
+      
+      // Sincronizar color picker com o input de texto
+      document.getElementById('color_picker').addEventListener('change', () => {
+        document.getElementById('cor_categoria').value = document.getElementById('color_picker').value;
+      });
     });
 
     // Lidar com o envio do formulário de criar atividade
@@ -148,7 +392,7 @@
       event.preventDefault();
       
       const responseDiv = document.getElementById('response');
-      responseDiv.style.display = 'none';
+      responseDiv.classList.add('hidden');
       
       try {
         const sessionResponse = await fetch('/api/user/session', {
@@ -167,6 +411,10 @@
         const descricao = document.getElementById('descricao').value;
         const cor_categoria = document.getElementById('cor_categoria').value;
         
+        if (!/^#[0-9A-F]{6}$/i.test(cor_categoria)) {
+          throw new Error('Cor inválida. Use o formato hexadecimal (#RRGGBB).');
+        }
+        
         const response = await fetch('/api/atividade/create', {
           method: 'POST',
           headers: {
@@ -184,15 +432,19 @@
         const result = await response.json();
         
         if (response.ok) {
-          responseDiv.style.display = 'block';
+          responseDiv.classList.remove('hidden');
           responseDiv.textContent = 'Atividade criada com sucesso!';
           document.getElementById('createActivityForm').reset();
           fetchUserActivities();
+          fetchCategoryActivities();
+          fetchAllActivities();
+          fetchFavoriteActivities();
+          document.getElementById('createActivityModal').classList.add('hidden');
         } else {
           throw new Error(result.error || 'Erro ao criar atividade');
         }
       } catch (error) {
-        responseDiv.style.display = 'block';
+        responseDiv.classList.remove('hidden');
         responseDiv.textContent = error.message;
       }
     });

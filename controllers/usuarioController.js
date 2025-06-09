@@ -1,13 +1,5 @@
 const usuarioModel = require('../models/usuarioModel');
-
-const listarUsuarios = async (req, res) => {
-  try {
-    const usuarios = await usuarioModel.buscarTodosUsuarios();
-    res.json(usuarios);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
+const bcrypt = require('bcrypt');
 
 const buscarUsuarioPorId = async (req, res) => {
   try {
@@ -19,40 +11,54 @@ const buscarUsuarioPorId = async (req, res) => {
   }
 };
 
-const criarUsuario = async (req, res) => {
-  const { nome, email, senha } = req.body;
-  if (!nome || !email || !senha) {
-    return res.status(400).json({ success: false, message: 'Todos os campos são obrigatórios.' });
-  }
+const loginUsuario = async (req, res) => {
+  const { email, senha } = req.body;
   try {
-    const usuarioCriado = await usuarioModel.criarUsuario(nome, email, senha);
-    req.session.userId = usuarioCriado.id_usuario;
-    res.status(201).json({ 
-      success: true, 
-      message: 'Usuário cadastrado com sucesso!', 
-      id_usuario: usuarioCriado.id_usuario 
-    });
-  } catch (error) {
-    console.error('Erro ao criar usuário:', error);
-    if (error.message.includes('duplicate key value violates unique constraint "usuario_email_key"')) {
-      res.status(409).json({ success: false, message: 'Este email já está cadastrado.' });
-    } else {
-      res.status(500).json({ success: false, message: 'Erro interno do servidor.' });
+    const usuario = await usuarioModel.buscarUsuarioPorEmail(email);
+    if (!usuario) {
+      return res.status(401).json({ error: 'Usuário não encontrado' });
     }
+
+    const senhaValida = await bcrypt.compare(senha, usuario.senha);
+    if (!senhaValida) {
+      return res.status(401).json({ error: 'Senha incorreta' });
+    }
+
+    req.session.user = {
+      id_usuario: parseInt(usuario.id_usuario), // Garante que é um número
+      email: usuario.email,
+      nome: usuario.nome
+    };
+    console.log('Sessão definida no login:', req.session.user); // Log para depuração
+
+    return res.status(200).json({ success: true, message: 'Login bem-sucedido', user: req.session.user });
+  } catch (err) {
+    console.error('Erro no login:', err);
+    return res.status(500).json({ error: 'Erro no servidor' });
   }
 };
 
-const loginUsuario = async (req, res) => {
+const criarUsuario = async (req, res) => {
+  const { email, senha, nome } = req.body;
   try {
-    const { email, senha } = req.body;
-    const usuario = await usuarioModel.loginUsuario(email, senha);
-    if (!usuario) {
-      return res.status(401).json({ error: 'Credenciais inválidas' });
+    const usuarioExistente = await usuarioModel.buscarUsuarioPorEmail(email);
+    if (usuarioExistente) {
+      return res.status(400).json({ success: false, message: 'Usuário já existe' });
     }
-    req.session.userId = usuario.id_usuario;
-    res.status(200).json({ success: true, id_usuario: usuario.id_usuario });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
+
+    const novoUsuario = await usuarioModel.criarUsuario(email, senha, nome);
+
+    req.session.user = {
+      id_usuario: parseInt(novoUsuario.id_usuario), // Garante que é um número
+      email: novoUsuario.email,
+      nome: novoUsuario.nome
+    };
+    console.log('Sessão definida na criação:', req.session.user); // Log para depuração
+
+    return res.status(201).json({ success: true, message: 'Conta criada com sucesso' });
+  } catch (err) {
+    console.error('Erro ao criar usuário:', err);
+    return res.status(500).json({ success: false, message: 'Erro ao criar usuário: ' + err.message });
   }
 };
 
@@ -77,11 +83,22 @@ const deletarUsuario = async (req, res) => {
   }
 };
 
+const getSession = async (req, res) => {
+  try {
+    if (!req.session.user || !req.session.user.id_usuario) {
+      return res.status(401).json({ error: 'Não autorizado' });
+    }
+    res.status(200).json({ id_usuario: req.session.user.id_usuario });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = {
-  listarUsuarios,
   buscarUsuarioPorId,
   criarUsuario,
   loginUsuario,
   atualizarUsuario,
-  deletarUsuario
+  deletarUsuario,
+  getSession
 };

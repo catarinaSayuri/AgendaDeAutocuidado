@@ -1,14 +1,6 @@
 const db = require('../config/db');
 const bcrypt = require('bcrypt');
 
-const buscarTodosUsuarios = async () => {
-  try {
-    const result = await db.query('SELECT * FROM usuario');
-    return result.rows;
-  } catch (error) {
-    throw new Error('Erro ao buscar usuários: ' + error.message);
-  }
-};
 
 const buscarUsuarioPorId = async (id_usuario) => {
   try {
@@ -19,34 +11,21 @@ const buscarUsuarioPorId = async (id_usuario) => {
   }
 };
 
-const criarUsuario = async (nome, email, senha) => {
+const criarUsuario = async (email, senha, nome) => {
   try {
-    const senha_hash = await bcrypt.hash(senha, 10);
+    const senhaCriptografada = await bcrypt.hash(senha, 10);
     const result = await db.query(
-      `INSERT INTO usuario (nome, email, senha_hash)
-       VALUES ($1, $2, $3)
-       RETURNING *`,
-      [nome, email, senha_hash]
+      'INSERT INTO usuario (email, senha, nome) VALUES ($1, $2, $3) RETURNING *',
+      [email, senhaCriptografada, nome]
     );
     return result.rows[0];
-  } catch (error) {
-    throw error; 
+  } catch (err) {
+    console.error('Detalhes do erro no modelo:', err); // Log detalhado
+    throw new Error('Erro ao criar usuário: ' + err.message);
   }
 };
 
 
-const loginUsuario = async (email, senha) => {
-  try {
-    const result = await db.query('SELECT * FROM usuario WHERE email = $1', [email]);
-    const usuario = result.rows[0];
-    if (usuario && await bcrypt.compare(senha, usuario.senha_hash)) {
-      return usuario;
-    }
-    return null;
-  } catch (error) {
-    throw new Error('Erro ao fazer login: ' + error.message);
-  }
-};
 
 const atualizarUsuario = async (id_usuario, nome, email) => {
   try {
@@ -75,11 +54,19 @@ const deletarUsuario = async (id_usuario) => {
   }
 };
 
+const buscarUsuarioPorEmail = async (email) => {
+  try {
+    const result = await db.query('SELECT * FROM usuario WHERE email = $1', [email]);
+    return result.rows[0];
+  } catch (error) {
+    throw new Error('Erro ao buscar usuário por email: ' + error.message);
+  }
+};
 module.exports = {
-  buscarTodosUsuarios,
   buscarUsuarioPorId,
   criarUsuario,
-  loginUsuario,
   atualizarUsuario,
-  deletarUsuario
+  deletarUsuario,
+  buscarUsuarioPorEmail
+
 };

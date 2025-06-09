@@ -13,35 +13,28 @@
     <link rel="stylesheet" href="css/registerStyle.css" />
   </head>
   <body>
-    <header class="header">
+    <header>
       <div class="header-logo">
-        <div class="logo-icon">
-          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <g clip-path="url(#clip0_6_330)">
-              <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
-                d="M24 0.757355L47.2426 24L24 47.2426L0.757355 24L24 0.757355ZM21 35.7574V12.2426L9.24264 24L21 35.7574Z"
-                fill="currentColor"
-              ></path>
-            </g>
-            <defs>
-              <clipPath id="clip0_6_330"><rect width="48" height="48" fill="white"></rect></clipPath>
-            </defs>
-          </svg>
-        </div>
-        <h2 class="header-title">Wellness Hub</h2>
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g clip-path="url(#clip0_6_330)">
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M24 0.757355L47.2426 24L24 47.2426L0.757355 24L24 0.757355ZM21 35.7574V12.2426L9.24264 24L21 35.7574Z"
+              fill="currentColor"
+            ></path>
+          </g>
+          <defs>
+            <clipPath id="clip0_6_330"><rect width="48" height="48" fill="white"></rect></clipPath>
+          </defs>
+        </svg>
+        <h2>Wellness Hub</h2>
       </div>
-      <div class="header-nav">
-        <div class="nav-links">
-          <a class="nav-link" href="/">Welcome</a>
-          <a class="nav-link" href="/myroutine">Minha Rotina</a>
-          <a class="nav-link" href="/agenda">Agenda</a>
-          <a class="nav-link" href="/atividades">Atividades</a>
-          <a class="nav-link" href="/calendario">Calendário</a>
-          <a class="nav-link" href="/register">Criar Conta</a>
-        </div>
-      </div>
+      <div class="nav-links">
+        <a href="/myroutine">Minha Rotina</a>
+        <a href="/atividades">Atividades</a>
+        <a href="/">Home</a>
+        
     </header>
 
     <div class="container">
@@ -92,7 +85,7 @@
             responseDiv.className = 'success';
             responseDiv.textContent = 'Conta criada com sucesso! Redirecionando...';
             setTimeout(() => {
-              window.location.href = '/atividades';
+              window.location.href = '/';
             }, 1000);
           } else {
             responseDiv.style.display = 'block';

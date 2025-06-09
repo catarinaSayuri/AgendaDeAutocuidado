@@ -13,9 +13,8 @@
   <link rel="stylesheet" href="css/loginStyle.css" />
 </head>
 <body>
-  <header class="header">
-    <div class="header-logo">
-      <div class="logo-icon">
+    <header>
+      <div class="header-logo">
         <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g clip-path="url(#clip0_6_330)">
             <path
@@ -29,20 +28,14 @@
             <clipPath id="clip0_6_330"><rect width="48" height="48" fill="white"></rect></clipPath>
           </defs>
         </svg>
+        <h2>Wellness Hub</h2>
       </div>
-      <h2 class="header-title">Wellness Hub</h2>
-    </div>
-    <div class="header-nav">
       <div class="nav-links">
-        <a class="nav-link" href="/">Welcome</a>
-        <a class="nav-link" href="/myroutine">Minha Rotina</a>
-        <a class="nav-link" href="/agenda">Agenda</a>
-        <a class="nav-link" href="/atividades">Atividades</a>
-        <a class="nav-link" href="/calendario">Calendário</a>
-        <a class="nav-link" href="/register">Criar Conta</a>
-      </div>
-    </div>
-  </header>
+        <a href="/myroutine">Minha Rotina</a>
+        <a href="/atividades">Atividades</a>
+        <a href="/">Home</a>
+        
+    </header>
 
   <div class="container">
     <h1>Login</h1>
@@ -57,48 +50,50 @@
     <p>Não tem uma conta? <a href="/register">Crie aqui</a></p>
   </div>
 
-  <script>
-    document.getElementById('loginForm').addEventListener('submit', async function(event) {
-      event.preventDefault();
-      const responseDiv = document.getElementById('response');
-      responseDiv.textContent = '';
-      responseDiv.style.display = 'none';
-      responseDiv.className = '';
+ <script>
+  document.getElementById('loginForm').addEventListener('submit', async function(event) {
+    event.preventDefault();
+    const responseDiv = document.getElementById('response');
+    responseDiv.textContent = '';
+    responseDiv.style.display = 'none';
+    responseDiv.className = '';
 
-      const formData = new FormData(this);
-      const data = {
-        email: formData.get('email'),
-        senha: formData.get('senha')
-      };
+    const formData = new FormData(this);
+    const data = {
+      email: formData.get('email'),
+      senha: formData.get('senha')
+    };
 
-      try {
-        const response = await fetch('/api/usuario/login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data),
-          credentials: 'include'
-        });
+    try {
+      const response = await fetch('/api/usuario/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+        credentials: 'include'
+      });
 
-        const result = await response.json();
+      const result = await response.json();
 
-        if (response.ok && result.success) {
-          responseDiv.style.display = 'block';
-          responseDiv.className = 'success';
-          responseDiv.textContent = 'Login realizado com sucesso!';
-          setTimeout(() => {
-            window.location.href = '/atividades';
-          }, 1000);
-        } else {
-          responseDiv.style.display = 'block';
-          responseDiv.className = 'error';
-          responseDiv.textContent = result.error || 'Erro ao fazer login.';
-        }
-      } catch (error) {
+      if (response.ok && result.success) {
+        responseDiv.style.display = 'block';
+        responseDiv.className = 'success';
+        responseDiv.textContent = 'Login bem sucedido!';
+        setTimeout(() => {
+          window.location.href = '/atividades';
+        }, 1000);
+      } else {
+        console.error('Erro no login:', result); // Adiciona o erro ao console
         responseDiv.style.display = 'block';
         responseDiv.className = 'error';
-        responseDiv.textContent = 'Erro ao conectar com o servidor.';
+        responseDiv.textContent = result.error || 'Erro ao fazer login.';
       }
-    });
-  </script>
+    } catch (error) {
+      console.error('Erro na requisição:', error); // Log de erro de conexão
+      responseDiv.style.display = 'block';
+      responseDiv.className = 'error';
+      responseDiv.textContent = 'Erro ao conectar com o servidor.';
+    }
+  });
+</script>
 </body>
 </html>

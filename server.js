@@ -12,16 +12,23 @@ app.use(express.static(path.join(__dirname, "public")));
 // Middlewares globais
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
 app.use(session({
-  secret: process.env.SESSION_SECRET || 'your-secret-key',
+  secret: process.env.SESSION_SECRET || 'sua-chave-secreta',
   resave: false,
   saveUninitialized: false,
-  cookie: { secure: false } // Use secure: true em produção com HTTPS
+  cookie: { 
+    secure: false, // Use false em desenvolvimento, true em produção com HTTPS
+    httpOnly: true,
+    maxAge: 24 * 60 * 60 * 1000 // Expira em 24 horas
+  }
 }));
 
+
 app.use((req, res, next) => {
-  console.log(`Requisição recebida: ${req.method} ${req.url}`);
-  next();
+    console.log(`Requisição recebida: ${req.method} ${req.url}`);
+    next();
 });
 
 // Conexão com o banco de dados

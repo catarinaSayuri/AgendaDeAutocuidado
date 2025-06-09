@@ -6,90 +6,84 @@ const agendamentoController = require('../controllers/agendamentoController');
 const atividadeController = require('../controllers/atividadeController');
 const usuarioController = require('../controllers/usuarioController');
 
-// Middleware para verificar se o usuário está logado
 const isAuthenticated = (req, res, next) => {
-  if (req.session && req.session.userId) {
-    next();
-  } else {
-    res.redirect('/login');
+  console.log('Sessão no middleware:', req.session.user); // Log para depuração
+  if (!req.session.user || !req.session.user.id_usuario || isNaN(parseInt(req.session.user.id_usuario))) {
+    return res.status(401).json({ error: 'Não autorizado: ID de usuário inválido' });
   }
+  next();
 };
+
+// --- Rotas de API ---
 
 // Endpoint para verificar sessão
 router.get('/api/user/session', (req, res) => {
-  if (req.session && req.session.userId) {
-    res.status(200).json({ id_usuario: req.session.userId });
-  } else {
-    res.status(401).json({ error: 'Usuário não está logado' });
-  }
+    if (req.session.user && req.session.user.id_usuario) {
+        res.status(200).json({ id_usuario: parseInt(req.session.user.id_usuario) });
+    } else {
+        res.status(401).json({ error: 'Usuário não está logado' });
+    }
 });
 
-// Endpoint para categorias fixas
-router.get('/api/categoria', isAuthenticated, (req, res) => {
-  res.status(200).json([
-    { nome: 'Física' },
-    { nome: 'Criativa' },
-    { nome: 'Mental' }
-  ]);
-});
+// Rotas de Atividade - ORDEM CRÍTICA: Rotas específicas ANTES das genéricas com :id
+router.get('/api/atividade/usuario', isAuthenticated, atividadeController.buscarAtividadesPorUsuario); // Lista todas as atividades do usuário logado
+router.get('/api/atividade/categoria', isAuthenticated, atividadeController.buscarAtividadesPorCategoria); // Lista atividades por categoria
+router.get('/api/atividade/categorias', isAuthenticated, atividadeController.buscarCategoriasUnicasAtividades); // Busca categorias dinâmicas do usuário
+router.post('/api/atividade', isAuthenticated, atividadeController.criarAtividade); // Criar atividade
+router.post('/api/atividade/favorite', isAuthenticated, atividadeController.atualizarFavorito); // Atualizar favorito
+router.get('/api/atividade/:id', isAuthenticated, atividadeController.buscarAtividadePorId); // Busca uma atividade específica por ID
+router.put('/api/atividade/:id', isAuthenticated, atividadeController.atualizarAtividade); // Atualiza atividade por ID
+router.delete('/api/atividade/:id', isAuthenticated, atividadeController.deletarAtividade); // Deleta atividade por ID
 
-// --- Rotas de API ---
-router.get('/api/agendamento/list', isAuthenticated, agendamentoController.listarAgendamentos);
+// Rotas de Agendamento
+router.get('/api/agendamentos', isAuthenticated, agendamentoController.listarAgendamentos);
+router.get('/api/agendamentos/dia', isAuthenticated, agendamentoController.buscarAgendamentosPorDia);
+router.post('/api/agendamento', isAuthenticated, agendamentoController.criarAgendamento);
 router.get('/api/agendamento/:id', isAuthenticated, agendamentoController.buscarAgendamentoPorId);
-router.get('/api/agendamento/dia', isAuthenticated, agendamentoController.buscarAgendamentosPorDia);
-router.post('/api/agendamento/create', isAuthenticated, agendamentoController.criarAgendamento);
-router.put('/api/agendamento/update/:id', isAuthenticated, agendamentoController.atualizarAgendamento);
-router.delete('/api/agendamento/delete/:id', isAuthenticated, agendamentoController.deletarAgendamento);
+router.put('/api/agendamento/:id', isAuthenticated, agendamentoController.atualizarAgendamento);
+router.delete('/api/agendamento/:id', isAuthenticated, agendamentoController.deletarAgendamento);
 
-router.get('/api/atividade/list', isAuthenticated, atividadeController.listarAtividades);
-router.get('/api/atividade/:id', isAuthenticated, atividadeController.buscarAtividadePorId);
-router.get('/api/atividade/categoria', isAuthenticated, atividadeController.buscarAtividadesPorCategoria);
-router.get('/api/atividade/usuario', isAuthenticated, atividadeController.buscarAtividadesPorUsuario);
-router.post('/api/atividade/create', isAuthenticated, atividadeController.criarAtividade);
-router.put('/api/atividade/update/:id', isAuthenticated, atividadeController.atualizarAtividade);
-router.delete('/api/atividade/delete/:id', isAuthenticated, atividadeController.deletarAtividade);
-
-router.get('/api/usuario/list', isAuthenticated, usuarioController.listarUsuarios);
-router.get('/api/usuario/:id', isAuthenticated, usuarioController.buscarUsuarioPorId);
-router.post('/api/usuario/create', usuarioController.criarUsuario);
+// Rotas de Usuário
 router.post('/api/usuario/login', usuarioController.loginUsuario);
-router.put('/api/usuario/update/:id', isAuthenticated, usuarioController.atualizarUsuario);
-router.delete('/api/usuario/delete/:id', isAuthenticated, usuarioController.deletarUsuario);
+router.post('/api/usuario/create', usuarioController.criarUsuario);
+router.get('/api/usuario/:id', isAuthenticated, usuarioController.buscarUsuarioPorId);
+router.put('/api/usuario/:id', isAuthenticated, usuarioController.atualizarUsuario);
+router.delete('/api/usuario/:id', isAuthenticated, usuarioController.deletarUsuario);
 
-// --- Rotas para as Views ---
+// --- Rotas para as Views (HTML) ---
 router.get('/', (req, res) => {
-  console.log('Acessando a página: welcome');
-  res.render('pages/welcome');
+    console.log('Acessando a página: welcome');
+    res.render('pages/welcome');
 });
 
 router.get('/register', (req, res) => {
-  console.log('Acessando a página: register');
-  res.render('pages/register');
+    console.log('Acessando a página: register');
+    res.render('pages/register');
 });
 
 router.get('/login', (req, res) => {
-  console.log('Acessando a página: login');
-  res.render('pages/login');
+    console.log('Acessando a página: login');
+    res.render('pages/login');
 });
 
 router.get('/myroutine', isAuthenticated, (req, res) => {
-  console.log('Acessando a página: myroutine');
-  res.render('pages/myroutine');
+    console.log('Acessando a página: myroutine');
+    res.render('pages/myroutine');
 });
 
 router.get('/agenda', isAuthenticated, (req, res) => {
-  console.log('Acessando a página: agenda');
-  res.render('pages/agenda');
+    console.log('Acessando a página: agenda');
+    res.render('pages/agenda');
 });
 
 router.get('/atividades', isAuthenticated, (req, res) => {
-  console.log('Acessando a página: atividades');
-  res.render('pages/atividades');
+    console.log('Acessando a página: atividades');
+    res.render('pages/atividades');
 });
 
 router.get('/calendario', isAuthenticated, (req, res) => {
-  console.log('Acessando a página: calendario');
-  res.render('pages/calendario');
+    console.log('Acessando a página: calendario');
+    res.render('pages/calendario');
 });
 
 module.exports = router;

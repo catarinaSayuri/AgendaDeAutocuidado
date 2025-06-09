@@ -4,16 +4,18 @@ CREATE TABLE IF NOT EXISTS usuario (
   id_usuario SERIAL PRIMARY KEY,
   nome VARCHAR(100) NOT NULL,
   email VARCHAR(100) UNIQUE NOT NULL,
-  senha_hash VARCHAR(255) NOT NULL,
+  senha VARCHAR(255) NOT NULL,
   data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS atividade (
   id_atividade SERIAL PRIMARY KEY,
   nome VARCHAR(100) NOT NULL,
+  categoria VARCHAR(100) NOT NULL,
   descricao TEXT,
   cor_categoria VARCHAR(7),
   id_usuario INT NOT NULL,
+  is_favorite BOOLEAN DEFAULT FALSE,
   CONSTRAINT fk_atividade_usuario FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario) ON DELETE CASCADE
 );
 

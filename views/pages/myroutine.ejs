@@ -10,6 +10,7 @@
   <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <link rel="stylesheet" href="/css/myroutineStyle.css">
+
 </head>
 <body>
   <div class="relative flex size-full min-h-screen flex-col bg-[--background-primary] group/design-root overflow-x-hidden">
@@ -54,6 +55,12 @@
             class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 bg-[--button-bg] text-[--text-dark] gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5 mx-auto mb-6 hover:bg-[--hover-bg]">
             + Novo Agendamento
           </button>
+
+          <div class="flex items-center gap-4 px-4 pb-2 pt-4">
+              <label for="currentDate" class="text-[--text-dark] text-sm font-medium leading-normal">Ver Data:</label>
+              <input type="date" id="currentDate" class="form-input">
+          </div>
+          
           <h3 class="text-[--text-dark] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4 border-b border-solid border-b-[--border-color]">
             Manhã (00:00 - 11:59)</h3>
           <div id="agendamentosManha" class="flex flex-col gap-2 p-4">
@@ -73,12 +80,14 @@
       </div>
     </div>
   </div>
+
   <div id="agendamentoModal" class="modal">
     <div class="modal-content">
       <span id="closeButton" class="close-button">×</span>
       <h2 class="text-[--text-dark] text-2xl font-bold leading-tight tracking-[-0.015em] text-center mb-6">Cadastrar Novo Agendamento</h2>
       <div id="loading" class="loading">Carregando...</div>
-      <div id="modalContent" class="hidden"> <form id="agendamentoForm">
+      <div id="modalContent" class="hidden"> 
+        <form id="agendamentoForm">
           <input type="hidden" id="id_usuario_hidden" name="id_usuario" value="">
           <div class="form-group">
             <label for="categoria_atividade">Categoria da Atividade:</label>
@@ -101,8 +110,8 @@
             <textarea id="descricao" name="descricao" placeholder="Ex.: Correr ao ar livre no parque por 30 minutos" rows="4"></textarea>
           </div>
           <div class="form-group">
-            <label for="data">Data:</label>
-            <input type="date" id="data" name="data" required>
+            <label for="data_agendamento_modal">Data:</label>
+            <input type="date" id="data_agendamento_modal" name="data" required>
           </div>
           <div class="form-group">
             <label for="horario_inicio">Hora de Início:</label>
@@ -131,6 +140,7 @@
       <div id="form-error" class="text-red-600 text-sm mt-2 hidden"></div>
     </div>
   </div>
+
   <script>
     const modal = document.getElementById('agendamentoModal');
     const openModalBtn = document.getElementById('openModalBtn');
@@ -143,34 +153,36 @@
     const horarioFimInput = document.getElementById('horario_fim');
     const errorDiv = document.getElementById('form-error');
     const loadingDiv = document.getElementById('loading');
-    const modalContentDiv = document.getElementById('modalContent'); // Novo elemento
-    let atividadesDisponiveis = [];
+    const modalContentDiv = document.getElementById('modalContent');
+    const currentDateInput = document.getElementById('currentDate'); // Novo seletor de data na página
+    const dataAgendamentoModalInput = document.getElementById('data_agendamento_modal'); // Campo de data no modal
+    
+    let atividadesDisponiveis = []; // Armazena todas as atividades do usuário
+    let currentUserId = null; // Para armazenar o ID do usuário logado
 
-    // Função para abrir o modal
+    // --- Funções de UI do Modal ---
     openModalBtn.onclick = async function () {
       console.log('Abrindo modal de cadastro');
       modal.style.display = 'flex';
-      loadingDiv.style.display = 'block'; // Mostra o "Carregando..."
-      modalContentDiv.classList.add('hidden'); // Esconde o formulário
+      loadingDiv.style.display = 'block';
+      modalContentDiv.classList.add('hidden');
       errorDiv.classList.add('hidden');
 
       try {
         await loadCategorias();
         await loadAllAtividades();
-        setMinDate();
-        modalContentDiv.classList.remove('hidden'); // Mostra o formulário
+        setMinDateForModal();
+        dataAgendamentoModalInput.value = currentDateInput.value; // Pré-preenche a data do modal
+        modalContentDiv.classList.remove('hidden');
       } catch (err) {
         console.error('Erro ao preparar o modal:', err);
         errorDiv.textContent = 'Erro ao carregar dados para o agendamento: ' + err.message;
         errorDiv.classList.remove('hidden');
-        // Você pode querer fechar o modal ou deixá-lo com a mensagem de erro
-        // closeButton.onclick();
       } finally {
-        loadingDiv.style.display = 'none'; // Esconde o "Carregando..."
+        loadingDiv.style.display = 'none';
       }
-    }
+    };
 
-    // Função para fechar o modal
     closeButton.onclick = function () {
       modal.style.display = 'none';
       agendamentoForm.reset();
@@ -179,23 +191,23 @@
       idAtividadeSelect.disabled = true;
       errorDiv.classList.add('hidden');
       loadingDiv.style.display = 'none';
-      modalContentDiv.classList.add('hidden'); // Garante que o formulário está escondido ao fechar
-    }
+      modalContentDiv.classList.add('hidden');
+    };
 
-    // Fecha o modal ao clicar fora dele
     window.onclick = function (event) {
       if (event.target == modal) {
         closeButton.onclick();
       }
-    }
+    };
 
-    // Define a data mínima como hoje
-    function setMinDate() {
+    // Define a data mínima no input de data do modal como hoje
+    function setMinDateForModal() {
       const today = new Date().toISOString().split('T')[0];
-      document.getElementById('data').setAttribute('min', today);
+      dataAgendamentoModalInput.setAttribute('min', today);
     }
 
-    // Função para obter o ID do usuário da sessão
+    // --- Funções de Requisição de Dados ---
+
     async function getUserIdFromSession() {
       try {
         console.log('Buscando ID do usuário da sessão');
@@ -210,6 +222,7 @@
         }
         const data = await response.json();
         console.log('ID do usuário da sessão:', data.id_usuario);
+        currentUserId = data.id_usuario; // Armazena o ID do usuário
         idUsuarioHidden.value = data.id_usuario;
         return data.id_usuario;
       } catch (error) {
@@ -217,102 +230,6 @@
         window.location.href = '/login';
         return null;
       }
-    }
-
-    // Função para formatar a data para exibir
-    function formatDate(date) {
-      if (!date) return 'Sem data';
-      const d = new Date(date);
-      if (isNaN(d.getTime())) return 'Data inválida';
-      const year = d.getFullYear();
-      const month = String(d.getMonth() + 1).padStart(2, '0');
-      const day = String(d.getDate()).padStart(2, '0');
-      return `${day}/${month}/${year}`;
-    }
-
-    // Função para carregar agendamentos do dia atual
-    async function loadAgendamentosForToday(userId) {
-      const today = new Date();
-      const year = today.getFullYear();
-      const month = String(today.getMonth() + 1).padStart(2, '0');
-      const day = String(today.getDate()).padStart(2, '0');
-      const formattedDate = `${year}-${month}-${day}`;
-      console.log('Buscando agendamentos para userId:', userId, 'data:', formattedDate);
-      try {
-        const response = await fetch(`/api/agendamentos/dia?data=${formattedDate}`, { credentials: 'include' });
-        if (!response.ok) {
-          if (response.status === 401) {
-            window.location.href = '/login';
-            return;
-          }
-          throw new Error(`Erro ao buscar agendamentos do dia: ${response.statusText}`);
-        }
-        const agendamentos = await response.json();
-        console.log('Agendamentos recebidos:', agendamentos);
-        renderAgendamentos(agendamentos);
-      } catch (error) {
-        console.error('Erro ao carregar agendamentos:', error.message);
-        // Não usamos errorDiv aqui para evitar conflito com o modal.
-        // Considere um alert ou uma mensagem na própria tela principal, se necessário.
-      }
-    }
-
-    // Função para renderizar os agendamentos na tela
-    function renderAgendamentos(agendamentos) {
-      console.log('Renderizando agendamentos:', agendamentos);
-      const manhaDiv = document.getElementById('agendamentosManha');
-      const tardeDiv = document.getElementById('agendamentosTarde');
-      const noiteDiv = document.getElementById('agendamentosNoite');
-      manhaDiv.innerHTML = '<p class="text-[--text-secondary] text-sm font-normal leading-normal italic text-center">Nenhum agendamento para a manhã.</p>';
-      tardeDiv.innerHTML = '<p class="text-[--text-secondary] text-sm font-normal leading-normal italic text-center">Nenhum agendamento para a tarde.</p>';
-      noiteDiv.innerHTML = '<p class="text-[--text-secondary] text-sm font-normal leading-normal italic text-center">Nenhum agendamento para a noite.</p>';
-      let hasManha = false, hasTarde = false, hasNoite = false;
-
-      if (!Array.isArray(agendamentos) || agendamentos.length === 0) {
-        console.log('Nenhum agendamento para renderizar');
-        return;
-      }
-
-      agendamentos.forEach(agendamento => {
-        console.log('Processando agendamento:', agendamento);
-        const card = createAgendamentoCard(agendamento);
-        const [hour] = (agendamento.horario_inicio || '00:00').split(':').map(Number);
-        if (hour >= 0 && hour < 12) {
-          if (!hasManha) { manhaDiv.innerHTML = ''; hasManha = true; }
-          manhaDiv.appendChild(card);
-        } else if (hour >= 12 && hour < 18) {
-          if (!hasTarde) { tardeDiv.innerHTML = ''; hasTarde = true; }
-          tardeDiv.appendChild(card);
-        } else {
-          if (!hasNoite) { noiteDiv.innerHTML = ''; hasNoite = true; }
-          noiteDiv.appendChild(card);
-        }
-      });
-    }
-
-    // Função para criar o card de agendamento
-    function createAgendamentoCard(agendamento) {
-      const card = document.createElement('div');
-      card.className = 'agendamento-card';
-      // Correção: Use agendamento.id_agendamento para o ID do agendamento
-      card.dataset.id = agendamento.id_agendamento;
-      card.innerHTML = `
-        <h4>${agendamento.nome_agendamento || 'Agendamento sem nome'}</h4>
-        <p>Atividade: ${agendamento.atividade_nome || 'Sem atividade'}</p>
-        <p>${agendamento.descricao || 'Sem descrição'}</p>
-        <div class="time-status">
-          <span>Data: ${formatDate(agendamento.data)}</span>
-          <span>Início: ${agendamento.horario_inicio || 'Sem horário'}</span>
-          <span>Fim: ${agendamento.horario_fim || 'Sem horário'}</span>
-        </div>
-        <div class="time-status">
-          <span>Status: ${agendamento.status || 'Pendente'}</span>
-        </div>
-        <span class="category-tag" style="background-color: ${agendamento.atividade_cor_categoria || '#6c757d'};">
-          ${agendamento.atividade_categoria || 'Sem Categoria'}
-        </span>
-      `;
-      return card;
     }
 
     // Função para carregar categorias de atividades
@@ -331,19 +248,19 @@
       const categorias = await response.json();
       console.log('Categorias recebidas:', categorias);
       categoriaAtividadeSelect.innerHTML = '<option value="">Selecione uma categoria</option>';
-      if (!Array.isArray(categorias) || categorias.length === 0) {
-        console.log('Nenhuma categoria retornada');
-        // Não joga erro aqui, apenas mostra a mensagem no select se não houver categorias
-        // errorDiv.textContent = 'Nenhuma categoria disponível. Cadastre uma atividade com categoria.';
-        // errorDiv.classList.remove('hidden');
-      } else {
+      if (Array.isArray(categorias) && categorias.length > 0) {
         categorias.forEach(cat => {
-          console.log('Adicionando categoria:', cat);
           const option = document.createElement('option');
           option.value = cat.categoria;
           option.textContent = cat.categoria;
           categoriaAtividadeSelect.appendChild(option);
         });
+      } else {
+        const option = document.createElement('option');
+        option.value = '';
+        option.textContent = 'Nenhuma categoria disponível';
+        option.disabled = true;
+        categoriaAtividadeSelect.appendChild(option);
       }
     }
 
@@ -362,19 +279,125 @@
       }
       atividadesDisponiveis = await response.json();
       console.log('Atividades recebidas:', atividadesDisponiveis);
-      if (atividadesDisponiveis.length === 0) {
-        // Não joga erro aqui, apenas mostra a mensagem no select se não houver atividades
-        // errorDiv.textContent = 'Nenhuma atividade disponível. Cadastre uma atividade primeiro.';
-        // errorDiv.classList.remove('hidden');
+    }
+
+    // Função para carregar agendamentos do dia atual (ou data selecionada)
+    async function loadAgendamentosForSelectedDate(userId, date) {
+      console.log('Buscando agendamentos para userId:', userId, 'data:', date);
+      try {
+        const response = await fetch(`/api/agendamentos/dia?data=${date}`, { credentials: 'include' });
+        if (!response.ok) {
+          if (response.status === 401) {
+            window.location.href = '/login';
+            return;
+          }
+          throw new Error(`Erro ao buscar agendamentos do dia: ${response.statusText}`);
+        }
+        const agendamentos = await response.json();
+        console.log('Agendamentos recebidos:', agendamentos);
+        renderAgendamentos(agendamentos);
+      } catch (error) {
+        console.error('Erro ao carregar agendamentos:', error.message);
+        // Exibir erro na interface, se necessário
       }
     }
 
-    // Event listener para quando a categoria mudar
+    // --- Funções de Renderização ---
+
+    // Função para formatar a data para exibir
+    function formatDate(date) {
+      if (!date) return 'Sem data';
+      const d = new Date(date + 'T00:00:00'); // Adiciona T00:00:00 para evitar problemas de fuso horário
+      if (isNaN(d.getTime())) return 'Data inválida';
+      const year = d.getFullYear();
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${day}/${month}/${year}`;
+    }
+
+    // Função para criar o card de agendamento
+    function createAgendamentoCard(agendamento) {
+      const card = document.createElement('div');
+      card.className = 'agendamento-card';
+      card.dataset.id = agendamento.id_agendamento; // ID do agendamento para futuras operações
+
+      // Define a cor da borda e do tag de categoria
+      const activityColor = agendamento.atividade_cor_categoria || '#6c757d';
+      card.style.setProperty('--card-border-color', activityColor);
+      card.querySelector('.category-tag')?.style.setProperty('--category-bg-color', activityColor);
+
+
+      card.innerHTML = `
+        <h4>${agendamento.nome_agendamento || 'Agendamento sem nome'}</h4>
+        <p>Atividade: ${agendamento.atividade_nome || 'Sem atividade'}</p>
+        <p>${agendamento.descricao || 'Sem descrição'}</p>
+        <div class="time-status">
+          <span>Data: ${formatDate(agendamento.data)}</span>
+          <span>Início: ${agendamento.horario_inicio ? agendamento.horario_inicio.substring(0, 5) : 'Sem horário'}</span>
+          <span>Fim: ${agendamento.horario_fim ? agendamento.horario_fim.substring(0, 5) : 'Sem horário'}</span>
+        </div>
+        <div class="time-status">
+          <span>Status: ${agendamento.status ? agendamento.status.charAt(0).toUpperCase() + agendamento.status.slice(1) : 'Pendente'}</span>
+        </div>
+        <span class="category-tag" style="--category-bg-color: ${activityColor};">
+          ${agendamento.atividade_categoria || 'Sem Categoria'}
+        </span>
+      `;
+      return card;
+    }
+
+    // Função para renderizar os agendamentos nas seções (manhã, tarde, noite)
+    function renderAgendamentos(agendamentos) {
+      console.log('Renderizando agendamentos:', agendamentos);
+      const manhaDiv = document.getElementById('agendamentosManha');
+      const tardeDiv = document.getElementById('agendamentosTarde');
+      const noiteDiv = document.getElementById('agendamentosNoite');
+
+      // Limpa os divs e adiciona as mensagens padrão
+      manhaDiv.innerHTML = '<p class="text-[--text-secondary] text-sm font-normal leading-normal italic text-center">Nenhum agendamento para a manhã.</p>';
+      tardeDiv.innerHTML = '<p class="text-[--text-secondary] text-sm font-normal leading-normal italic text-center">Nenhum agendamento para a tarde.</p>';
+      noiteDiv.innerHTML = '<p class="text-[--text-secondary] text-sm font-normal leading-normal italic text-center">Nenhum agendamento para a noite.</p>';
+
+      let hasManha = false, hasTarde = false, hasNoite = false;
+
+      if (!Array.isArray(agendamentos) || agendamentos.length === 0) {
+        console.log('Nenhum agendamento para renderizar');
+        return;
+      }
+
+      // Ordena os agendamentos por horário de início
+      agendamentos.sort((a, b) => {
+          if (!a.horario_inicio || !b.horario_inicio) return 0; // Handle missing times
+          return a.horario_inicio.localeCompare(b.horario_inicio);
+      });
+
+      agendamentos.forEach(agendamento => {
+        console.log('Processando agendamento:', agendamento);
+        const card = createAgendamentoCard(agendamento);
+        const [hour] = (agendamento.horario_inicio || '00:00').split(':').map(Number);
+
+        if (hour >= 0 && hour < 12) {
+          if (!hasManha) { manhaDiv.innerHTML = ''; hasManha = true; } // Limpa a mensagem padrão
+          manhaDiv.appendChild(card);
+        } else if (hour >= 12 && hour < 18) {
+          if (!hasTarde) { tardeDiv.innerHTML = ''; hasTarde = true; } // Limpa a mensagem padrão
+          tardeDiv.appendChild(card);
+        } else { // 18:00 - 23:59
+          if (!hasNoite) { noiteDiv.innerHTML = ''; hasNoite = true; } // Limpa a mensagem padrão
+          noiteDiv.appendChild(card);
+        }
+      });
+    }
+
+    // --- Event Listeners e Lógica Principal ---
+
+    // Event listener para quando a categoria mudar no modal
     categoriaAtividadeSelect.addEventListener('change', () => {
       const selectedCategory = categoriaAtividadeSelect.value;
       console.log('Categoria selecionada:', selectedCategory);
       idAtividadeSelect.innerHTML = '<option value="">Selecione uma atividade</option>';
-      idAtividadeSelect.disabled = !selectedCategory;
+      idAtividadeSelect.disabled = !selectedCategory; // Desabilita se nada selecionado
+
       if (selectedCategory) {
         const filteredActivities = atividadesDisponiveis.filter(act => act.categoria === selectedCategory);
         console.log('Atividades filtradas:', filteredActivities);
@@ -387,7 +410,7 @@
           });
         } else {
           idAtividadeSelect.innerHTML = '<option value="">Nenhuma atividade para esta categoria</option>';
-          // Não desabilite se não houver atividades, mas mantenha a opção de seleção
+          idAtividadeSelect.disabled = true; // Desabilita se não houver atividades na categoria
         }
       }
     });
@@ -399,14 +422,12 @@
       if (inicio && fim && fim <= inicio) {
         errorDiv.textContent = 'Hora de fim deve ser posterior à hora de início.';
         errorDiv.classList.remove('hidden');
-        // Você pode querer limpar o campo de fim ou ajustar o foco
-        // horarioFimInput.value = '';
       } else {
         errorDiv.classList.add('hidden');
       }
     });
 
-    // Sugestão de nome do agendamento
+    // Sugestão de nome do agendamento baseado na atividade selecionada
     idAtividadeSelect.addEventListener('change', () => {
       const selectedActivityId = idAtividadeSelect.value;
       console.log('Atividade selecionada ID:', selectedActivityId);
@@ -424,19 +445,20 @@
     agendamentoForm.addEventListener('submit', async (event) => {
       event.preventDefault();
       errorDiv.classList.add('hidden');
-      loadingDiv.style.display = 'block'; // Mostra o loading ao submeter
+      loadingDiv.style.display = 'block';
 
       const id_usuario = parseInt(idUsuarioHidden.value);
       const id_atividade = parseInt(idAtividadeSelect.value);
       const nome_agendamento = document.getElementById('nome_agendamento').value.trim();
       const descricao = document.getElementById('descricao').value.trim() || null;
-      const data = document.getElementById('data').value;
-      const horario_inicio = document.getElementById('horario_inicio').value;
-      const horario_fim = document.getElementById('horario_fim').value;
+      const data = dataAgendamentoModalInput.value; // Pega a data do campo do modal
+      const horario_inicio = horarioInicioInput.value;
+      const horario_fim = horarioFimInput.value;
       const status = document.getElementById('status').value;
 
       console.log('Enviando agendamento:', { id_usuario, id_atividade, nome_agendamento, data, horario_inicio, horario_fim, status });
 
+      // Validações antes de enviar
       if (isNaN(id_usuario)) {
         errorDiv.textContent = 'ID de usuário inválido. Por favor, faça login novamente.';
         errorDiv.classList.remove('hidden');
@@ -493,8 +515,8 @@
         const newAgendamento = await response.json();
         console.log('Agendamento criado:', newAgendamento);
         closeButton.onclick(); // Fecha o modal
-        const currentUserId = idUsuarioHidden.value; // Pega o ID do usuário que já está no input hidden
-        await loadAgendamentosForToday(currentUserId); // Recarrega os agendamentos do dia
+        // Recarrega os agendamentos para a data que está sendo visualizada na página principal
+        await loadAgendamentosForSelectedDate(currentUserId, currentDateInput.value); 
         alert('Agendamento salvo com sucesso!');
       } catch (error) {
         console.error('Erro ao salvar agendamento:', error.message);
@@ -505,15 +527,25 @@
       }
     });
 
-    // Inicialização
+    // Inicialização da página
     document.addEventListener('DOMContentLoaded', async () => {
       console.log('Inicializando página myroutine');
+      const today = new Date().toISOString().split('T')[0];
+      currentDateInput.value = today; // Define a data inicial como hoje no seletor da página
+
+      // Listener para mudança de data no seletor principal
+      currentDateInput.addEventListener('change', async (event) => {
+        const selectedDate = event.target.value;
+        if (currentUserId && selectedDate) {
+          await loadAgendamentosForSelectedDate(currentUserId, selectedDate);
+        }
+      });
+
       const userId = await getUserIdFromSession();
       if (userId) {
-        await loadAllAtividades();
-        await loadAgendamentosForToday(userId);
+        await loadAllAtividades(); // Carrega atividades para o modal
+        await loadAgendamentosForSelectedDate(userId, currentDateInput.value); // Carrega agendamentos para a data inicial
       }
-      setMinDate();
     });
   </script>
 </body>

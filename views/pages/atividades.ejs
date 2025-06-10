@@ -65,18 +65,13 @@
                         <h3 class="modal-title">Criar Nova Atividade</h3>
                         <form id="createActivityForm" class="form">
                             <div class="form-group">
-                                <label for="nome" class="form-label">Nome da Atividade:</label>
-                                <input type="text" id="nome" name="nome" required
-                                    placeholder="Ex.: Corrida, Meditação" class="form-input">
-                            </div>
-                            <div class="form-group">
                                 <label for="categoria" class="form-label">Categoria:</label>
                                 <input type="text" id="categoria" name="categoria" required
-                                    placeholder="Ex.: Física, Mental" class="form-input">
+                                    placeholder="Digite a categoria" class="form-input">
                             </div>
                             <div class="form-group">
                                 <label for="descricao" class="form-label">Descrição:</label>
-                                <input type="text" id="descricao" name="descricao"
+                                <input type="text" id="descricao" name="descricao" required
                                     placeholder="Digite a descrição" class="form-input">
                             </div>
                             <div class="form-group">
@@ -158,9 +153,8 @@
                 <div class="activity-card">
                     <div class="activity-info">
                         <p class="activity-title">${atividade.nome}</p>
-                        <p class="activity-category">Categoria: ${atividade.categoria}</p>
-                        <p class="activity-description">${atividade.descricao || 'Sem descrição'}</p>
-                        <p class="activity-color">Cor: ${atividade.cor_categoria || 'Sem cor'}</p>
+                        <p class="activity-description">${atividade.descricao}</p>
+                        <p class="activity-color">Cor: ${atividade.cor_categoria}</p>
                     </div>
                     <div class="activity-actions">
                         <button class="favorite-btn" data-id="${atividade.id_atividade}" data-favorite="${atividade.is_favorite || false}">
@@ -168,7 +162,7 @@
                                 <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3c3.08 0 5.5 2.42 5.5 5.5 0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
                             </svg>
                         </button>
-                        <div class="activity-image" style="background-color: ${atividade.cor_categoria || '#FFFFFF'};"></div>
+                        <div class="activity-image" style="background-color: ${atividade.cor_categoria};"></div>
                     </div>
                 </div>
             `;
@@ -182,17 +176,25 @@
 
             try {
                 const response = await fetch('/api/atividade/usuario', { method: 'GET', credentials: 'include' });
+                console.log('Status da resposta (todas):', response.status);
+                const text = await response.clone().text();
+                console.log('Texto da resposta (todas):', text);
+
                 if (!response.ok) {
                     if (response.status === 401) {
                         alert('Sessão expirada. Redirecionando para login.');
                         window.location.href = '/login';
                         return;
                     }
-                    const errorResult = await response.json();
-                    throw new Error(errorResult.error || 'Erro ao carregar atividades');
+                    try {
+                        const errorResult = JSON.parse(text);
+                        throw new Error(errorResult.error || 'Erro ao carregar atividades');
+                    } catch (e) {
+                        throw new Error('Resposta não é JSON válido: ' + text);
+                    }
                 }
 
-                const result = await response.json();
+                const result = JSON.parse(text);
                 allActivitiesDiv.innerHTML = '';
                 if (result.length === 0) {
                     allActivitiesDiv.innerHTML = '<p class="no-activities">Nenhuma atividade encontrada.</p>';
@@ -212,17 +214,26 @@
 
             try {
                 const response = await fetch('/api/atividade/categorias', { method: 'GET', credentials: 'include' });
+                console.log('Status da resposta (categorias):', response.status);
+                const text = await response.text();
+                console.log('Texto da resposta (categorias):', text);
+
                 if (!response.ok) {
                     if (response.status === 401) {
                         alert('Sessão expirada. Redirecionando para login.');
                         window.location.href = '/login';
                         return;
                     }
-                    const errorResult = await response.json();
-                    throw new Error(errorResult.error || 'Erro ao carregar categorias');
+                    try {
+                        const errorResult = JSON.parse(text);
+                        throw new Error(errorResult.error || 'Erro ao carregar categorias');
+                    } catch (e) {
+                        throw new Error('Resposta não é JSON válido: ' + text);
+                    }
                 }
 
-                const categories = await response.json();
+                const categories = JSON.parse(text);
+                console.log('Categorias recebidas:', categories);
                 categoriesDiv.innerHTML = '';
                 if (categories.length === 0) {
                     categoriesDiv.innerHTML = '<p class="no-activities">Nenhuma categoria encontrada.</p>';
@@ -230,7 +241,7 @@
                 }
 
                 for (const { categoria } of categories) {
-                    if (!categoria || categoria.trim() === '') continue;
+                    if (!categoria || categoria.trim() === '') continue; // Ignorar categorias inválidas
                     const categorySection = document.createElement('div');
                     categorySection.innerHTML = `<h3 class="category-title">${categoria}</h3><div id="${categoria}-activities" class="category-content"></div>`;
                     categoriesDiv.appendChild(categorySection);
@@ -354,14 +365,10 @@
                 responseDiv.classList.add('hidden');
 
                 try {
-                    const nome = document.getElementById('nome').value.trim();
                     const categoria = document.getElementById('categoria').value.trim();
                     const descricao = document.getElementById('descricao').value.trim();
                     const cor_categoria = document.getElementById('cor_categoria').value;
 
-                    if (!nome) {
-                        throw new Error('O nome da atividade não pode estar vazio.');
-                    }
                     if (!categoria) {
                         throw new Error('A categoria não pode estar vazia.');
                     }
@@ -372,7 +379,7 @@
                     const response = await fetch('/api/atividade', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ nome, categoria, descricao, cor_categoria }),
+                        body: JSON.stringify({ categoria, descricao, cor_categoria }),
                         credentials: 'include'
                     });
 

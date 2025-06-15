@@ -20,7 +20,7 @@ body {
   min-height: 100vh;
 }
 
-/* Header - Mantido como solicitado */
+/* Header */
 header {
   display: flex;
   align-items: center;
@@ -67,21 +67,17 @@ header {
   color: #E9242A;
 }
 
-/* Content - ALTERADO */
+/* Content */
 .content {
   display: flex;
-  /* Mantém flex para alinhamento */
   justify-content: center;
-  /* Centraliza os dois blocos (calendário e main-content) */
   gap: 80px;
-  /* Aumentei o gap para afastar os dois blocos ainda mais */
   padding: 40px 60px;
   flex-grow: 1;
   max-width: 1440px;
-
 }
 
-/* Calendário - ALTERADO */
+/* Calendário */
 .calendar-container {
   height: 20%;
   width: 360px;
@@ -90,7 +86,6 @@ header {
   padding: 24px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   flex-shrink: 0;
-
 }
 
 .calendar-header {
@@ -195,7 +190,6 @@ header {
 /* Main Content */
 .main-content {
   flex: 1;
-  /* Permite que ocupe o espaço restante */
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -278,6 +272,13 @@ header {
   flex-shrink: 0;
 }
 
+.activity-color {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
 .quick-start-button {
   background: none;
   border: none;
@@ -306,6 +307,14 @@ header {
   color: #994D4F;
 }
 
+#activities-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+
+
 /* Botão Criar */
 .create-button-container {
   display: flex;
@@ -313,23 +322,18 @@ header {
   padding: 16px 0;
 }
 
-.create-button {
-  height: 48px;
+/* Estilos para o botão Novo Agendamento */
+#openModalBtn,
+.form-actions button {
   background-color: #E9242A;
   color: #FCF8F8;
-  font-size: 16px;
   font-weight: 700;
   border: none;
-  border-radius: 9999px;
-  padding: 0 32px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-.create-button:hover {
+#openModalBtn:hover,
+.form-actions button:hover {
   background-color: #C81E22;
   transform: translateY(-2px);
 }
@@ -360,13 +364,6 @@ header {
   position: relative;
 }
 
-.modal-content h2 {
-  font-size: 24px;
-  font-weight: 800;
-  color: #1B0E0E;
-  margin-bottom: 24px;
-}
-
 .close-button {
   position: absolute;
   top: 20px;
@@ -383,20 +380,22 @@ header {
   color: #E9242A;
 }
 
-form {
+.form-group {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 8px;
+  margin-bottom: 16px;
 }
 
-form label {
+.form-group label {
   font-size: 14px;
   font-weight: 600;
   color: #1B0E0E;
 }
 
-form input,
-form select {
+.form-group input,
+.form-group select,
+.form-group textarea {
   height: 48px;
   padding: 12px;
   border: 1px solid #F3E7E8;
@@ -407,33 +406,137 @@ form select {
   transition: border-color 0.3s ease;
 }
 
-form input:focus,
-form select:focus {
+.form-group textarea {
+  height: 100px;
+  resize: vertical;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
   border-color: #E9242A;
   outline: none;
 }
 
-form button {
-  height: 48px;
-  background-color: #E9242A;
-  color: #FCF8F8;
-  font-size: 16px;
-  font-weight: 700;
-  border: none;
-  border-radius: 9999px;
-  padding: 0 32px;
-  cursor: pointer;
-  align-self: flex-start;
-  transition: background-color 0.3s ease, transform 0.3s ease;
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
   margin-top: 16px;
 }
 
-form button:hover {
-  background-color: #C81E22;
-  transform: translateY(-2px);
+.text-error {
+  color: #E9242A;
 }
 
-/* Responsividade - ALTERADO */
+.loading {
+  text-align: center;
+  color: #994D4F;
+  font-size: 16px;
+}
+
+.hidden {
+  display: none;
+}
+
+.text-dark {
+  color: #1B0E0E;
+}
+
+.font-size-24 {
+  font-size: 24px;
+}
+
+.font-size-14 {
+  font-size: 14px;
+}
+
+.font-bold {
+  font-weight: 800;
+}
+
+.leading-tight {
+  line-height: 1.2;
+}
+
+.tracking-tight {
+  letter-spacing: -0.015em;
+}
+
+.tracking-wide {
+  letter-spacing: 0.015em;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.margin-bottom-24 {
+  margin-bottom: 24px;
+}
+
+.margin-top-8 {
+  margin-top: 8px;
+}
+
+.margin-left-auto {
+  margin-left: auto;
+}
+
+.max-width-480 {
+  max-width: 480px;
+}
+
+.min-width-0 {
+  min-width: 0;
+}
+
+.height-40 {
+  height: 40px;
+}
+
+.padding-x-10 {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.gap-8 {
+  gap: 8px;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.rounded-full {
+  border-radius: 9999px;
+}
+
+.bg-button-bg {
+  background-color: #E9242A;
+}
+
+.bg-hover {
+  background-color: #C81E22;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+/* Responsividade */
 @media (max-width: 768px) {
   .content {
     flex-direction: column;
@@ -445,7 +548,6 @@ form button:hover {
   .calendar-container {
     width: 100%;
     max-width: 360px;
-    /* Não há margin-right ou min-height para remover, pois já foram removidos na versão desktop */
   }
 
   .main-content {

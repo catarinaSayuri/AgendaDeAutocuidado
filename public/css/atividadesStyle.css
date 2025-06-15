@@ -26,13 +26,14 @@ body.modal-open {
 }
 
 /* Header */
-.header {
+header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid #F3E7E8;
   padding: 12px 40px;
-  white-space: nowrap;
+  background-color: #FFFFFF;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .header-logo {
@@ -41,43 +42,30 @@ body.modal-open {
   gap: 16px;
 }
 
-.logo-icon {
-  width: 24px;
-  height: 24px;
+.header-logo svg {
+  width: 28px;
+  height: 28px;
+  fill: #561C24;
 }
 
-.logo-icon svg {
-  width: 100%;
-  height: 100%;
-  fill: #1B0E0E;
-}
-
-.header-title {
-  font-size: 22px;
-  font-weight: 700;
+.header-logo h2 {
+  font-size: 24px;
+  font-weight: 800;
   color: #1B0E0E;
-  letter-spacing: -0.015em;
-  margin: 0;
-}
-
-.header-nav {
-  display: flex;
-  flex: 1;
-  justify-content: flex-end;
+  letter-spacing: -0.02em;
 }
 
 .nav-links {
   display: flex;
-  align-items: center;
-  gap: 32px;
+  gap: 24px;
 }
 
 .nav-links a {
   color: #1B0E0E;
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 600;
   text-decoration: none;
-  transition: color 0.2s ease-in-out;
+  transition: color 0.3s ease;
 }
 
 .nav-links a:hover {
@@ -99,7 +87,7 @@ body.modal-open {
   padding: 32px;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  overflow: visible; /* Evitar corte do modal */
+  overflow: visible;
 }
 
 /* Desativar interações com o container quando o modal está aberto */
@@ -238,11 +226,23 @@ body.modal-open {
   flex: 1;
 }
 
-.favorite-btn {
+.action-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.favorite-btn, .edit-btn, .delete-btn {
   background: none;
   border: none;
   cursor: pointer;
-  padding: 0;
+  padding: 4px;
+  transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out;
+  opacity: 0.7;
+}
+
+.favorite-btn:hover, .edit-btn:hover, .delete-btn:hover {
+  transform: scale(1.1);
+  opacity: 1;
 }
 
 .favorite-icon {
@@ -259,6 +259,16 @@ body.modal-open {
   transform: scale(1.1);
 }
 
+.edit-btn svg, .delete-btn svg {
+  width: 24px;
+  height: 24px;
+  fill: #994D4F;
+}
+
+.edit-btn:hover svg, .delete-btn:hover svg {
+  fill: #E9242A;
+}
+
 .activity-image {
   width: 100%;
   max-width: 200px;
@@ -268,24 +278,24 @@ body.modal-open {
 
 /* Modal */
 .modal {
-  position: fixed !important; /* Forçar posicionamento em relação à viewport */
-  inset: 0 !important; /* Cobrir toda a viewport */
+  position: fixed !important;
+  inset: 0 !important;
   width: 100vw !important;
   height: 100vh !important;
   background-color: rgba(0, 0, 0, 0.7);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000000; /* Altíssimo para sobreposição */
+  z-index: 1000000;
   opacity: 0;
   transition: opacity 0.2s ease-in-out;
-  will-change: opacity; /* Otimizar renderização */
-  pointer-events: none; /* Evitar interações fora do modal */
+  will-change: opacity;
+  pointer-events: none;
 }
 
 .modal:not(.hidden) {
   opacity: 1;
-  pointer-events: auto; /* Ativar interações quando visível */
+  pointer-events: auto;
 }
 
 .modal.hidden {

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Wellness Hub</title>
+  <title>Agenda de Autocuidado</title>
   <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,18 +14,17 @@
       <div class="header-logo">
         <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g clip-path="url(#clip0_6_330)">
-            <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
+            <path fill-rule="evenodd" clip-rule="evenodd"
               d="M24 0.757355L47.2426 24L24 47.2426L0.757355 24L24 0.757355ZM21 35.7574V12.2426L9.24264 24L21 35.7574Z"
-              fill="#561C24"
-            ></path>
+              fill="#561C24"></path>
           </g>
           <defs>
-            <clipPath id="clip0_6_330"><rect width="48" height="48" fill="white"></rect></clipPath>
+            <clipPath id="clip0_6_330">
+              <rect width="48" height="48" fill="white"></rect>
+            </clipPath>
           </defs>
         </svg>
-        <h2>Wellness Hub</h2>
+        <h2>Agenda de Autocuidado</h2>
       </div>
       <div class="nav-links">
         <a href="/myroutine">Minha Rotina</a>
@@ -38,65 +37,45 @@
         <div class="calendar-header">
           <button id="prev-month">
             <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="#561C24" viewBox="0 0 256 256">
-              <path d="M165.66,202.34a8,8,0,0,1-11.32,11.32l-80-80a8,8,0,0,1,0-11.32l80-80a8,8,0,0,1,11.32,11.32L91.31,128Z"></path>
+              <path
+                d="M165.66,202.34a8,8,0,0,1-11.32,11.32l-80-80a8,8,0,0,1,0-11.32l80-80a8,8,0,0,1,11.32,11.32L91.31,128Z">
+              </path>
             </svg>
           </button>
-          <p id="calendar-month">July 2024</p>
+          <p id="calendar-month"></p>
           <button id="next-month">
             <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="#561C24" viewBox="0 0 256 256">
-              <path d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"></path>
+              <path
+                d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z">
+              </path>
             </svg>
           </button>
         </div>
         <div class="calendar-grid" id="calendar-grid">
-          <p>S</p><p>M</p><p>T</p><p>W</p><p>T</p><p>F</p><p>S</p>
-          <button><div>1</div></button>
-          <button><div>2</div></button>
-          <button><div>3</div></button>
-          <button><div>4</div></button>
-          <button class="selected"><div>5</div></button>
-          <button><div>6</div></button>
-          <button><div>7</div></button>
-          <button><div>8</div></button>
-          <button><div>9</div></button>
-          <button><div>10</div></button>
-          <button><div>11</div></button>
-          <button><div>12</div></button>
-          <button><div>13</div></button>
-          <button><div>14</div></button>
-          <button><div>15</div></button>
-          <button><div>16</div></button>
-          <button><div>17</div></button>
-          <button><div>18</div></button>
-          <button><div>19</div></button>
-          <button><div>20</div></button>
-          <button><div>21</div></button>
-          <button><div>22</div></button>
-          <button><div>23</div></button>
-          <button><div>24</div></button>
-          <button><div>25</div></button>
-          <button><div>26</div></button>
-          <button><div>27</div></button>
-          <button><div>28</div></button>
-          <button><div>29</div></button>
-          <button><div>30</div></button>
+          <p>S</p>
+          <p>M</p>
+          <p>T</p>
+          <p>W</p>
+          <p>T</p>
+          <p>F</p>
+          <p>S</p>
         </div>
       </div>
       <div class="main-content">
-        <h3>"Self-care is not selfish, it is essential."</h3>
+        <h3>"O autocuidado não é egoísmo, é essencial."</h3>
         <div class="welcome-section">
           <div class="welcome-text">
-            <p>Welcome back, Evelyn!</p>
-            <p>Here's your self-care schedule for today.</p>
+            <p id="welcome-user">Bem vindo (a) de volta!</p>
+            <p>Aqui está sua agenda de autocuidado para hoje.</p>
           </div>
         </div>
-        <h2 class="section-title">Quick Start</h2>
+        <h2 class="section-title">Início Rápido</h2>
         <a href="/atividades" class="quick-start-item">
           <div>
             <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="#561C24" viewBox="0 0 256 256">
               <path
-                d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM72,48v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V80H48V48ZM208,208H48V96H208V208Zm-96-88v64a8,8,0,0,1-16,0V132.94l-4.42,2.22a8,8,0,0,1-7.16-14.32l16-8A8,8,0,0,1,112,120Zm59.16,30.45L152,176h16a8,8,0,0,1,0,16H136a8,8,0,0,1-6.4-12.8l28.78-38.37A8,8,0,0,0,145.07,132a8,8,0,1,1-13.85-8A24,24,0,0,1,176,136,23.76,23.76,0,0,1,171.16,150.45Z"
-              ></path>
+                d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM72,48v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V80H48V48ZM208,208H48V96H208V208Zm-96-88v64a8,8,0,0,1-16,0V132.94l-4.42,2.22a8,8,0,0,1-7.16-14.32l16-8A8,8,0,0,1,112,120Zm59.16,30.45L152,176h16a8,8,0,0,1,0,16H136a8,8,0,0,1-6.4-12.8l28.78-38.37A8,8,0,0,0,145.07,132a8,8,0,1,1-13.85-8A24,24,0,0,1,176,136,23.76,23.76,0,0,1,171.16,150.45Z">
+              </path>
             </svg>
           </div>
           <button class="quick-start-button">Crie uma atividade</button>
@@ -105,8 +84,8 @@
           <div>
             <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="#561C24" viewBox="0 0 256 256">
               <path
-                d="M80,64a8,8,0,0,1,8-8H216a8,8,0,0,1,0,16H88A8,8,0,0,1,80,64Zm136,56H88a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Zm0,64H88a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16ZM44,52A12,12,0,1,0,56,64,12,12,0,0,0,44,52Zm0,64a12,12,0,1,0,12,12A12,12,0,0,0,44,116Zm0,64a12,12,0,1,0,12,12A12,12,0,0,0,44,180Z"
-              ></path>
+                d="M80,64a8,8,0,0,1,8-8H216a8,8,0,0,1,0,16H88A8,8,0,0,1,80,64Zm136,56H88a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Zm0,64H88a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16ZM44,52A12,12,0,1,0,56,64,12,12,0,0,0,44,52Zm0,64a12,12,0,1,0,12,12A12,12,0,0,0,44,116Zm0,64a12,12,0,1,0,12,12A12,12,0,0,0,44,180Z">
+              </path>
             </svg>
           </div>
           <button class="quick-start-button">Minha Rotina</button>
@@ -114,39 +93,21 @@
         <h2 class="section-title">Atividades de Hoje</h2>
         <div id="activities-list">
           <div class="activity-item">
-            <div>
-              <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="#561C24" viewBox="0 0 256 256">
-                <path
-                  d="M235.32,180l-36.24-36.25L162.62,23.46A21.76,21.76,0,0,0,128,12.93,21.76,21.76,0,0,0,93.38,23.46L56.92,143.76,20.68,180a16,16,0,0,0,0,22.62l32.69,32.69a16,16,0,0,0,22.63,0L124.28,187a40.68,40.68,0,0,0,3.72-4.29,40.68,40.68,0,0,0,3.72,4.29L180,235.32a16,16,0,0,0,22.63,0l32.69-32.69A16,16,0,0,0,235.32,180ZM64.68,224,32,191.32l12.69-12.69,32.69,32.69ZM120,158.75a23.85,23.85,0,0,1-7,17L88.68,200,56,167.32l13.65-13.66a8,8,0,0,0,2-3.34l37-122.22A5.78,5.78,0,0,1,120,29.78Zm23,17a23.85,23.85,0,0,1-7,17L88.68,200,56,167.32l13.65-13.66a8,8,0,0,0,2-3.34l37-122.22A5.78,5.78,0,0,1,120,29.78Zm23,17a23.85,23.85,0,0,1-7-17v-129a5.78,5.78,0,0,1,11.31-1.68l37,122.22a8,8,0,0,0,2,3.34l14.49,14.49-33.4,32ZM191.32,224l-12.56-12.57,33.39-32L224,191.32Z"
-                ></path>
-              </svg>
-            </div>
+            <div class="activity-color" style="background-color: #FF6347;"></div>
             <div class="activity-details">
               <p>Morning Meditation</p>
               <p>8:00 AM - 9:00 AM</p>
             </div>
           </div>
           <div class="activity-item">
-            <div>
-              <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="#561C24" viewBox="0 0 256 256">
-                <path
-                  d="M72,88V40a8,8,0,0,1,16,0V88a8,8,0,0,1-16,0ZM216,40V224a8,8,0,0,1-16,0V176H152a8,8,0,0,1-8-8,268.75,268.75,0,0,1,7.22-56.88c9.78-40.49,28.32-67.63,53.63-78.47A8,8,0,0,1,216,40ZM200,53.9c-32.17,24.57-38.47,84.42-39.7,106.1H200ZM119.89,38.69a8,8,0,1,0-15.78,2.63L112,88.63a32,32,0,0,1-64,0l7.88-47.31a8,8,0,1,0-15.78-2.63l-8,48A8.17,8.17,0,0,0,32,88a48.07,48.07,0,0,0,40,47.32V224a8,8,0,0,0,16,0V135.32A48.07,48.07,0,0,0,128,88a8.17,8.17,0,0,0-.11-1.31Z"
-                ></path>
-              </svg>
-            </div>
+            <div class="activity-color" style="background-color: #32CD32;"></div>
             <div class="activity-details">
               <p>Lunch Break</p>
               <p>12:00 PM - 1:00 PM</p>
             </div>
           </div>
           <div class="activity-item">
-            <div>
-              <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="#561C24" viewBox="0 0 256 256">
-                <path
-                  d="M245.83,121.63a15.53,15.53,0,0,0-9.52-7.33,73.51,73.51,0,0,0-22.17-2.22c4-19.85,1-35.55-2.06-44.86a16.15,16.15,0,0,0-18.79-10.88,85.53,85.53,0,0,0-28.55,12.12,94.58,94.58,0,0,0-27.11-33.25,16.05,16.05,0,0,0-19.26,0A94.48,94.48,0,0,0,91.26,68.46,85.53,85.53,0,0,0,62.71,56.34,16.15,16.15,0,0,0,43.92,67.22c-3,9.31-6,25-2.06,44.86a73.51,73.51,0,0,0-22.17,2.22,15.53,15.53,0,0,0-9.52,7.33,16,16,0,0,0-1.6,12.27c3.39,12.57,13.8,36.48,45.33,55.32S113.13,208,128.05,208s42.67,0,74-18.78c31.53-18.84,41.94-42.75,45.33-55.32A16,16,0,0,0,245.83,121.63ZM59.14,72.14a.2.2,0,0,1,.23-.15A70.43,70.43,0,0,1,85.18,83.66,118.65,118.65,0,0,0,80,119.17c0,18.74,3.77,34,9.11,46.28A123.59,123.59,0,0,1,69.57,140C51.55,108.62,55.3,84,59.14,72.14Zm3,103.35C35.47,159.57,26.82,140.05,24,129.7a59.82,59.82,0,0,1,22.5-1.17,129.08,129.08,0,0,0,9.15,19.41,142.28,142.28,0,0,0,34,39.56A114.92,114.92,0,0,1,62.1,175.49ZM128,190.4c-9.33-6.94-32-28.23-32-71.23C96,76.7,118.38,55.24,128,48c9.62,7.26,32,28.72,32,71.19C160,162.17,137.33,183.46,128,190.4ZM170.82,83.66A70.43,70.43,0,0,1,196.63,72a.2.2,0,0,1,.23.15C200.7,84,204.45,108.62,186.43,140a123.32,123.32,0,0,1-19.54,25.48c5.34-12.26,9.11-27.54,9.11-46.28A118.65,118.65,0,0,0,170.82,83.66ZM232,129.72c-2.77,10.25-11.4,29.81-38.09,45.77a114.92,114.92,0,0,1-27.55,12,142.28,142.28,0,0,0,34-39.56,129.08,129.08,0,0,0,9.15-19.41A59.69,59.69,0,0,1,232,129.71Z"
-                ></path>
-              </svg>
-            </div>
+            <div class="activity-color" style="background-color: #4682B4;"></div>
             <div class="activity-details">
               <p>Evening Yoga</p>
               <p>6:00 PM - 7:00 PM</p>
@@ -154,66 +115,273 @@
           </div>
         </div>
         <div class="create-button-container">
-          <button class="create-button" id="open-modal">
-            <span>Create New Appointment</span>
+          <button id="openModalBtn"
+            class="flex-row max-width-480 cursor-pointer align-center justify-center overflow-hidden rounded-full height-40 bg-button-bg text-dark gap-8 font-size-14 font-bold leading-normal tracking-wide min-width-0 padding-x-10 hover-bg-hover">
+            + Novo Agendamento
           </button>
         </div>
       </div>
     </div>
-    <div class="modal" id="create-modal">
+    <div id="agendamentoModal" class="modal">
       <div class="modal-content">
-        <button class="close-button" id="close-modal">×</button>
-        <h2>Create New Appointment</h2>
-        <form id="create-form" action="/api/agendamento/create" method="POST">
-          <label for="id_usuario">Usuário:</label>
-          <input type="number" id="id_usuario" name="id_usuario" required>
-          <label for="id_atividade">Atividade:</label>
-          <input type="number" id="id_atividade" name="id_atividade" required>
-          <label for="data">Data:</label>
-          <input type="date" id="data" name="data" required>
-          <label for="horario_inicio">Horário Início:</label>
-          <input type="time" id="horario_inicio" name="horario_inicio" required>
-          <label for="horario_fim">Horário Fim:</label>
-          <input type="time" id="horario_fim" name="horario_fim" required>
-          <label for="status">Status:</label>
-          <select id="status" name="status">
-            <option value="pendente">Pendente</option>
-            <option value="confirmado">Confirmado</option>
-            <option value="cancelado">Cancelado</option>
-          </select>
-          <button type="submit">Criar</button>
-        </form>
+        <span id="closeButton" class="close-button">×</span>
+        <h2 class="text-dark font-size-24 font-bold leading-tight tracking-tight text-center margin-bottom-24">Cadastrar Novo Agendamento</h2>
+        <div id="loading" class="loading">Carregando...</div>
+        <div id="modalContent" class="hidden">
+          <form id="agendamentoForm">
+            <input type="hidden" id="id_usuario_hidden" name="id_usuario" value="">
+            <div class="form-group">
+              <label for="categoria_atividade">Categoria da Atividade:</label>
+              <select id="categoria_atividade" name="categoria_atividade" required>
+                <option value="">Selecione uma categoria</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="id_atividade_select">Atividade:</label>
+              <select id="id_atividade_select" name="id_atividade" required disabled>
+                <option value="">Selecione uma categoria primeiro</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="nome_agendamento">Nome do Agendamento:</label>
+              <input type="text" id="nome_agendamento" name="nome_agendamento" placeholder="Ex.: Corrida Matinal" required maxlength="100">
+            </div>
+            <div class="form-group">
+              <label for="descricao">Descrição:</label>
+              <textarea id="descricao" name="descricao" placeholder="Ex.: Correr ao ar livre no parque por 30 minutos" rows="4"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="data_agendamento_modal">Data:</label>
+              <input type="date" id="data_agendamento_modal" name="data" required>
+            </div>
+            <div class="form-group">
+              <label for="horario_inicio">Hora de Início:</label>
+              <input type="time" id="horario_inicio" name="horario_inicio" required>
+            </div>
+            <div class="form-group">
+              <label for="horario_fim">Hora de Fim:</label>
+              <input type="time" id="horario_fim" name="horario_fim" required>
+            </div>
+            <div class="form-group">
+              <label for="status">Status:</label>
+              <select id="status" name="status">
+                <option value="pendente">Pendente</option>
+                <option value="concluido">Concluído</option>
+                <option value="cancelado">Cancelado</option>
+              </select>
+            </div>
+            <div class="form-actions">
+              <button type="submit"
+                class="flex-row max-width-480 cursor-pointer align-center justify-center overflow-hidden rounded-full height-40 bg-button-bg text-dark gap-8 font-size-14 font-bold leading-normal tracking-wide min-width-0 padding-x-10 margin-left-auto hover-bg-hover">
+                Salvar Agendamento
+              </button>
+            </div>
+          </form>
+        </div>
+        <div id="form-error" class="text-error font-size-14 margin-top-8 hidden"></div>
       </div>
     </div>
   </div>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      let currentMonth = 6; // July (0-based index)
-      let currentYear = 2024;
+      const today = new Date();
+      let currentMonth = today.getMonth(); // 0-based index (e.g., 5 for June)
+      let currentYear = today.getFullYear();
+      let currentDay = today.getDate(); // Day of the month
+      let currentUserId = null;
+      let atividadesDisponiveis = [];
 
-      // Sample activities data (replace with actual API data)
-      const activitiesData = [
-        { date: '2024-07-05', name: 'Morning Meditation', time: '8:00 AM - 9:00 AM', icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="#561C24" viewBox="0 0 256 256"><path d="M235.32,180l-36.24-36.25L162.62,23.46A21.76,21.76,0,0,0,128,12.93,21.76,21.76,0,0,0,93.38,23.46L56.92,143.76,20.68,180a16,16,0,0,0,0,22.62l32.69,32.69a16,16,0,0,0,22.63,0L124.28,187a40.68,40.68,0,0,0,3.72-4.29,40.68,40.68,0,0,0,3.72,4.29L180,235.32a16,16,0,0,0,22.63,0l32.69-32.69A16,16,0,0,0,235.32,180ZM64.68,224,32,191.32l12.69-12.69,32.69,32.69ZM120,158.75a23.85,23.85,0,0,1-7,17L88.68,200,56,167.32l13.65-13.66a8,8,0,0,0,2-3.34l37-122.22A5.78,5.78,0,0,1,120,29.78Zm23,17a23.85,23.85,0,0,1-7-17v-129a5.78,5.78,0,0,1,11.31-1.68l37,122.22a8,8,0,0,0,2,3.34l14.49,14.49-33.4,32ZM191.32,224l-12.56-12.57,33.39-32L224,191.32Z"></path></svg>' },
-        { date: '2024-07-05', name: 'Lunch Break', time: '12:00 PM - 1:00 PM', icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="#561C24" viewBox="0 0 256 256"><path d="M72,88V40a8,8,0,0,1,16,0V88a8,8,0,0,1-16,0ZM216,40V224a8,8,0,0,1-16,0V176H152a8,8,0,0,1-8-8,268.75,268.75,0,0,1,7.22-56.88c9.78-40.49,28.32-67.63,53.63-78.47A8,8,0,0,1,216,40ZM200,53.9c-32.17,24.57-38.47,84.42-39.7,106.1H200ZM119.89,38.69a8,8,0,1,0-15.78,2.63L112,88.63a32,32,0,0,1-64,0l7.88-47.31a8,8,0,1,0-15.78-2.63l-8,48A8.17,8.17,0,0,0,32,88a48.07,48.07,0,0,0,40,47.32V224a8,8,0,0,0,16,0V135.32A48.07,48.07,0,0,0,128,88a8.17,8.17,0,0,0-.11-1.31Z"></path></svg>' },
-        { date: '2024-07-05', name: 'Evening Yoga', time: '6:00 PM - 7:00 PM', icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="#561C24" viewBox="0 0 256 256"><path d="M245.83,121.63a15.53,15.53,0,0,0-9.52-7.33,73.51,73.51,0,0,0-22.17-2.22c4-19.85,1-35.55-2.06-44.86a16.15,16.15,0,0,0-18.79-10.88,85.53,85.53,0,0,0-28.55,12.12,94.58,94.58,0,0,0-27.11-33.25,16.05,16.05,0,0,0-19.26,0A94.48,94.48,0,0,0,91.26,68.46,85.53,85.53,0,0,0,62.71,56.34,16.15,16.15,0,0,0,43.92,67.22c-3,9.31-6,25-2.06,44.86a73.51,73.51,0,0,0-22.17,2.22,15.53,15.53,0,0,0-9.52,7.33,16,16,0,0,0-1.6,12.27c3.39,12.57,13.8,36.48,45.33,55.32S113.13,208,128.05,208s42.67,0,74-18.78c31.53-18.84,41.94-42.75,45.33-55.32A16,16,0,0,0,245.83,121.63ZM59.14,72.14a.2.2,0,0,1,.23-.15A70.43,70.43,0,0,1,85.18,83.66,118.65,118.65,0,0,0,80,119.17c0,18.74,3.77,34,9.11,46.28A123.59,123.59,0,0,1,69.57,140C51.55,108.62,55.3,84,59.14,72.14Zm3,103.35C35.47,159.57,26.82,140.05,24,129.7a59.82,59.82,0,0,1,22.5-1.17,129.08,129.08,0,0,0,9.15,19.41,142.28,142.28,0,0,0,34,39.56A114.92,114.92,0,0,1,62.1,175.49ZM128,190.4c-9.33-6.94-32-28.23-32-71.23C96,76.7,118.38,55.24,128,48c9.62,7.26,32,28.72,32,71.19C160,162.17,137.33,183.46,128,190.4ZM170.82,83.66A70.43,70.43,0,0,1,196.63,72a.2.2,0,0,1,.23.15C200.7,84,204.45,108.62,186.43,140a123.32,123.32,0,0,1-19.54,25.48c5.34-12.26,9.11-27.54,9.11-46.28A118.65,118.65,0,0,0,170.82,83.66ZM232,129.72c-2.77,10.25-11.4,29.81-38.09,45.77a114.92,114.92,0,0,1-27.55,12,142.28,142.28,0,0,0,34-39.56,129.08,129.08,0,0,0,9.15-19.41A59.69,59.69,0,0,1,232,129.71Z"></path></svg>' }
-      ];
+      // Modal handling
+      const modal = document.getElementById('agendamentoModal');
+      const openModalBtn = document.getElementById('openModalBtn');
+      const closeButton = document.getElementById('closeButton');
+      const agendamentoForm = document.getElementById('agendamentoForm');
+      const categoriaAtividadeSelect = document.getElementById('categoria_atividade');
+      const idAtividadeSelect = document.getElementById('id_atividade_select');
+      const idUsuarioHidden = document.getElementById('id_usuario_hidden');
+      const horarioInicioInput = document.getElementById('horario_inicio');
+      const horarioFimInput = document.getElementById('horario_fim');
+      const errorDiv = document.getElementById('form-error');
+      const loadingDiv = document.getElementById('loading');
+      const modalContentDiv = document.getElementById('modalContent');
+      const dataAgendamentoModalInput = document.getElementById('data_agendamento_modal');
+      const welcomeUserText = document.getElementById('welcome-user');
 
-      // Function to render activities
-      function renderActivities(date) {
+      openModalBtn.onclick = async function () {
+        console.log('Abrindo modal de cadastro');
+        modal.style.display = 'flex';
+        loadingDiv.style.display = 'block';
+        modalContentDiv.classList.add('hidden');
+        errorDiv.classList.add('hidden');
+
+        try {
+          await loadCategorias();
+          await loadAllAtividades();
+          setMinDateForModal();
+          // Set the date to the selected calendar date
+          const selectedButton = document.querySelector('.calendar-grid button.selected');
+          if (selectedButton) {
+            const day = selectedButton.querySelector('div').textContent.padStart(2, '0');
+            const date = `${currentYear}-${(currentMonth + 1).toString().padStart(2, '0')}-${day}`;
+            dataAgendamentoModalInput.value = date;
+          }
+          modalContentDiv.classList.remove('hidden');
+        } catch (err) {
+          console.error('Erro ao preparar o modal:', err);
+          errorDiv.textContent = 'Erro ao carregar dados para o agendamento: ' + err.message;
+          errorDiv.classList.remove('hidden');
+        } finally {
+          loadingDiv.style.display = 'none';
+        }
+      };
+
+      closeButton.onclick = function () {
+        modal.style.display = 'none';
+        agendamentoForm.reset();
+        categoriaAtividadeSelect.innerHTML = '<option value="">Selecione uma categoria</option>';
+        idAtividadeSelect.innerHTML = '<option value="">Selecione uma categoria primeiro</option>';
+        idAtividadeSelect.disabled = true;
+        errorDiv.classList.add('hidden');
+        loadingDiv.style.display = 'none';
+        modalContentDiv.classList.add('hidden');
+      };
+
+      window.onclick = function (event) {
+        if (event.target == modal) {
+          closeButton.onclick();
+        }
+      };
+
+      function setMinDateForModal() {
+        const today = new Date().toISOString().split('T')[0];
+        dataAgendamentoModalInput.setAttribute('min', today);
+      }
+
+      async function getUserIdFromSession() {
+        try {
+          console.log('Buscando ID e nome do usuário da sessão');
+          const response = await fetch('/api/user/session', { credentials: 'include' });
+          if (!response.ok) {
+            if (response.status === 401) {
+              console.error('Erro 401: Sessão inválida, redirecionando para /login');
+              window.location.href = '/login';
+              return null;
+            }
+            const errorData = await response.json();
+            throw new Error(errorData.error || `Erro HTTP ${response.status}: ${response.statusText}`);
+          }
+          const data = await response.json();
+          console.log('Dados do usuário recebidos:', data);
+          if (!data.id_usuario) {
+            console.error('ID do usuário não encontrado na resposta');
+            welcomeUserText.textContent = 'Bem vindo (a) de volta! Erro ao carregar usuário.';
+            return null;
+          }
+          currentUserId = data.id_usuario;
+          idUsuarioHidden.value = data.id_usuario;
+          if (data.nome && data.nome.trim() !== '') {
+            console.log('Nome do usuário encontrado:', data.nome);
+            welcomeUserText.textContent = `Bem vindo (a) de volta, ${data.nome}!`;
+          } else {
+            console.warn('Nome do usuário não disponível ou vazio');
+            welcomeUserText.textContent = 'Bem vindo (a) de volta!';
+          }
+          return data.id_usuario;
+        } catch (error) {
+          console.error('Erro ao buscar dados do usuário:', error.message);
+          welcomeUserText.textContent = 'Bem vindo (a) de volta! Erro ao carregar usuário.';
+          window.location.href = '/login';
+          return null;
+        }
+      }
+
+      async function loadCategorias() {
+        console.log('Iniciando requisição para /api/atividade/categorias');
+        errorDiv.classList.add('hidden');
+        const response = await fetch('/api/atividade/categorias', { credentials: 'include' });
+        console.log('Resposta recebida categorias:', response.status, response.statusText);
+        if (!response.ok) {
+          if (response.status === 401) {
+            throw new Error('Não autorizado. Redirecionando para login.');
+          }
+          const errorData = await response.json();
+          throw new Error(errorData.error || `Erro ao carregar categorias: ${response.statusText}`);
+        }
+        const categorias = await response.json();
+        console.log('Categorias recebidas:', categorias);
+        categoriaAtividadeSelect.innerHTML = '<option value="">Selecione uma categoria</option>';
+        if (Array.isArray(categorias) && categorias.length > 0) {
+          categorias.forEach(cat => {
+            const option = document.createElement('option');
+            option.value = cat.categoria;
+            option.textContent = cat.categoria;
+            categoriaAtividadeSelect.appendChild(option);
+          });
+        } else {
+          const option = document.createElement('option');
+          option.value = '';
+          option.textContent = 'Nenhuma categoria disponível';
+          option.disabled = true;
+          categoriaAtividadeSelect.appendChild(option);
+        }
+      }
+
+      async function loadAllAtividades() {
+        console.log('Iniciando requisição para /api/atividade/usuario');
+        errorDiv.classList.add('hidden');
+        const response = await fetch('/api/atividade/usuario', { credentials: 'include' });
+        console.log('Resposta recebida atividades:', response.status, response.statusText);
+        if (!response.ok) {
+          if (response.status === 401) {
+            throw new Error('Não autorizado. Redirecionando para login.');
+          }
+          const errorData = await response.json();
+          throw new Error(errorData.error || `Erro ao carregar atividades: ${response.statusText}`);
+        }
+        atividadesDisponiveis = await response.json();
+        console.log('Atividades recebidas:', atividadesDisponiveis);
+      }
+
+      async function loadAgendamentosForSelectedDate(userId, date) {
+        console.log('Buscando agendamentos para userId:', userId, 'data:', date);
+        try {
+          const response = await fetch(`/api/agendamentos/dia?data=${date}`, { credentials: 'include' });
+          if (!response.ok) {
+            if (response.status === 401) {
+              window.location.href = '/login';
+              return;
+            }
+            throw new Error(`Erro ao buscar agendamentos do dia: ${response.statusText}`);
+          }
+          const agendamentos = await response.json();
+          console.log('Agendamentos recebidos:', agendamentos);
+          renderActivities(agendamentos, date);
+        } catch (error) {
+          console.error('Erro ao carregar agendamentos:', error.message);
+          renderActivities([], date);
+        }
+      }
+
+      function formatTime(time) {
+        if (!time) return 'Sem horário';
+        return time.substring(0, 5); // HH:MM
+      }
+
+      function renderActivities(agendamentos, date) {
         const activitiesList = document.getElementById('activities-list');
         activitiesList.innerHTML = '';
-        const filteredActivities = activitiesData.filter(activity => activity.date === date);
-        if (filteredActivities.length === 0) {
-          activitiesList.innerHTML = '<p>No activities scheduled for this date.</p>';
+        if (!agendamentos || agendamentos.length === 0) {
+          activitiesList.innerHTML = '<p>Nenhum agendamento marcado para essa data.</p>';
         } else {
-          filteredActivities.forEach(activity => {
+          agendamentos.forEach(agendamento => {
             const activityItem = document.createElement('div');
             activityItem.className = 'activity-item';
+            const color = agendamento.atividade_cor_categoria || '#994D4F';
             activityItem.innerHTML = `
-              <div>${activity.icon}</div>
+              <div class="activity-color" style="background-color: ${color};"></div>
               <div class="activity-details">
-                <p>${activity.name}</p>
-                <p>${activity.time}</p>
+                <p>${agendamento.nome_agendamento || 'Agendamento sem nome'}</p>
+                <p>${formatTime(agendamento.horario_inicio)} - ${formatTime(agendamento.horario_fim)}</p>
               </div>
             `;
             activitiesList.appendChild(activityItem);
@@ -221,7 +389,142 @@
         }
       }
 
-      // Function to update calendar
+      categoriaAtividadeSelect.addEventListener('change', () => {
+        const selectedCategory = categoriaAtividadeSelect.value;
+        console.log('Categoria selecionada:', selectedCategory);
+        idAtividadeSelect.innerHTML = '<option value="">Selecione uma atividade</option>';
+        idAtividadeSelect.disabled = !selectedCategory;
+
+        if (selectedCategory) {
+          const filteredActivities = atividadesDisponiveis.filter(act => act.categoria === selectedCategory);
+          console.log('Atividades filtradas:', filteredActivities);
+          if (filteredActivities.length > 0) {
+            filteredActivities.forEach(act => {
+              const option = document.createElement('option');
+              option.value = act.id_atividade;
+              option.textContent = act.nome;
+              idAtividadeSelect.appendChild(option);
+            });
+          } else {
+            idAtividadeSelect.innerHTML = '<option value="">Nenhuma atividade para esta categoria</option>';
+            idAtividadeSelect.disabled = true;
+          }
+        }
+      });
+
+      horarioFimInput.addEventListener('change', () => {
+        const inicio = horarioInicioInput.value;
+        const fim = horarioFimInput.value;
+        if (inicio && fim && fim <= inicio) {
+          errorDiv.textContent = 'Hora de fim deve ser posterior à hora de início.';
+          errorDiv.classList.remove('hidden');
+        } else {
+          errorDiv.classList.add('hidden');
+        }
+      });
+
+      idAtividadeSelect.addEventListener('change', () => {
+        const selectedActivityId = idAtividadeSelect.value;
+        console.log('Atividade selecionada ID:', selectedActivityId);
+        if (selectedActivityId) {
+          const selectedActivity = atividadesDisponiveis.find(act => act.id_atividade == selectedActivityId);
+          if (selectedActivity) {
+            document.getElementById('nome_agendamento').value = selectedActivity.nome;
+          }
+        } else {
+          document.getElementById('nome_agendamento').value = '';
+        }
+      });
+
+      agendamentoForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        errorDiv.classList.add('hidden');
+        loadingDiv.style.display = 'block';
+
+        const id_usuario = parseInt(idUsuarioHidden.value);
+        const id_atividade = parseInt(idAtividadeSelect.value);
+        const nome_agendamento = document.getElementById('nome_agendamento').value.trim();
+        const descricao = document.getElementById('descricao').value.trim() || null;
+        const data = dataAgendamentoModalInput.value;
+        const horario_inicio = horarioInicioInput.value;
+        const horario_fim = horarioFimInput.value;
+        const status = document.getElementById('status').value;
+
+        console.log('Enviando agendamento:', { id_usuario, id_atividade, nome_agendamento, data, horario_inicio, horario_fim, status });
+
+        if (isNaN(id_usuario)) {
+          errorDiv.textContent = 'ID de usuário inválido. Por favor, faça login novamente.';
+          errorDiv.classList.remove('hidden');
+          loadingDiv.style.display = 'none';
+          return;
+        }
+        if (isNaN(id_atividade)) {
+          errorDiv.textContent = 'Por favor, selecione uma atividade válida.';
+          errorDiv.classList.remove('hidden');
+          loadingDiv.style.display = 'none';
+          return;
+        }
+        if (!nome_agendamento) {
+          errorDiv.textContent = 'Nome do agendamento é obrigatório.';
+          errorDiv.classList.remove('hidden');
+          loadingDiv.style.display = 'none';
+          return;
+        }
+        if (horario_fim <= horario_inicio) {
+          errorDiv.textContent = 'Hora de fim deve ser posterior à hora de início.';
+          errorDiv.classList.remove('hidden');
+          loadingDiv.style.display = 'none';
+          return;
+        }
+
+        const agendamentoData = {
+          id_usuario,
+          id_atividade,
+          nome_agendamento,
+          data,
+          descricao,
+          horario_inicio,
+          horario_fim,
+          status
+        };
+
+        try {
+          const response = await fetch('/api/agendamento', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(agendamentoData),
+            credentials: 'include'
+          });
+
+          if (!response.ok) {
+            if (response.status === 401) {
+              window.location.href = '/login';
+              return;
+            }
+            const errorData = await response.json();
+            throw new Error(errorData.error || 'Erro ao salvar agendamento');
+          }
+
+          const newAgendamento = await response.json();
+          console.log('Agendamento criado:', newAgendamento);
+          closeButton.onclick();
+          const selectedButton = document.querySelector('.calendar-grid button.selected');
+          if (selectedButton) {
+            const day = selectedButton.querySelector('div').textContent.padStart(2, '0');
+            const date = `${currentYear}-${(currentMonth + 1).toString().padStart(2, '0')}-${day}`;
+            await loadAgendamentosForSelectedDate(currentUserId, date);
+          }
+          alert('Agendamento salvo com sucesso!');
+        } catch (error) {
+          console.error('Erro ao salvar agendamento:', error.message);
+          errorDiv.textContent = error.message;
+          errorDiv.classList.remove('hidden');
+        } finally {
+          loadingDiv.style.display = 'none';
+        }
+      });
+
+      // Calendar navigation
       function updateCalendar() {
         const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
         document.getElementById('calendar-month').textContent = `${monthNames[currentMonth]} ${currentYear}`;
@@ -229,26 +532,25 @@
         const firstDay = new Date(currentYear, currentMonth, 1).getDay();
         const calendarGrid = document.getElementById('calendar-grid');
         calendarGrid.innerHTML = '<p>S</p><p>M</p><p>T</p><p>W</p><p>T</p><p>F</p><p>S</p>';
-        
+
         // Add empty cells for days before the first day of the month
         for (let i = 0; i < firstDay; i++) {
           const emptyCell = document.createElement('button');
           emptyCell.innerHTML = '<div></div>';
           calendarGrid.appendChild(emptyCell);
         }
-        
+
         // Add days of the month
         for (let day = 1; day <= daysInMonth; day++) {
           const button = document.createElement('button');
           button.innerHTML = `<div>${day}</div>`;
-          if (day === 5 && currentMonth === 6 && currentYear === 2024) {
+          if (day === currentDay && currentMonth === today.getMonth() && currentYear === today.getFullYear()) {
             button.classList.add('selected');
           }
           calendarGrid.appendChild(button);
         }
       }
 
-      // Calendar navigation
       document.getElementById('prev-month').addEventListener('click', () => {
         currentMonth--;
         if (currentMonth < 0) {
@@ -269,7 +571,6 @@
         initializeCalendarButtons();
       });
 
-      // Calendar button click handler
       function initializeCalendarButtons() {
         const calendarButtons = document.querySelectorAll('.calendar-grid button');
         calendarButtons.forEach(button => {
@@ -278,80 +579,30 @@
             button.addEventListener('click', () => {
               calendarButtons.forEach(btn => btn.classList.remove('selected'));
               button.classList.add('selected');
-              const day = dayDiv.textContent.padStart(2, '0');
-              const date = `${currentYear}-${(currentMonth + 1).toString().padStart(2, '0')}-${day}`;
+              currentDay = parseInt(dayDiv.textContent);
+              const date = `${currentYear}-${(currentMonth + 1).toString().padStart(2, '0')}-${dayDiv.textContent.padStart(2, '0')}`;
               console.log(`Selected date: ${date}`);
-              // Fetch activities for selected date
-              fetch(`/api/agendamento/dia?data=${date}`)
-                .then(response => response.json())
-                .then(data => {
-                  console.log('Appointments:', data);
-                  renderActivities(date); // Update with actual API data if available
-                })
-                .catch(error => {
-                  console.error('Error:', error);
-                  renderActivities(date); // Fallback to sample data
-                });
+              if (currentUserId) {
+                loadAgendamentosForSelectedDate(currentUserId, date);
+              }
             });
           }
         });
       }
 
-      // Modal handling
-      const modal = document.getElementById('create-modal');
-      const openModalButton = document.getElementById('open-modal');
-      const closeModalButton = document.getElementById('close-modal');
-
-      openModalButton.addEventListener('click', () => {
-        modal.style.display = 'flex';
-      });
-
-      closeModalButton.addEventListener('click', () => {
-        modal.style.display = 'none';
-      });
-
-      window.addEventListener('click', (e) => {
-        if (e.target === modal) {
-          modal.style.display = 'none';
+      // Initialize page
+      async function initializePage() {
+        const userId = await getUserIdFromSession();
+        if (userId) {
+          await loadAllAtividades();
+          const date = `${currentYear}-${(currentMonth + 1).toString().padStart(2, '0')}-${currentDay.toString().padStart(2, '0')}`;
+          await loadAgendamentosForSelectedDate(userId, date);
         }
-      });
+        updateCalendar();
+        initializeCalendarButtons();
+      }
 
-      const createForm = document.getElementById('create-form');
-      createForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const formData = new FormData(createForm);
-        const appointment = {
-          id_usuario: formData.get('id_usuario'),
-          id_atividade: formData.get('id_atividade'),
-          data: formData.get('data'),
-          horario_inicio: formData.get('horario_inicio'),
-          horario_fim: formData.get('horario_fim'),
-          status: formData.get('status')
-        };
-        console.log('Creating appointment:', appointment);
-        fetch('/api/agendamento/create', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(appointment)
-        })
-          .then(response => response.json())
-          .then(data => {
-            console.log('Appointment created:', data);
-            modal.style.display = 'none';
-            createForm.reset();
-            const selectedButton = document.querySelector('.calendar-grid button.selected');
-            if (selectedButton) {
-              const day = selectedButton.querySelector('div').textContent.padStart(2, '0');
-              const date = `${currentYear}-${(currentMonth + 1).toString().padStart(2, '0')}-${day}`;
-              renderActivities(date);
-            }
-          })
-          .catch(error => console.error('Error:', error));
-      });
-
-      updateCalendar();
-      initializeCalendarButtons();
-      renderActivities('2024-07-05'); 
+      initializePage();
     });
   </script>
 </body>

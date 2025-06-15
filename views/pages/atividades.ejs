@@ -5,35 +5,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?display=swap&family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&family=Plus+Jakarta+Sans%3Awght%40400%3B500%3B700%3B800" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?display=swap&family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&family=Plus+Jakarta+Sans%3Awght%40400%3B500%3B700%3B800" />
     <link rel="stylesheet" href="/css/atividadesStyle.css" />
 </head>
 <body class="body">
     <div class="layout-container">
-        <header class="header">
+        <header>
             <div class="header-logo">
-                <div class="logo-icon">
-                    <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <g clip-path="url(#clip0_6_330)">
-                            <path fill-rule="evenodd" clip-rule="evenodd"
-                                d="M24 0.757355L47.2426 24L24 47.2426L0.757355 24L24 0.757355ZM21 35.7574V12.2426L9.24264 24L21 35.7574Z"
-                                fill="currentColor"></path>
-                        </g>
-                        <defs>
-                            <clipPath id="clip0_6_330">
-                                <rect width="48" height="48" fill="white"></rect>
-                            </clipPath>
-                        </defs>
-                    </svg>
-                </div>
-                <h2 class="header-title">Wellness Hub</h2>
+                <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_6_330)">
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M24 0.757355L47.2426 24L24 47.2426L0.757355 24L24 0.757355ZM21 35.7574V12.2426L9.24264 24L21 35.7574Z"
+                            fill="#561C24"></path>
+                    </g>
+                    <defs>
+                        <clipPath id="clip0_6_330">
+                            <rect width="48" height="48" fill="white"></rect>
+                        </clipPath>
+                    </defs>
+                </svg>
+                <h2>Agenda de Autocuidado</h2>
             </div>
-            <div class="header-nav">
-                <div class="nav-links">
-                    <a href="/myroutine">Minha Rotina</a>
-                    <a href="/atividades">Atividades</a>
-                    <a href="/">Home</a>
-                </div>
+            <div class="nav-links">
+                <a href="/myroutine">Minha Rotina</a>
+                <a href="/atividades">Atividades</a>
+                <a href="/">Home</a>
             </div>
         </header>
         <div class="main-content">
@@ -41,7 +38,7 @@
                 <div class="section-header">
                     <p class="section-title">Atividades de Autocuidado</p>
                     <button id="showCreateModal" class="add-button">
-                        <span class="truncate">Adicionar Nova</span>
+                        <span class="truncate">Adicionar atividade</span>
                     </button>
                 </div>
                 <div class="tabs">
@@ -60,10 +57,16 @@
                 <div id="content-todas" class=""></div>
                 <div id="content-categorias" class="hidden"></div>
                 <div id="content-favoritas" class="hidden"></div>
-                <div id="createActivityModal" class="modal hidden">
+                <div id="activityModal" class="modal hidden">
                     <div class="modal-content">
-                        <h3 class="modal-title">Criar Nova Atividade</h3>
-                        <form id="createActivityForm" class="form">
+                        <h3 id="modalTitle" class="modal-title">Criar Nova Atividade</h3>
+                        <form id="activityForm" class="form">
+                            <input type="hidden" id="id_atividade" name="id_atividade">
+                            <div class="form-group">
+                                <label for="nome" class="form-label">Nome:</label>
+                                <input type="text" id="nome" name="nome" required
+                                    placeholder="Digite o nome da atividade" class="form-input">
+                            </div>
                             <div class="form-group">
                                 <label for="categoria" class="form-label">Categoria:</label>
                                 <input type="text" id="categoria" name="categoria" required
@@ -84,7 +87,7 @@
                             </div>
                             <div class="form-buttons">
                                 <button type="button" id="closeModal" class="cancel-button">Cancelar</button>
-                                <button type="submit" class="submit-button">Criar Atividade</button>
+                                <button type="submit" id="submitButton" class="submit-button">Criar Atividade</button>
                             </div>
                         </form>
                         <div id="response" class="response hidden"></div>
@@ -94,6 +97,8 @@
         </div>
     </div>
     <script>
+        let isEditing = false;
+
         // Função para alternar abas
         function toggleTabs(activeTab, activeContent) {
             const tabs = ['tab-todas', 'tab-categorias', 'tab-favoritas'];
@@ -142,7 +147,61 @@
                 fetchFavoriteActivities();
             } catch (error) {
                 console.error('Erro em toggleFavorite:', error);
+                alert('Erro ao atualizar favorito: ' + error.message);
             }
+        }
+
+        // Função para deletar atividade
+        async function deleteActivity(id_atividade) {
+            if (!confirm('Tem certeza que deseja excluir esta atividade?')) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/atividade/${id_atividade}`, {
+                    method: 'DELETE',
+                    credentials: 'include'
+                });
+
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        alert('Sessão expirada. Redirecionando para login.');
+                        window.location.href = '/login';
+                        return;
+                    }
+                    const errorResult = await response.json();
+                    throw new Error(errorResult.error || 'Erro ao deletar atividade');
+                }
+
+                alert('Atividade excluída com sucesso!');
+                fetchAllActivities();
+                fetchCategories();
+                fetchFavoriteActivities();
+            } catch (error) {
+                console.error('Erro em deleteActivity:', error);
+                alert('Erro ao excluir atividade: ' + error.message);
+            }
+        }
+
+        // Função para abrir modal de edição
+        function openEditModal(atividade) {
+            isEditing = true;
+            const modal = document.getElementById('activityModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const form = document.getElementById('activityForm');
+            const submitButton = document.getElementById('submitButton');
+
+            modalTitle.textContent = 'Editar Atividade';
+            submitButton.textContent = 'Salvar Alterações';
+            document.getElementById('id_atividade').value = atividade.id_atividade;
+            document.getElementById('nome').value = atividade.nome;
+            document.getElementById('categoria').value = atividade.categoria;
+            document.getElementById('descricao').value = atividade.descricao;
+            document.getElementById('cor_categoria').value = atividade.cor_categoria;
+            document.getElementById('color_picker').value = atividade.cor_categoria;
+
+            modal.classList.remove('hidden');
+            document.body.classList.add('modal-open');
         }
 
         // Função para renderizar cards de atividades
@@ -157,11 +216,23 @@
                         <p class="activity-color">Cor: ${atividade.cor_categoria}</p>
                     </div>
                     <div class="activity-actions">
-                        <button class="favorite-btn" data-id="${atividade.id_atividade}" data-favorite="${atividade.is_favorite || false}">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="${atividade.is_favorite ? '#e60000' : 'none'}" stroke="${atividade.is_favorite ? '#e60000' : '#8b5b5c'}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="favorite-icon ${atividade.is_favorite ? 'favorite-active' : ''}">
-                                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3c3.08 0 5.5 2.42 5.5 5.5 0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                            </svg>
-                        </button>
+                        <div class="action-buttons">
+                            <button class="edit-btn" data-id="${atividade.id_atividade}" title="Editar atividade">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M3 17.25V21H6.75L17.81 9.94L14.06 6.19L3 17.25ZM20.71 7.04C21.1 6.65 21.1 6.02 20.71 5.63L18.37 3.29C17.98 2.9 17.35 2.9 16.96 3.29L15.13 5.12L18.88 8.87L20.71 7.04Z" fill="#994D4F"/>
+                                </svg>
+                            </button>
+                            <button class="delete-btn" data-id="${atividade.id_atividade}" title="Excluir atividade">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M6 19C6 20.1 6.9 21 8 21H16C17.1 21 18 20.1 18 19V7H6V19ZM19 4H15.5L14.5 3H9.5L8.5 4H5V6H19V4Z" fill="#994D4F"/>
+                                </svg>
+                            </button>
+                            <button class="favorite-btn" data-id="${atividade.id_atividade}" data-favorite="${atividade.is_favorite || false}">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="${atividade.is_favorite ? '#e60000' : 'none'}" stroke="${atividade.is_favorite ? '#e60000' : '#8b5b5c'}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="favorite-icon ${atividade.is_favorite ? 'favorite-active' : ''}">
+                                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3c3.08 0 5.5 2.42 5.5 5.5 0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                                </svg>
+                            </button>
+                        </div>
                         <div class="activity-image" style="background-color: ${atividade.cor_categoria};"></div>
                     </div>
                 </div>
@@ -176,25 +247,17 @@
 
             try {
                 const response = await fetch('/api/atividade/usuario', { method: 'GET', credentials: 'include' });
-                console.log('Status da resposta (todas):', response.status);
-                const text = await response.clone().text();
-                console.log('Texto da resposta (todas):', text);
-
                 if (!response.ok) {
                     if (response.status === 401) {
                         alert('Sessão expirada. Redirecionando para login.');
                         window.location.href = '/login';
                         return;
                     }
-                    try {
-                        const errorResult = JSON.parse(text);
-                        throw new Error(errorResult.error || 'Erro ao carregar atividades');
-                    } catch (e) {
-                        throw new Error('Resposta não é JSON válido: ' + text);
-                    }
+                    const errorResult = await response.json();
+                    throw new Error(errorResult.error || 'Erro ao carregar atividades');
                 }
 
-                const result = JSON.parse(text);
+                const result = await response.json();
                 allActivitiesDiv.innerHTML = '';
                 if (result.length === 0) {
                     allActivitiesDiv.innerHTML = '<p class="no-activities">Nenhuma atividade encontrada.</p>';
@@ -214,26 +277,17 @@
 
             try {
                 const response = await fetch('/api/atividade/categorias', { method: 'GET', credentials: 'include' });
-                console.log('Status da resposta (categorias):', response.status);
-                const text = await response.text();
-                console.log('Texto da resposta (categorias):', text);
-
                 if (!response.ok) {
                     if (response.status === 401) {
                         alert('Sessão expirada. Redirecionando para login.');
                         window.location.href = '/login';
                         return;
                     }
-                    try {
-                        const errorResult = JSON.parse(text);
-                        throw new Error(errorResult.error || 'Erro ao carregar categorias');
-                    } catch (e) {
-                        throw new Error('Resposta não é JSON válido: ' + text);
-                    }
+                    const errorResult = await response.json();
+                    throw new Error(errorResult.error || 'Erro ao carregar categorias');
                 }
 
-                const categories = JSON.parse(text);
-                console.log('Categorias recebidas:', categories);
+                const categories = await response.json();
                 categoriesDiv.innerHTML = '';
                 if (categories.length === 0) {
                     categoriesDiv.innerHTML = '<p class="no-activities">Nenhuma categoria encontrada.</p>';
@@ -241,7 +295,7 @@
                 }
 
                 for (const { categoria } of categories) {
-                    if (!categoria || categoria.trim() === '') continue; // Ignorar categorias inválidas
+                    if (!categoria || categoria.trim() === '') continue;
                     const categorySection = document.createElement('div');
                     categorySection.innerHTML = `<h3 class="category-title">${categoria}</h3><div id="${categoria}-activities" class="category-content"></div>`;
                     categoriesDiv.appendChild(categorySection);
@@ -331,12 +385,21 @@
             });
 
             document.getElementById('showCreateModal').addEventListener('click', () => {
-                document.getElementById('createActivityModal').classList.remove('hidden');
+                isEditing = false;
+                document.getElementById('modalTitle').textContent = 'Criar Nova Atividade';
+                document.getElementById('submitButton').textContent = 'Criar Atividade';
+                document.getElementById('activityForm').reset();
+                document.getElementById('id_atividade').value = '';
+                document.getElementById('activityModal').classList.remove('hidden');
+                document.body.classList.add('modal-open');
             });
+
             document.getElementById('closeModal').addEventListener('click', () => {
-                document.getElementById('createActivityModal').classList.add('hidden');
-                document.getElementById('createActivityForm').reset();
+                document.getElementById('activityModal').classList.add('hidden');
+                document.getElementById('activityForm').reset();
                 document.getElementById('response').classList.add('hidden');
+                document.body.classList.remove('modal-open');
+                isEditing = false;
             });
 
             document.addEventListener('click', (e) => {
@@ -345,6 +408,22 @@
                     const id_atividade = btn.dataset.id;
                     const is_favorite = btn.dataset.favorite === 'true';
                     toggleFavorite(id_atividade, !is_favorite);
+                } else if (e.target.closest('.edit-btn')) {
+                    const btn = e.target.closest('.edit-btn');
+                    const id_atividade = btn.dataset.id;
+                    const activityCard = btn.closest('.activity-card-container');
+                    const atividade = {
+                        id_atividade,
+                        nome: activityCard.querySelector('.activity-title').textContent,
+                        categoria: activityCard.querySelector('.activity-description').parentElement.querySelector('p:nth-child(2)').textContent.replace('Cor: ', ''),
+                        descricao: activityCard.querySelector('.activity-description').textContent,
+                        cor_categoria: activityCard.querySelector('.activity-color').textContent.replace('Cor: ', '')
+                    };
+                    openEditModal(atividade);
+                } else if (e.target.closest('.delete-btn')) {
+                    const btn = e.target.closest('.delete-btn');
+                    const id_atividade = btn.dataset.id;
+                    deleteActivity(id_atividade);
                 }
             });
 
@@ -359,16 +438,21 @@
                 document.getElementById('cor_categoria').value = document.getElementById('color_picker').value;
             });
 
-            document.getElementById('createActivityForm').addEventListener('submit', async (event) => {
+            document.getElementById('activityForm').addEventListener('submit', async (event) => {
                 event.preventDefault();
                 const responseDiv = document.getElementById('response');
                 responseDiv.classList.add('hidden');
 
                 try {
+                    const id_atividade = document.getElementById('id_atividade').value;
+                    const nome = document.getElementById('nome').value.trim();
                     const categoria = document.getElementById('categoria').value.trim();
                     const descricao = document.getElementById('descricao').value.trim();
                     const cor_categoria = document.getElementById('cor_categoria').value;
 
+                    if (!nome) {
+                        throw new Error('O nome da atividade não pode estar vazio.');
+                    }
                     if (!categoria) {
                         throw new Error('A categoria não pode estar vazia.');
                     }
@@ -376,10 +460,14 @@
                         throw new Error('Cor inválida. Use o formato hexadecimal (#RRGGBB).');
                     }
 
-                    const response = await fetch('/api/atividade', {
-                        method: 'POST',
+                    const activityData = { nome, categoria, descricao, cor_categoria };
+                    const url = isEditing ? `/api/atividade/${id_atividade}` : '/api/atividade';
+                    const method = isEditing ? 'PUT' : 'POST';
+
+                    const response = await fetch(url, {
+                        method,
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ categoria, descricao, cor_categoria }),
+                        body: JSON.stringify(activityData),
                         credentials: 'include'
                     });
 
@@ -390,19 +478,22 @@
                             return;
                         }
                         const errorResult = await response.json();
-                        throw new Error(errorResult.error || 'Erro ao criar atividade');
+                        throw new Error(errorResult.error || `Erro ao ${isEditing ? 'atualizar' : 'criar'} atividade`);
                     }
 
                     responseDiv.classList.remove('hidden');
-                    responseDiv.textContent = 'Atividade criada com sucesso!';
-                    document.getElementById('createActivityForm').reset();
+                    responseDiv.classList.add('success');
+                    responseDiv.textContent = `Atividade ${isEditing ? 'atualizada' : 'criada'} com sucesso!`;
+                    document.getElementById('activityForm').reset();
+                    document.getElementById('activityModal').classList.add('hidden');
+                    document.body.classList.remove('modal-open');
                     fetchAllActivities();
                     fetchCategories();
                     fetchFavoriteActivities();
-                    document.getElementById('createActivityModal').classList.add('hidden');
                 } catch (error) {
-                    console.error('Erro em createActivityForm:', error);
+                    console.error('Erro em activityForm:', error);
                     responseDiv.classList.remove('hidden');
+                    responseDiv.classList.add('error');
                     responseDiv.textContent = error.message;
                 }
             });

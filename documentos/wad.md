@@ -73,61 +73,96 @@ Usuário 1:N Agendamentos: Um usuário pode agendar várias atividades ao longo 
 Atividade 1:N Agendamentos: Uma atividade pode ser agendada várias vezes, por um ou mais usuários.
 
 ### 3.1.1 BD e Models (Semana 5)
+
 ## 3.1.1.1. Model `Usuario`
 
-**Responsabilidade:** Gerenciar dados da tabela `usuario`.
+**Responsabilidade:** Gerenciar dados da tabela `usuario` no banco de dados PostgreSQL, incluindo criação, leitura, atualização e exclusão de registros, além de suporte à autenticação.
 
-### Métodos
+### Métodos principais
 
-- `getAll()` – Retorna todos os usuários.  
-- `getById(id_usuario)` – Busca um usuário específico pelo ID.  
-- `create(data)` – Cria novo usuário.  
-- `update(id_usuario, data)` – Atualiza nome e email de um usuário.  
-- `delete(id_usuario)` – Remove usuário.
+- `buscarUsuarioPorId(id_usuario)`  
+  Retorna os dados de um usuário específico com base no seu ID.
+
+- `criarUsuario(email, senha, nome)`  
+  Cria um novo usuário no banco de dados, criptografando a senha antes do armazenamento.
+
+- `atualizarUsuario(id_usuario, nome, email)`  
+  Atualiza os campos de nome e email de um usuário existente.
+
+- `deletarUsuario(id_usuario)`  
+  Remove um usuário do banco de dados com base no seu ID.
 
 ### Métodos auxiliares
 
-- `getByEmail(email)` – Busca usuário pelo e-mail (útil para autenticação).  
-- `exists(id_usuario)` – Verifica se o usuário existe.
-
----
+- `buscarUsuarioPorEmail(email)`  
+  Retorna os dados de um usuário com base no email. Esse método é útil para autenticação e verificação de existência de email já cadastrado.
 
 ## 3.1.1.2. Model `Atividade`
 
-**Responsabilidade:** Gerenciar dados da tabela `atividade` e sua relação com `usuario`.
+**Responsabilidade:** Gerenciar dados da tabela `atividade` e sua relação com o usuário, incluindo criação, leitura, atualização, exclusão e organização por categoria e favoritos.
 
-### Métodos
+### Métodos principais
 
-- `getAll(id_usuario = null)` – Lista todas as atividades, com opção de filtrar por usuário.  
-- `getById(id_atividade)` – Busca atividade específica.  
-- `create(data)` – Cria nova atividade.  
-- `update(id_atividade, data)` – Atualiza dados da atividade.  
-- `delete(id_atividade)` – Remove atividade.
+- `buscarAtividadePorId(id_atividade, id_usuario)`  
+  Retorna uma atividade específica, garantindo que ela pertença ao usuário informado.
+
+- `buscarTodasAtividadesPorUsuario(id_usuario)`  
+  Retorna todas as atividades vinculadas a um determinado usuário.
+
+- `criarAtividade(nome, categoria, descricao, cor_categoria, id_usuario)`  
+  Cria uma nova atividade associada a um usuário. A atividade é criada inicialmente com `is_favorite = false`.
+
+- `atualizarAtividade(id_atividade, id_usuario, { nome, categoria, descricao, cor_categoria, is_favorite })`  
+  Atualiza os dados de uma atividade. Apenas os campos informados são modificados.
+
+- `deletarAtividade(id_atividade, id_usuario)`  
+  Remove uma atividade pertencente a um usuário específico.
 
 ### Métodos auxiliares
 
-- `exists(id_atividade)` – Verifica se a atividade existe.  
-- `getByUsuario(id_usuario)` – Retorna todas as atividades de um usuário.
+- `buscarAtividadesFavoritasPorUsuario(id_usuario)`  
+  Retorna todas as atividades marcadas como favoritas de um usuário.
 
----
+- `buscarAtividadesPorCategoria(id_usuario, categoria)`  
+  Retorna atividades de um usuário filtradas por categoria.
+
+- `buscarCategoriasUnicasAtividades(id_usuario)`  
+  Lista todas as categorias únicas utilizadas nas atividades de um usuário.
+
+- `atualizarFavorito(id_usuario, id_atividade, is_favorite)`  
+  Atualiza o status de favorito de uma atividade.
+
 
 ## 3.1.1.3. Model `Agendamento`
 
-**Responsabilidade:** Gerenciar dados da tabela `agendamento` e os relacionamentos com `usuario` e `atividade`.
+**Responsabilidade:** Gerenciar dados da tabela `agendamento` e os relacionamentos com `usuario` e `atividade`, além de controlar horários e evitar conflitos.
 
-### Métodos
+### Métodos principais
 
-- `getAll()` – Retorna todos os agendamentos.  
-- `getByUsuario(id_usuario)` – Retorna todos os agendamentos de um usuário.  
-- `getById(id_agendamento)` – Busca um agendamento específico.  
-- `create(data)` – Cria novo agendamento.  
-- `update(id_agendamento, data)` – Atualiza dados de um agendamento.  
-- `delete(id_agendamento)` – Remove um agendamento.
+- `buscarTodosAgendamentos(id_usuario)`  
+  Retorna todos os agendamentos de um usuário, incluindo informações da atividade e do usuário. Ordena por data e horário de início.
+
+- `buscarAgendamentoPorId(id_agendamento, id_usuario)`  
+  Retorna um agendamento específico, com informações adicionais sobre o usuário e a atividade associada.
+
+- `buscarAgendamentosPorDia(id_usuario, data)`  
+  Retorna todos os agendamentos de um usuário para um dia específico, ordenados por horário de início.
+
+- `criarAgendamento(id_usuario, id_atividade, data, horario_inicio, horario_fim, status, nome_agendamento, descricao)`  
+  Cria um novo agendamento para um usuário e uma atividade, com dados opcionais como nome e descrição. O status padrão é `'pendente'`.
+
+- `atualizarAgendamento(id_agendamento, id_usuario, id_atividade, data, horario_inicio, horario_fim, status, nome_agendamento, descricao)`  
+  Atualiza os dados de um agendamento, garantindo que ele pertença ao usuário.
+
+- `deletarAgendamento(id_agendamento, id_usuario)`  
+  Remove um agendamento pertencente a um usuário.
 
 ### Métodos auxiliares
 
-- `exists(id_agendamento)` – Verifica se o agendamento existe.  
-- `getByAtividade(id_atividade)` – Retorna todos os agendamentos vinculados a uma atividade específica.
+- `checkConflitoHorario(id_usuario, data, horario_inicio, horario_fim, id_agendamento = null)`  
+  Verifica se há conflitos de horário com outros agendamentos do mesmo usuário. Se `id_agendamento` for fornecido, ele é ignorado na verificação (útil ao editar um agendamento).
+
+
 
 
 ### 3.2. Arquitetura (Semana 5)
@@ -153,23 +188,39 @@ Atividade 1:N Agendamentos: Uma atividade pode ser agendada várias vezes, por u
 ### 3.6. WebAPI e endpoints (Semana 05)
 
 #### 3.6.1. Rotas de Usuários  
-- `POST /api/usuarios` – Cria um novo usuário no sistema  
-- `GET /api/usuarios/:id` – Busca e retorna o perfil de um usuário específico pelo ID  
-- `PUT /api/usuarios/:id` – Atualiza os dados de um usuário específico  
-- `DELETE /api/usuarios/:id` – Remove um usuário do sistema  
+- `POST /api/usuario/create` – Cria um novo usuário no sistema.  
+- `POST /api/usuario/login` – Realiza o login de um usuário com e-mail e senha.  
+- `GET /api/usuario/:id` – Retorna os dados de um usuário específico (requer autenticação).  
+- `PUT /api/usuario/:id` – Atualiza os dados de um usuário específico (requer autenticação).  
+- `DELETE /api/usuario/:id` – Remove um usuário do sistema (requer autenticação).  
+- `GET /api/user/session` – Verifica se há um usuário logado na sessão atual.
 
 #### 3.6.2. Rotas de Atividades  
-- `GET /api/atividades` – Lista todas as atividades cadastradas no sistema  
-- `POST /api/atividades` – Cria uma nova atividade de autocuidado  
-- `GET /api/atividades/:id` – Retorna os detalhes de uma atividade específica  
-- `PUT /api/atividades/:id` – Atualiza uma atividade existente  
-- `DELETE /api/atividades/:id` – Remove uma atividade do sistema  
+- `POST /api/atividade` – Cria uma nova atividade para o usuário autenticado.  
+- `POST /api/atividade/favorite` – Atualiza o status de favorito de uma atividade.  
+- `GET /api/atividade/usuario` – Lista todas as atividades do usuário autenticado.  
+- `GET /api/atividade/categoria` – Lista atividades filtradas por categoria.  
+- `GET /api/atividade/categorias` – Retorna todas as categorias únicas de atividades do usuário.  
+- `GET /api/atividade/:id` – Retorna os dados de uma atividade específica.  
+- `PUT /api/atividade/:id` – Atualiza uma atividade específica.  
+- `DELETE /api/atividade/:id` – Remove uma atividade específica.
 
 #### 3.6.3. Rotas de Agendamentos  
-- `POST /api/agendamentos` – Registra um novo agendamento de atividade para um usuário  
-- `GET /api/agendamentos/usuario/:usuarioId` – Retorna todos os agendamentos de um usuário específico  
-- `PUT /api/agendamentos/:id` – Atualiza um agendamento existente  
-- `DELETE /api/agendamentos/:id` – Remove um agendamento específico  
+- `POST /api/agendamento` – Cria um novo agendamento de atividade para o usuário autenticado.  
+- `GET /api/agendamentos` – Lista todos os agendamentos do usuário autenticado.  
+- `GET /api/agendamentos/dia` – Retorna os agendamentos de um dia específico para o usuário autenticado.  
+- `GET /api/agendamento/:id` – Retorna os dados de um agendamento específico.  
+- `PUT /api/agendamento/:id` – Atualiza os dados de um agendamento específico.  
+- `DELETE /api/agendamento/:id` – Remove um agendamento específico.
+
+#### 3.6.4. Rotas de Views (HTML)  
+- `GET /` – Página inicial (welcome).  
+- `GET /register` – Página de cadastro de usuário.  
+- `GET /login` – Página de login.  
+- `GET /myroutine` – Página com a rotina do usuário (requer autenticação).  
+- `GET /agenda` – Página de visualização dos agendamentos (requer autenticação).  
+- `GET /atividades` – Página de gerenciamento de atividades (requer autenticação).  
+- `GET /calendario` – Página do calendário de atividades (requer autenticação).
  
 
 ### 3.7 Interface e Navegação (Semana 07)

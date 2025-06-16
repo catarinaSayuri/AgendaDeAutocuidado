@@ -19,13 +19,13 @@ Este projeto é uma aplicação web para ajudar os usuários a organizarem e ger
 
 ## <a name="c2"></a>2. Visão Geral da Aplicação Web
 
-### 2.1. Personas (Semana 01 - opcional)
+### 2.1. Personas 
 
 Joana, 28 anos, trabalha em home office e tem dificuldade em organizar suas atividades diárias de autocuidado devido ao trabalho excessivo.
 
 Carlos, 35 anos, busca melhorar sua saúde mental e emocional, e precisa de um sistema simples para registrar suas atividades e progresso.
 
-### 2.2. User Stories (Semana 01 - opcional)
+### 2.2. User Stories 
 
 US01: Como usuário, quero cadastrar uma nova atividade de autocuidado para poder acompanhar minhas práticas.
 
@@ -163,27 +163,29 @@ Atividade 1:N Agendamentos: Uma atividade pode ser agendada várias vezes, por u
   Verifica se há conflitos de horário com outros agendamentos do mesmo usuário. Se `id_agendamento` for fornecido, ele é ignorado na verificação (útil ao editar um agendamento).
 
 
-
-
 ### 3.2. Arquitetura (Semana 5)
 
-*Posicione aqui o diagrama de arquitetura da sua solução de aplicação web. Atualize sempre que necessário.*
+O diagrama abaixo ilustra a arquitetura completa do sistema web:
 
-  
-*Adicione as setas e explicações sobre como os dados fluem entre o Model, Controller e View.*
+#### Diagrama de Arquitetura
+<div align="center">
+  <sup>Figura 1 - Diagrama de Arquitetura</sup>
+  <img src="/documentos/assets/modelo-banco.png"/>
+  <sup>Fonte: Autoria própria, 2025</sup>
+</div>
 
-### 3.3. Wireframes (Semana 03 - opcional)
+### 3.3. Wireframes 
 
-*Posicione aqui as imagens do wireframe construído para sua solução e, opcionalmente, o link para acesso (mantenha o link sempre público para visualização).*
+A entrega realizada não abrangeu esse aspecto.
 
-### 3.4. Guia de estilos (Semana 05 - opcional)
+### 3.4. Guia de estilos 
 
-*Descreva aqui orientações gerais para o leitor sobre como utilizar os componentes do guia de estilos de sua solução.*
+A entrega realizada não abrangeu esse aspecto.
 
 
-### 3.5. Protótipo de alta fidelidade (Semana 05 - opcional)
+### 3.5. Protótipo de alta fidelidade 
 
-*Posicione aqui algumas imagens demonstrativas de seu protótipo de alta fidelidade e o link para acesso ao protótipo completo (mantenha o link sempre público para visualização).*
+A entrega realizada não abrangeu esse aspecto.
 
 ### 3.6. WebAPI e endpoints (Semana 05)
 
@@ -225,26 +227,60 @@ Atividade 1:N Agendamentos: Uma atividade pode ser agendada várias vezes, por u
 
 ### 3.7 Interface e Navegação (Semana 07)
 
-*Descreva e ilustre aqui o desenvolvimento do frontend do sistema web, explicando brevemente o que foi entregue em termos de código e sistema. Utilize prints de tela para ilustrar.*
+<div align="center">
+  <sup>Figura 1 - Tela de Login</sup>
+  <img src="/documentos/assets/tela-login.png"/>
+  <sup>Fonte: Autoria própria, 2025</sup>
+</div>
 
----
+A tela de login é a porta de entrada do sistema, onde o usuário insere suas credenciais para acessar a aplicação. Ela prioriza a simplicidade e clareza, com campos para e-mail e senha, além de um botão para autenticação.
+
+<div align="center">
+  <sup>Figura 2 - Tela de Cadastro</sup>
+  <img src="/documentos/assets/tela-cadastro.png"/>
+  <sup>Fonte: Autoria própria, 2025</sup>
+</div>
+
+A tela de cadastro permite que novos usuários se registrem no sistema, preenchendo informações básicas para criar uma conta. O design é intuitivo para facilitar o processo inicial de adesão.
+
+<div align="center">
+  <sup>Figura 3 - Tela Home</sup>
+  <img src="/documentos/assets/tela-welcome.png"/>
+  <sup>Fonte: Autoria própria, 2025</sup>
+</div>
+
+A tela inicial (Home) dá as boas-vindas ao usuário e apresenta uma visão geral das funcionalidades disponíveis, como acesso rápido à agenda e às atividades de autocuidado.
+
+<div align="center">
+  <sup>Figura 4 - Tela de Atividades</sup>
+  <img src="/documentos/assets/tela-atividades.png"/>
+  <sup>Fonte: Autoria própria, 2025</sup>
+</div>
+
+Nesta tela, o usuário pode visualizar, criar e gerenciar suas atividades de autocuidado, definindo nome, descrição e outras configurações para cada tarefa.
+
+<div align="center">
+  <sup>Figura 5 - Tela de Minha Rotina</sup>
+  <img src="/documentos/assets/tela-rotina.png"/>
+  <sup>Fonte: Autoria própria, 2025</sup>
+</div>
+
+A tela de Minha Rotina exibe a programação diária do usuário, com os horários e status das atividades agendadas, permitindo controle e acompanhamento das práticas de autocuidado.
 
 ## <a name="c4"></a>4. Desenvolvimento da Aplicação Web (Semana 8)
 
 ### 4.1 Demonstração do Sistema Web (Semana 8)
 
-*VIDEO: Insira o link do vídeo demonstrativo nesta seção*
-*Descreva e ilustre aqui o desenvolvimento do sistema web completo, explicando brevemente o que foi entregue em termos de código e sistema. Utilize prints de tela para ilustrar.*
+Para conhecer melhor o projeto e suas funcionalidades, assista ao vídeo explicativo:
+
+[Assista ao vídeo aqui](https://www.youtube.com/watch?v=dBCzEHZ5X6w)
 
 ### 4.2 Conclusões e Trabalhos Futuros (Semana 8)
 
-*Indique pontos fortes e pontos a melhorar de maneira geral.*
-*Relacione também quaisquer outras ideias que você tenha para melhorias futuras.*
-
-
+O projeto Agenda de Autocuidado tem uma boa estrutura e funcionalidades essenciais para organizar atividades de bem-estar. Porém, a interface pode ser mais moderna e melhor tratamento de erros. Melhorias futuras incluem notificações, relatórios e tela de visuzalização de perfil.
 
 ## <a name="c5"></a>5. Referências
 
-_Incluir as principais referências de seu projeto, para que o leitor possa consultar caso ele se interessar em aprofundar._<br>
+A entrega realizada não abrangeu esse aspecto.
 
 ---

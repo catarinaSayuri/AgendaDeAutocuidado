@@ -170,7 +170,7 @@ O diagrama abaixo ilustra a arquitetura completa do sistema web:
 #### Diagrama de Arquitetura
 <div align="center">
   <sup>Figura 1 - Diagrama de Arquitetura</sup>
-  <img src="/documentos/assets/modelo-banco.png"/>
+  <img src="/documentos/assets/diagrama de arquitetura.png"/>
   <sup>Fonte: Autoria própria, 2025</sup>
 </div>
 
